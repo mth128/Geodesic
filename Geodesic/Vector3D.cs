@@ -15,7 +15,7 @@ namespace Geodesic
 
     public double MagnitudeSquared => X * X + Y * Y + Z * Z;
     public double Magnitude => Math.Sqrt(MagnitudeSquared);
-    public Vector3D Normalized => this / Magnitude;
+    public Vector3D UnitVector => this / Magnitude;
 
     public Vector3D Top => new Vector3D(X, Y, 0);
     public Vector3D Front => new Vector3D(X, 0, Z);

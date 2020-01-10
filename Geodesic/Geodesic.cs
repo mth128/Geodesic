@@ -15,7 +15,7 @@ namespace Geodesic
     public static Vector3D a { get; } = new Vector3D(-FrontViewLength23, 0, Math.Sqrt(1 - FrontViewLength23 * FrontViewLength23));
     public static Vector3D b { get; } = new Vector3D(FrontViewLength13, IcosahedronRibLength / 2, a.Z);
     public static Vector3D p { get; } = new Vector3D(a.X, 0, b.Z * -2);
-    public static Vector3D c { get; } = b.Front.Normalized; 
+    public static Vector3D c { get; } = b.Front.UnitVector; 
 
     public Geodesic(int generation = 4)
     {
