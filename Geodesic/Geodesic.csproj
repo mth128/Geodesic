@@ -53,9 +53,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Geodesic.cs" />
+    <Compile Include="GeodesicGridTriangle.cs" />
     <Compile Include="GridTangent.cs" />
+    <Compile Include="Line.cs" />
+    <Compile Include="Plane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SphericalTriangle.cs" />
     <Compile Include="Vector3D.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

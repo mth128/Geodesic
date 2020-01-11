@@ -12,14 +12,16 @@ namespace Geodesic
     public double X { get; }
     public double Y { get; }
     public double Z { get; }
-
     public double MagnitudeSquared => X * X + Y * Y + Z * Z;
     public double Magnitude => Math.Sqrt(MagnitudeSquared);
     public Vector3D UnitVector => this / Magnitude;
-
     public Vector3D Top => new Vector3D(X, Y, 0);
     public Vector3D Front => new Vector3D(X, 0, Z);
-    public Vector3D Right => new Vector3D(0, Y, Z); 
+    public Vector3D Right => new Vector3D(0, Y, Z);
+    public Vector3D RotateFront90 => new Vector3D(Z, Y, -X);
+    public Vector3D RotateTop120 => new Vector3D(Y * R120 - X / 2, -X * R120 - Y / 2, Z);
+
+    public Vector3D RotateTop120Front => new Vector3D(Y * R120 - X / 2, 0, Z);
 
     public Vector3D(double x=0, double y=0, double z=0)
     {
@@ -28,10 +30,6 @@ namespace Geodesic
       this.Z = z; 
     }
 
-    public Vector3D RotateTop120()
-    {
-      return new Vector3D(Z * R120 - X / 2, Y, -X * R120 - Z / 2); 
-    }
 
     public static Vector3D operator +(Vector3D a, Vector3D b)
     {
@@ -70,6 +68,23 @@ namespace Geodesic
     public static Vector3D operator-(Vector3D a)
     {
       return new Vector3D(-a.X, -a.Y, -a.Z);
+    }
+
+    public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
+    {
+      return 2 * Math.Asin((unitVectorA - unitVectorB).Magnitude / 2);
+    }
+  }
+
+  public class VectorPair
+  {
+    public Vector3D first;
+    public Vector3D second;
+
+    public VectorPair(Vector3D first = null, Vector3D second = null)
+    {
+      this.first = first;
+      this.second = second; 
     }
   }
 }
