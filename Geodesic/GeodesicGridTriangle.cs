@@ -54,9 +54,9 @@ namespace Geodesic
       Line bc = b.Intersection(c);
       Line ca = c.Intersection(a);
 
-      PointAB = ab.UnitSphereIntersectionPositiveY;
-      PointBC = bc.UnitSphereIntersectionPositiveY;
-      PointCA = ca.UnitSphereIntersectionPositiveY;
+      PointAB = ab.UnitSphereIntersectionPositiveZ;
+      PointBC = bc.UnitSphereIntersectionPositiveZ;
+      PointCA = ca.UnitSphereIntersectionPositiveZ;
     }
   }
 }

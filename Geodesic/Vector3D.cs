@@ -33,7 +33,7 @@ namespace Geodesic
 
     public static Vector3D operator +(Vector3D a, Vector3D b)
     {
-      return new Vector3D(a.X + b.X, a.Y * b.Y, a.Z * b.Z);
+      return new Vector3D(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
     }
 
     public static Vector3D operator -(Vector3D a, Vector3D b)
@@ -74,17 +74,11 @@ namespace Geodesic
     {
       return 2 * Math.Asin((unitVectorA - unitVectorB).Magnitude / 2);
     }
-  }
 
-  public class VectorPair
-  {
-    public Vector3D first;
-    public Vector3D second;
-
-    public VectorPair(Vector3D first = null, Vector3D second = null)
+    public override string ToString()
     {
-      this.first = first;
-      this.second = second; 
+      return X.ToString() + " " + Y.ToString() + " " + Z.ToString();
     }
   }
+
 }
