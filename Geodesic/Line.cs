@@ -27,41 +27,34 @@ namespace Geodesic
 
     public Line(Vector3D point, Vector3D unitVector)
     {
-      Point = point;
       UnitVector = unitVector;
-      Point -= unitVector * unitVector.Dot(point);
-      unitSphereIntersection1 = null;
-      unitSphereIntersection2 = null; 
+      double distance = unitVector.Dot(point);
+      Vector3D shift = unitVector * distance;
+      Point = point - shift;
     }
     public static Line Construct(Vector3D from, Vector3D to)
     {
       return new Line(from, (to - from).UnitVector); 
     }
 
-    public Vector3D IntersectFront(Line other)
+    /// <summary>
+    /// Calculates the intersection between 2 lines. 
+    /// There is no check for coplanarness and parallelness. That is your responsibility. 
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public Vector3D Intersect(Line other)
     {
-      double halfAngle = Vector3D.AngleBetween(UnitVector, -other.UnitVector)/2;
-
-      double halfDistance = (Point - other.Point).Magnitude / 2;
-
-      Vector3D otherVector = other.UnitVector; 
-
-      double vectorMagnitudeSquared = (UnitVector - otherVector).MagnitudeSquared;
-      if (vectorMagnitudeSquared > 2)
-      {
-        otherVector = -otherVector; 
-        vectorMagnitudeSquared = (UnitVector - otherVector).MagnitudeSquared;
-      }
-
-      double halfVectorDistance = Math.Sqrt(vectorMagnitudeSquared) / 2; 
-
-
-      double distance = halfDistance / halfVectorDistance; 
-
-      return Point - UnitVector * distance; 
-
-
-
+      Vector3D q = other.Point - Point;
+      double partA = UnitVector.Dot(q);
+      double between = q.Magnitude;
+      double perpendicular = Math.Sqrt(between * between - partA * partA);
+      Vector3D r = Point - UnitVector * partA;
+      double partD = (r - other.Point).Dot(other.UnitVector);
+      double partC = Math.Sqrt(perpendicular * perpendicular - partD * partD);
+      double partB = partC / partD * perpendicular;
+      Vector3D i = r - UnitVector * partB;
+      return i; 
     }
   }
 }

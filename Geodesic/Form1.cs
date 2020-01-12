@@ -28,7 +28,7 @@ namespace Geodesic
 
       StrikeThroughPointPair topStrikeThrough = new StrikeThroughPointPair(centerLineX);
       Line strikeLine = Line.Construct(topStrikeThrough.Primary, new Vector3D(0, 0, 1));
-      Vector3D projectionPoint = strikeLine.IntersectFront(Line.Construct(Geodesic.ArcTopRight, new Vector3D(0, 0, 0)));
+      Vector3D projectionPoint = strikeLine.Intersect(Line.Construct(Geodesic.ArcTopRight, new Vector3D(0, 0, 0)));
       StrikeThroughPointPair test = new StrikeThroughPointPair(bound.DistanceToScaledCenterLine);
 
       Geodesic geodesic = new Geodesic(4,projectionPoint); 

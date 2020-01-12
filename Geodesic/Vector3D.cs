@@ -77,7 +77,7 @@ namespace Geodesic
 
     public override string ToString()
     {
-      return X.ToString() + " " + Y.ToString() + " " + Z.ToString();
+      return X.ToString() + ", " + Y.ToString() + ", " + Z.ToString();
     }
   }
 
