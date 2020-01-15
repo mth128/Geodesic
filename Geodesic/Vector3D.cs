@@ -20,7 +20,7 @@ namespace Geodesic
     public Vector3D Right => new Vector3D(0, Y, Z);
     public Vector3D RotateFront90 => new Vector3D(Z, Y, -X);
     public Vector3D RotateTop120 => new Vector3D(Y * R120 - X / 2, -X * R120 - Y / 2, Z);
-
+    public Vector3D RotateTop240 => new Vector3D(-Y * R120 - X / 2, X * R120 - Y / 2, Z);    
     public Vector3D RotateTop120Front => new Vector3D(Y * R120 - X / 2, 0, Z);
 
     public Vector3D(double x=0, double y=0, double z=0)
@@ -55,6 +55,25 @@ namespace Geodesic
       return X * other.X + Y * other.Y + Z * other.Z; 
     }
 
+
+    public static bool operator ==(Vector3D a, Vector3D b)
+    {
+      if (object.ReferenceEquals(a, null))
+        return (object.ReferenceEquals(b, null));
+      if (object.ReferenceEquals(b, null))
+        return false; 
+      return a.X == b.X && a.Y == b.Y && a.Z == b.Z;
+    }
+
+    public static bool operator !=(Vector3D a, Vector3D b)
+    {
+      if (object.ReferenceEquals(a, null))
+        return (!object.ReferenceEquals(b, null));
+      if (object.ReferenceEquals(b, null))
+        return true;
+      return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
+    }
+
     public static Vector3D operator *(Vector3D a, double b)
     {
       return new Vector3D(a.X * b, a.Y * b, a.Z * b);
@@ -72,7 +91,10 @@ namespace Geodesic
 
     public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
     {
-      return 2 * Math.Asin((unitVectorA - unitVectorB).Magnitude / 2);
+      double magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
+      if (magnitudeSquared>2)
+        magnitudeSquared = (-unitVectorA - unitVectorB).MagnitudeSquared;
+      return 2 * Math.Asin(Math.Sqrt(magnitudeSquared) / 2);
     }
 
     public override string ToString()

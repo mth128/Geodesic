@@ -33,13 +33,31 @@ namespace Geodesic
         return a + b + c - Math.PI; 
       }
     }
-
+       
     public SphericalTriangle(Vector3D unitVectorA, Vector3D unitVectorB, Vector3D unitVectorC)
     {
       A = unitVectorA;
       B = unitVectorB;
       C = unitVectorC;
     }
-    
+
+    public SphericalTriangle[] Bisect()
+    {
+      Vector3D ab = ((A + B) / 2).UnitVector;
+      Vector3D bc = ((B + C) / 2).UnitVector;
+      Vector3D ca = ((C + A) / 2).UnitVector;
+      SphericalTriangle[] result = new SphericalTriangle[4];
+
+      result[0] = new SphericalTriangle(A, ab, ca);
+      result[1] = new SphericalTriangle(B, bc, ab);
+      result[2] = new SphericalTriangle(C, ca, bc);
+      result[3] = new SphericalTriangle(ab, bc, ca);
+
+
+
+      return result;
+    }
+
   }
+
 }

@@ -40,42 +40,92 @@ namespace Geodesic
     public static Vector3D MirrorPerpendicular = MirrorPoint.RotateFront90;
 
     public Vector3D ProjectionPoint { get; }
+    public Vector3D ProjectionPointScaledOut { get; }
 
     public List<StrikeThroughPointPair> StrikeThroughPoints { get; }
 
+    public int Generation { get; }
+
+    public int MaxRibIndex { get; }
+    public int MaxGridIndex => MaxRibIndex * MaxRibIndex; 
+
+
     public Geodesic(int generation = 4, Vector3D projectionPoint = null)
     {
+      Generation = generation; 
       if (projectionPoint == null)
         projectionPoint = DefaultProjectionPoint;
 
       ProjectionPoint = projectionPoint;
+      ProjectionPointScaledOut = ScaleEllipseOut(ProjectionPoint); 
 
       StrikeThroughPointPair center = new StrikeThroughPointPair(0);
       StrikeThroughPointPair bound = new StrikeThroughPointPair(ArcLeft.Dot(MirrorPerpendicular));
-      StrikeThroughPointPair initialPair = new StrikeThroughPointPair(this, ArcTopFront); 
+
+      StrikeThroughPointPair.minimalSigma = center.Sigma;
+      StrikeThroughPointPair.maximalSigma = bound.Sigma;
 
       List<StrikeThroughPointPair> strikePoints = new List<StrikeThroughPointPair>();
-      List<StrikeThroughPointPair> current = new List<StrikeThroughPointPair>();
-      current.Add(initialPair);
-      strikePoints.Add(initialPair); 
-      for (int i =0; i<generation;i++)
+      if (generation > -1)
       {
-        List<StrikeThroughPointPair> next = new List<StrikeThroughPointPair>(); 
-        foreach (StrikeThroughPointPair pair in current)
-        {
-          StrikeThroughPointPair first = new StrikeThroughPointPair(this,pair.Primary);
-          StrikeThroughPointPair second = new StrikeThroughPointPair(this, pair.Secondary);
+        StrikeThroughPointPair initialPair = new StrikeThroughPointPair(this, ArcTopFront);
 
-          next.Add(first);
-          next.Add(second); 
+        List<StrikeThroughPointPair> current = new List<StrikeThroughPointPair>();
+        current.Add(initialPair);
+        strikePoints.Add(initialPair);
+        for (int i = 0; i < generation; i++)
+        {
+          List<StrikeThroughPointPair> next = new List<StrikeThroughPointPair>();
+          foreach (StrikeThroughPointPair pair in current)
+          {
+            StrikeThroughPointPair first = new StrikeThroughPointPair(this, pair.Right);
+            StrikeThroughPointPair second = new StrikeThroughPointPair(this, pair.Left);
+
+            next.Add(first);
+            next.Add(second);
+          }
+          strikePoints.AddRange(next);
+          current = next;
         }
-        strikePoints.AddRange(next); 
-        current = next;
       }
       strikePoints.Add(center);
+      MaxRibIndex = strikePoints.Count * 2; 
       strikePoints.Add(bound);
       StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine).ToList();
       
+      for (int i = 0; i<StrikeThroughPoints.Count;i++)
+        StrikeThroughPoints[i].onArcValue = i / (StrikeThroughPoints.Count - 1.0);
+    }
+
+    public Vector3D GetStrikePoint(int index)
+    {
+      if (index<StrikeThroughPoints.Count-1)
+        return StrikeThroughPoints[StrikeThroughPoints.Count - index - 1].Right;
+
+      return StrikeThroughPoints[index - StrikeThroughPoints.Count+1].Left; 
+    }
+
+    public Plane GetPlane(int index)
+    {
+      return GetPlane(GetStrikePoint(index)); 
+    }
+
+    public Plane GetPlane(Vector3D strikePoint)
+    {
+      return new Plane(ProjectionPoint, ProjectionPoint + new Vector3D(0, 1, 0), strikePoint); 
+    }
+
+    public GridIndex GetGridIndex(int index)
+    {
+      return new GridIndex(this, index); 
+    }
+
+    public double Sigma(Vector3D point)
+    {
+      Line line = Line.Construct(ScaleEllipseOut(point), ProjectionPointScaledOut);
+      Vector3D scaledOutPoint = line.UnitSphereIntersectionPositiveZ;
+      double distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
+      return Math.Asin(distanceToScaledCenterLine);
     }
 
     public static Vector3D ScaleEllipseOut(Vector3D vector)
@@ -95,8 +145,5 @@ namespace Geodesic
       double dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary * EllipseSecondaryRadius);
     }
-
-
-
   }
 }

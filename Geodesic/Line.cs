@@ -37,6 +37,23 @@ namespace Geodesic
       return new Line(from, (to - from).UnitVector); 
     }
 
+    public double DistanceTo(Vector3D point)
+    {
+      if (point == Point)
+        return 0;
+      Vector3D dif = Point - point;
+      double dot = Math.Abs(dif.UnitVector.Dot(UnitVector));
+
+      if (dot > 1)
+        if (dot > 1.01)
+          throw new Exception("Error in calculating distance.");
+        else
+          return 0; 
+
+      return dif.Magnitude * Math.Sqrt(1 - dot * dot); 
+    }
+
+
     /// <summary>
     /// Calculates the intersection between 2 lines. 
     /// There is no check for coplanarness and parallelness. That is your responsibility. 
@@ -45,6 +62,31 @@ namespace Geodesic
     /// <returns></returns>
     public Vector3D Intersect(Line other)
     {
+      //https://math.stackexchange.com/questions/270767/find-intersection-of-two-3d-lines/271366
+
+      if (DistanceTo(other.Point) == 0)
+        return other.Point;
+      if (other.DistanceTo(Point) == 0)
+        return Point; 
+
+      Vector3D e = UnitVector;
+      Vector3D f = other.UnitVector;
+      Vector3D c = Point;
+      Vector3D d = other.Point; 
+
+      Vector3D offset = e * f.Cross(d-c).Magnitude / f.Cross(e).Magnitude;
+
+      Vector3D a = c + offset;
+      Vector3D b = c - offset;
+
+      //selecting a or b. 
+      double aDist = DistanceTo(a) + other.DistanceTo(a);
+      double bDist = DistanceTo(b) + other.DistanceTo(b);
+
+      return aDist < bDist ? a : b;
+
+
+      /*
       Vector3D q = other.Point - Point;
       double partA = UnitVector.Dot(q);
       double between = q.Magnitude;
@@ -54,7 +96,8 @@ namespace Geodesic
       double partC = Math.Sqrt(perpendicular * perpendicular - partD * partD);
       double partB = partC / partD * perpendicular;
       Vector3D i = r - UnitVector * partB;
-      return i; 
+      return i;
+      */
     }
   }
 }

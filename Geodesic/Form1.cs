@@ -27,12 +27,14 @@ namespace Geodesic
       double centerLineY = Math.Cos(oneThird);
 
       StrikeThroughPointPair topStrikeThrough = new StrikeThroughPointPair(centerLineX);
-      Line strikeLine = Line.Construct(topStrikeThrough.Primary, new Vector3D(0, 0, 1));
+      Line strikeLine = Line.Construct(topStrikeThrough.Right, new Vector3D(0, 0, 1));
       Vector3D projectionPoint = strikeLine.Intersect(Line.Construct(Geodesic.ArcTopRight, new Vector3D(0, 0, 0)));
       StrikeThroughPointPair test = new StrikeThroughPointPair(bound.DistanceToScaledCenterLine);
 
-      Geodesic geodesic = new Geodesic(4,projectionPoint); 
-      //Geodesic geodesic = new Geodesic(4);
+      //Geodesic geodesic = new Geodesic(4,projectionPoint);
+      Geodesic geodesic = new Geodesic(7);
+
+      double variance = VarianceOf(geodesic); 
 
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
@@ -47,6 +49,156 @@ namespace Geodesic
         System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
 
+    }
+
+    private void Button2_Click(object sender, EventArgs e)
+    {
+      VarianceLabel.Text = (VarianceOf(new Geodesic(Convert.ToInt32(GenerationBox.Text)-2))*100-100).ToString()+"%"; 
+    }
+
+    private void Button3_Click(object sender, EventArgs e)
+    {
+      Geodesic geodesic = new Geodesic(4);
+
+      Plane plane = geodesic.StrikeThroughPoints[13].RightPlane; 
+
+    }
+
+    private void Button4_Click(object sender, EventArgs e)
+    {
+      Geodesic geodesic = new Geodesic();
+      List<string> points = new List<string>();
+      for (int i = 0; i <= 64; i++)
+        points.Add(geodesic.GetStrikePoint(i).ToString());
+
+      using (SaveFileDialog sfd = new SaveFileDialog())
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+        System.IO.File.WriteAllLines(sfd.FileName, points);
+      }
+    }
+
+    private void Button5_Click(object sender, EventArgs e)
+    {
+      Geodesic geodesic = new Geodesic(1);
+      List<string> areas = new List<string>(); 
+      for (int i =0; i<geodesic.MaxGridIndex;i++)
+      {
+        GridIndex index = geodesic.GetGridIndex(i);
+        GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
+        areas.Add(triangle.Area.ToString());
+      }
+
+      using (SaveFileDialog sfd = new SaveFileDialog())
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+        System.IO.File.WriteAllLines(sfd.FileName, areas);
+      }
+    }
+
+    public double VarianceOf(Geodesic geodesic)
+    {
+      List<double> areas = new List<double>();
+      double totalArea = 0;
+      double maxArea = -10;
+      double minArea = 10;
+      for (int i = 0; i < geodesic.MaxGridIndex; i++)
+      {
+        GridIndex index = geodesic.GetGridIndex(i);
+        GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
+        double area = triangle.Area;
+        areas.Add(area);
+        totalArea += area;
+        if (area > maxArea)
+          maxArea = area;
+        if (area < minArea)
+          minArea = area;
+      }
+      double variance = maxArea / minArea;
+      return variance; 
+
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+
+    }
+
+    private void DownShiftBox_Click(object sender, EventArgs e)
+    {
+      ShiftBox.Text = (Convert.ToDouble(ShiftBox.Text) / 2).ToString(); 
+    }
+
+    private void UpShiftBox_Click(object sender, EventArgs e)
+    {
+      ShiftBox.Text = (Convert.ToDouble(ShiftBox.Text) * 2).ToString();
+    }
+
+    private void UpButton_Click(object sender, EventArgs e)
+    {
+      VarianceBox.Text = (Convert.ToDouble(VarianceBox.Text) + Convert.ToDouble(ShiftBox.Text)).ToString(); 
+    }
+
+    private void DownButton_Click(object sender, EventArgs e)
+    {
+      VarianceBox.Text = (Convert.ToDouble(VarianceBox.Text) - Convert.ToDouble(ShiftBox.Text)).ToString();
+    }
+
+    private void VarianceBox_TextChanged(object sender, EventArgs e)
+    {
+      try
+      {
+        Vector3D projectionPoint = Geodesic.DefaultProjectionPoint * Convert.ToDouble(VarianceBox.Text);
+        Geodesic geodesic = new Geodesic(0, projectionPoint);
+        double variance = VarianceOf(geodesic);
+        VarianceLabel.Text = variance.ToString(); 
+      }
+      catch
+      {
+
+      }
+    }
+
+    private void Button6_Click(object sender, EventArgs e)
+    {
+      OldGeodesic oldGeodesic = new OldGeodesic(Convert.ToInt32(GenerationBox.Text));
+      double min = 10;
+      double max = 0;
+      foreach (SphericalTriangle triangle in oldGeodesic.SphericalTriangles)
+      {
+        double area = triangle.Area;
+        if (area < min)
+          min = area;
+        if (area > max)
+          max = area; 
+      }
+      double variance = max / min;
+      VarianceLabel.Text = (variance*100-100).ToString()+"%"; 
+    }
+
+    private void Button7_Click(object sender, EventArgs e)
+    {
+      List<double> sigmas = new List<double>();
+      List<string> lines = new List<string>();
+      Geodesic geodesic = new Geodesic();
+
+      double step = 1.0 / geodesic.MaxRibIndex; 
+      for (int i =0; i<=geodesic.MaxRibIndex;i++)
+      {
+        Vector3D point = geodesic.GetStrikePoint(i);
+        double sigma = geodesic.Sigma(point);
+        sigmas.Add(sigma);
+        lines.Add((step * i).ToString() + "\t" + sigma.ToString()); 
+      }
+      using (SaveFileDialog sfd = new SaveFileDialog())
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        System.IO.File.WriteAllLines(sfd.FileName, lines);
+      }
     }
   }
 }

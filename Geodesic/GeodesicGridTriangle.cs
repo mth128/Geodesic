@@ -9,11 +9,9 @@ namespace Geodesic
   public class GeodesicGridTriangle
   {
     private double area = 0; 
-
     public Plane PlaneA { get; }
     public Plane PlaneB { get; }
     public Plane PlaneC { get; }
-
     public Vector3D PointAB { get; }
     public Vector3D PointBC { get; }
     public Vector3D PointCA { get; }
@@ -35,10 +33,19 @@ namespace Geodesic
         double capAreaB = PlaneB.PartialSphereCapArea(PointBC, PointAB);
         double capAreaC = PlaneC.PartialSphereCapArea(PointCA, PointBC);
 
-        area = sphericalTriangleArea - 
-          (capAreaA - sphericalTriangleAreaA) - 
-          (capAreaB - sphericalTriangleAreaB) - 
-          (capAreaC - sphericalTriangleAreaC);
+        double chipAreaA = capAreaA - sphericalTriangleAreaA;
+        double chipAreaB = capAreaB - sphericalTriangleAreaB;
+        double chipAreaC = capAreaC - sphericalTriangleAreaC;
+
+        //define whether to add or subtract chips
+        if (!PlaneA.SameSide(PointBC, ((PointAB + PointCA)/2).UnitVector))
+          chipAreaA = -chipAreaA;
+        if (!PlaneB.SameSide(PointCA, ((PointBC + PointAB)/2).UnitVector))
+          chipAreaB = -chipAreaB;
+        if (!PlaneC.SameSide(PointAB, ((PointCA + PointBC)/2).UnitVector))
+          chipAreaC = -chipAreaC; 
+        
+        area = sphericalTriangleArea + chipAreaA + chipAreaB + chipAreaC; 
 
         return area; 
       }
