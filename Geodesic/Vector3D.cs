@@ -8,12 +8,12 @@ namespace Geodesic
 {
   public class Vector3D
   {
-    private static readonly double R120 = Math.Sqrt(0.75);
-    public double X { get; }
-    public double Y { get; }
-    public double Z { get; }
-    public double MagnitudeSquared => X * X + Y * Y + Z * Z;
-    public double Magnitude => Math.Sqrt(MagnitudeSquared);
+    private static readonly TraceCompute R120 = (new TraceCompute(3)/4).Sqrt();
+    public TraceCompute X { get; }
+    public TraceCompute Y { get; }
+    public TraceCompute Z { get; }
+    public TraceCompute MagnitudeSquared => X * X + Y * Y + Z * Z;
+    public TraceCompute Magnitude =>(MagnitudeSquared).Sqrt();
     public Vector3D UnitVector => this / Magnitude;
     public Vector3D Top => new Vector3D(X, Y, 0);
     public Vector3D Front => new Vector3D(X, 0, Z);
@@ -23,11 +23,26 @@ namespace Geodesic
     public Vector3D RotateTop240 => new Vector3D(-Y * R120 - X / 2, X * R120 - Y / 2, Z);    
     public Vector3D RotateTop120Front => new Vector3D(Y * R120 - X / 2, 0, Z);
 
-    public Vector3D(double x=0, double y=0, double z=0)
+    public Vector3D(TraceCompute x, TraceCompute y, int z)
+      : this(x, y, new TraceCompute(z)) { }
+    public Vector3D(TraceCompute x, int y, TraceCompute z)
+      : this(x, new TraceCompute(y), z) { }
+    public Vector3D(TraceCompute x, int y, int z)
+      : this(x, new TraceCompute(y), new TraceCompute(z)) { }
+    public Vector3D(int x, TraceCompute y, TraceCompute z)
+      : this(new TraceCompute(x), y, z) { }
+    public Vector3D(int x, TraceCompute y, int z)
+      : this(new TraceCompute(x), y, new TraceCompute(z)) { }
+    public Vector3D(int x, int y, TraceCompute z)
+      : this(new TraceCompute(x), new TraceCompute(y), z) { }
+    public Vector3D(int x, int y, int z)
+      : this(new TraceCompute(x), new TraceCompute(y), new TraceCompute(z)) { }
+
+    public Vector3D(TraceCompute x=null, TraceCompute y=null, TraceCompute z=null)
     {
-      this.X = x;
-      this.Y = y;
-      this.Z = z; 
+      this.X = x ?? new TraceCompute(0);
+      this.Y = y ?? new TraceCompute(0);
+      this.Z = z ?? new TraceCompute(0); 
     }
 
 
@@ -50,7 +65,7 @@ namespace Geodesic
         );
     }
 
-    public double Dot(Vector3D other)
+    public TraceCompute Dot(Vector3D other)
     {
       return X * other.X + Y * other.Y + Z * other.Z; 
     }
@@ -74,27 +89,40 @@ namespace Geodesic
       return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
     }
 
-    public static Vector3D operator *(Vector3D a, double b)
+    public static Vector3D operator *(Vector3D a, TraceCompute b)
     {
       return new Vector3D(a.X * b, a.Y * b, a.Z * b);
     }
 
-    public static Vector3D operator /(Vector3D a, double b)
+    public static Vector3D operator /(Vector3D a, TraceCompute b)
     {
       return new Vector3D(a.X/b,a.Y/b,a.Z/b); 
     }
+    public static Vector3D operator *(Vector3D a, int b)
+    {
+      TraceCompute i = new TraceCompute(b);
+      return new Vector3D(a.X * i, a.Y * i, a.Z * i);
+    }
+
+    public static Vector3D operator /(Vector3D a, int b)
+    {
+      TraceCompute i = new TraceCompute(b);
+      return new Vector3D(a.X / i, a.Y / i, a.Z / i);
+    }
+
+
 
     public static Vector3D operator-(Vector3D a)
     {
       return new Vector3D(-a.X, -a.Y, -a.Z);
     }
 
-    public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
+    public static TraceCompute AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
     {
-      double magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
+      TraceCompute magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
       if (magnitudeSquared>2)
         magnitudeSquared = (-unitVectorA - unitVectorB).MagnitudeSquared;
-      return 2 * Math.Asin(Math.Sqrt(magnitudeSquared) / 2);
+      return (magnitudeSquared.Sqrt() / 2).Asin() * 2;
     }
 
     public override string ToString()

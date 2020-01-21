@@ -10,13 +10,13 @@ namespace Geodesic
   {
     private Vector3D nearestToOrigin; 
     public Vector3D UnitVector { get; }
-    public double D { get; }
+    public TraceCompute D { get; }
     public Vector3D NearestToOrigin => nearestToOrigin == null? nearestToOrigin = UnitVector * D : nearestToOrigin;
 
     public Plane RotateTop120 => new Plane(UnitVector.RotateTop120, D);
     public Plane RotateTop240 => new Plane(UnitVector.RotateTop240, D); 
     
-    public Plane (Vector3D unitVector, double distance)
+    public Plane (Vector3D unitVector, TraceCompute distance)
     {
       UnitVector = unitVector;
       D = distance; 
@@ -29,7 +29,7 @@ namespace Geodesic
     }
 
 
-    public double DistanceTo(Vector3D point)
+    public TraceCompute DistanceTo(Vector3D point)
     {
       return UnitVector.Dot(point) - D; 
     }
@@ -43,19 +43,19 @@ namespace Geodesic
       return new Line(intersectionPoint, sharedVector); 
     }
 
-    public double PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
+    public TraceCompute PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
     {
-      double height = 1 - Math.Abs(D);
-      double radius = Math.Sqrt(1 - D * D);
-      double unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
-      double angle = Math.Asin(unitDistance / 2) * 2;
+      TraceCompute height = new TraceCompute(1) - D.Abs();
+      TraceCompute radius = (new TraceCompute(1) - D.Squared()).Sqrt();
+      TraceCompute unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
+      TraceCompute angle = (unitDistance / 2).Asin() * 2;
       return height * angle; 
     }
 
     internal bool SameSide(Vector3D a, Vector3D b)
     {
-      double da = DistanceTo(a);
-      double db = DistanceTo(b);
+      TraceCompute da = DistanceTo(a);
+      TraceCompute db = DistanceTo(b);
       if (da >= 0 && db >= 0)
         return true;
       if (da <= 0 && db <= 0)

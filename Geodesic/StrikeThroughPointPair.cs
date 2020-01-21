@@ -8,21 +8,21 @@ namespace Geodesic
 {
   public class StrikeThroughPointPair
   {
-    internal static double minimalSigma;
-    internal static double maximalSigma; 
-    public double onArcValue; 
+    internal static TraceCompute minimalSigma;
+    internal static TraceCompute maximalSigma; 
+    public TraceCompute onArcValue; 
 
     public Geodesic Parent { get; }
-    public double DistanceToScaledCenterLine { get; }
+    public TraceCompute DistanceToScaledCenterLine { get; }
     public Vector3D Right { get; }
     public Vector3D Left { get; }
-    public double DistanceOnScaledCenterLine => Math.Sqrt(1 - DistanceToScaledCenterLine * DistanceToScaledCenterLine);
+    public TraceCompute DistanceOnScaledCenterLine => (new TraceCompute(1)-DistanceToScaledCenterLine.Squared()).Sqrt();
 
     //The "on arc" angle. 
-    public double Sigma => Math.Asin(DistanceToScaledCenterLine);
+    public TraceCompute Sigma => DistanceToScaledCenterLine.Asin();
 
     //The expected "on arc" angle, in case Sigma would be linear. 
-    public double ExpectedSigma => onArcValue * (maximalSigma - minimalSigma) + minimalSigma;
+    public TraceCompute ExpectedSigma => onArcValue * (maximalSigma - minimalSigma) + minimalSigma;
 
     public Plane RightPlane => new Plane(Right, Parent.ProjectionPoint, Right + new Vector3D(0, 1, 0));
     public Plane LeftPlane => new Plane(Left, Parent.ProjectionPoint, Left + new Vector3D(0, 1, 0));
@@ -37,7 +37,7 @@ namespace Geodesic
       Vector3D primaryScaled = strikeThrough.UnitSphereIntersectionPositiveZ;
 
       DistanceToScaledCenterLine = Geodesic.MirrorPerpendicular.Dot(primaryScaled);
-      Vector3D secondaryScaled = primaryScaled - Geodesic.MirrorPerpendicular * DistanceToScaledCenterLine * 2;
+      Vector3D secondaryScaled = primaryScaled - Geodesic.MirrorPerpendicular * (DistanceToScaledCenterLine * 2);
       Right = Geodesic.ScaleEllipseIn(primaryScaled);
       Left = Geodesic.ScaleEllipseIn(secondaryScaled);
 
@@ -51,14 +51,19 @@ namespace Geodesic
       Parent = geodesic; 
     }
 
-    public StrikeThroughPointPair(double mirrorDistance)
+    public StrikeThroughPointPair(TraceCompute mirrorDistance)
     {
-      DistanceToScaledCenterLine = Math.Abs(mirrorDistance);
-      double primaryDistance = Math.Sqrt(1 - DistanceToScaledCenterLine * DistanceToScaledCenterLine);
+      DistanceToScaledCenterLine = mirrorDistance.Abs();
+      TraceCompute primaryDistance = (new TraceCompute(1) - DistanceToScaledCenterLine.Squared()).Sqrt();
       Vector3D primaryScaled = Geodesic.MirrorPoint * primaryDistance + Geodesic.MirrorPerpendicular * DistanceToScaledCenterLine;
       Vector3D secondaryScaled = Geodesic.MirrorPoint * primaryDistance - Geodesic.MirrorPerpendicular * DistanceToScaledCenterLine;
       Right = Geodesic.ScaleEllipseIn(primaryScaled);
       Left = Geodesic.ScaleEllipseIn(secondaryScaled);
     }
+    public StrikeThroughPointPair(int mirrorDistance)
+      : this (new TraceCompute(mirrorDistance))
+    {
+    }
+
   }
 }

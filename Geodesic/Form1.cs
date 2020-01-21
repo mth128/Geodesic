@@ -22,9 +22,9 @@ namespace Geodesic
       StrikeThroughPointPair center = new StrikeThroughPointPair(0);
       StrikeThroughPointPair bound = new StrikeThroughPointPair(Geodesic.ArcLeft.Dot(Geodesic.MirrorPerpendicular));
 
-      double oneThird = (center.Sigma * 2 + bound.Sigma) / 3;
-      double centerLineX = Math.Sin(oneThird);
-      double centerLineY = Math.Cos(oneThird);
+      TraceCompute oneThird = (center.Sigma * 2 + bound.Sigma) / 3;
+      TraceCompute centerLineX = oneThird.Sin();
+      TraceCompute centerLineY = oneThird.Cos();
 
       StrikeThroughPointPair topStrikeThrough = new StrikeThroughPointPair(centerLineX);
       Line strikeLine = Line.Construct(topStrikeThrough.Right, new Vector3D(0, 0, 1));
@@ -34,7 +34,7 @@ namespace Geodesic
       //Geodesic geodesic = new Geodesic(4,projectionPoint);
       Geodesic geodesic = new Geodesic(7);
 
-      double variance = VarianceOf(geodesic); 
+      TraceCompute variance = VarianceOf(geodesic); 
 
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
@@ -98,17 +98,17 @@ namespace Geodesic
       }
     }
 
-    public double VarianceOf(Geodesic geodesic)
+    public TraceCompute VarianceOf(Geodesic geodesic)
     {
-      List<double> areas = new List<double>();
-      double totalArea = 0;
-      double maxArea = -10;
-      double minArea = 10;
+      List<TraceCompute> areas = new List<TraceCompute>();
+      TraceCompute totalArea = new TraceCompute(0);
+      TraceCompute maxArea = new TraceCompute (-10);
+      TraceCompute minArea = new TraceCompute(10);
       for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
         GridIndex index = geodesic.GetGridIndex(i);
         GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
-        double area = triangle.Area;
+        TraceCompute area = triangle.Area;
         areas.Add(area);
         totalArea += area;
         if (area > maxArea)
@@ -116,7 +116,7 @@ namespace Geodesic
         if (area < minArea)
           minArea = area;
       }
-      double variance = maxArea / minArea;
+      TraceCompute variance = maxArea / minArea;
       return variance; 
 
     }
@@ -150,9 +150,9 @@ namespace Geodesic
     {
       try
       {
-        Vector3D projectionPoint = Geodesic.DefaultProjectionPoint * Convert.ToDouble(VarianceBox.Text);
+        Vector3D projectionPoint = Geodesic.DefaultProjectionPoint * new TraceCompute(Convert.ToDouble(VarianceBox.Text),"Custom");
         Geodesic geodesic = new Geodesic(0, projectionPoint);
-        double variance = VarianceOf(geodesic);
+        TraceCompute variance = VarianceOf(geodesic);
         VarianceLabel.Text = variance.ToString(); 
       }
       catch
@@ -164,33 +164,33 @@ namespace Geodesic
     private void Button6_Click(object sender, EventArgs e)
     {
       OldGeodesic oldGeodesic = new OldGeodesic(Convert.ToInt32(GenerationBox.Text));
-      double min = 10;
-      double max = 0;
+      TraceCompute min = new TraceCompute(10);
+      TraceCompute max = new TraceCompute(0);
       foreach (SphericalTriangle triangle in oldGeodesic.SphericalTriangles)
       {
-        double area = triangle.Area;
+        TraceCompute area = triangle.Area;
         if (area < min)
           min = area;
         if (area > max)
           max = area; 
       }
-      double variance = max / min;
+      TraceCompute variance = max / min;
       VarianceLabel.Text = (variance*100-100).ToString()+"%"; 
     }
 
     private void Button7_Click(object sender, EventArgs e)
     {
-      List<double> sigmas = new List<double>();
+      List<TraceCompute> sigmas = new List<TraceCompute>();
       List<string> lines = new List<string>();
       Geodesic geodesic = new Geodesic();
 
-      double step = 1.0 / geodesic.MaxRibIndex; 
+      TraceCompute step = new TraceCompute(1) / geodesic.MaxRibIndex; 
       for (int i =0; i<=geodesic.MaxRibIndex;i++)
       {
         Vector3D point = geodesic.GetStrikePoint(i);
-        double sigma = geodesic.Sigma(point);
+        TraceCompute sigma = geodesic.Sigma(point);
         sigmas.Add(sigma);
-        lines.Add((step * i).ToString() + "\t" + sigma.ToString()); 
+        lines.Add((step * i).ToString() + "\t" + sigma.ToString());// + "\t" + sigma.Equation); 
       }
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
@@ -198,6 +198,55 @@ namespace Geodesic
           return;
 
         System.IO.File.WriteAllLines(sfd.FileName, lines);
+      }
+    }
+
+    private void Button8_Click(object sender, EventArgs e)
+    {
+      List<TraceCompute> sigmas = new List<TraceCompute>();
+      List<string> lines = new List<string>();
+      Geodesic geodesic = new Geodesic();
+
+      TraceCompute step = new TraceCompute(1) / geodesic.MaxRibIndex;
+      for (int i = 0; i <= geodesic.MaxRibIndex; i++)
+      {
+        Vector3D point = geodesic.GetStrikePoint(i);
+        TraceCompute sigma = geodesic.Sigma(point);
+        sigmas.Add(sigma);
+        List<string> equation = sigma.GetFullEquation();
+        lines.Add((step * i).ToString() + "\t" + sigma.ToString());
+        lines.AddRange(equation);
+        lines.Add("-----------------------------------"); 
+      }
+      using (SaveFileDialog sfd = new SaveFileDialog())
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        System.IO.File.WriteAllLines(sfd.FileName, lines);
+      }
+    }
+
+    private void Button9_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        Fraction a = new Fraction(Convert.ToInt64(Numerator1Box.Text), Convert.ToInt64(Denominator1Box.Text));
+        Fraction b = new Fraction(Convert.ToInt64(Numerator2Box.Text), Convert.ToInt64(Denominator2Box.Text));
+
+        Fraction add = a + b;
+        Fraction subtract = a - b;
+        Fraction multiply = a * b;
+        Fraction divide = a / b;
+
+        ResultLabel.Text = add.ToString() + "\n";
+        ResultLabel.Text += subtract.ToString() + "\n";
+        ResultLabel.Text += multiply.ToString() + "\n";
+        ResultLabel.Text += divide.ToString() + "\n";
+      }
+      catch (Exception ex)
+      {
+        ResultLabel.Text = ex.Message; 
       }
     }
   }

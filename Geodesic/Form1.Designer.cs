@@ -45,6 +45,17 @@
       this.label2 = new System.Windows.Forms.Label();
       this.GenerationBox = new System.Windows.Forms.TextBox();
       this.button7 = new System.Windows.Forms.Button();
+      this.button8 = new System.Windows.Forms.Button();
+      this.button9 = new System.Windows.Forms.Button();
+      this.Numerator1Box = new System.Windows.Forms.TextBox();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label4 = new System.Windows.Forms.Label();
+      this.Denominator1Box = new System.Windows.Forms.TextBox();
+      this.Denominator2Box = new System.Windows.Forms.TextBox();
+      this.label5 = new System.Windows.Forms.Label();
+      this.label6 = new System.Windows.Forms.Label();
+      this.Numerator2Box = new System.Windows.Forms.TextBox();
+      this.ResultLabel = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // button1
@@ -209,11 +220,119 @@
       this.button7.UseVisualStyleBackColor = true;
       this.button7.Click += new System.EventHandler(this.Button7_Click);
       // 
+      // button8
+      // 
+      this.button8.Location = new System.Drawing.Point(517, 46);
+      this.button8.Name = "button8";
+      this.button8.Size = new System.Drawing.Size(141, 23);
+      this.button8.TabIndex = 17;
+      this.button8.Text = "Sigma Equations";
+      this.button8.UseVisualStyleBackColor = true;
+      this.button8.Click += new System.EventHandler(this.Button8_Click);
+      // 
+      // button9
+      // 
+      this.button9.Location = new System.Drawing.Point(281, 288);
+      this.button9.Name = "button9";
+      this.button9.Size = new System.Drawing.Size(75, 23);
+      this.button9.TabIndex = 18;
+      this.button9.Text = "FlexVariable";
+      this.button9.UseVisualStyleBackColor = true;
+      this.button9.Click += new System.EventHandler(this.Button9_Click);
+      // 
+      // Numerator1Box
+      // 
+      this.Numerator1Box.Location = new System.Drawing.Point(164, 291);
+      this.Numerator1Box.Name = "Numerator1Box";
+      this.Numerator1Box.Size = new System.Drawing.Size(100, 20);
+      this.Numerator1Box.TabIndex = 19;
+      this.Numerator1Box.Text = "0";
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(76, 294);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(68, 13);
+      this.label3.TabIndex = 20;
+      this.label3.Text = "Numerator 1:";
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(76, 322);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(79, 13);
+      this.label4.TabIndex = 21;
+      this.label4.Text = "Denominator 1:";
+      // 
+      // Denominator1Box
+      // 
+      this.Denominator1Box.Location = new System.Drawing.Point(164, 319);
+      this.Denominator1Box.Name = "Denominator1Box";
+      this.Denominator1Box.Size = new System.Drawing.Size(100, 20);
+      this.Denominator1Box.TabIndex = 22;
+      this.Denominator1Box.Text = "1";
+      // 
+      // Denominator2Box
+      // 
+      this.Denominator2Box.Location = new System.Drawing.Point(164, 373);
+      this.Denominator2Box.Name = "Denominator2Box";
+      this.Denominator2Box.Size = new System.Drawing.Size(100, 20);
+      this.Denominator2Box.TabIndex = 26;
+      this.Denominator2Box.Text = "1";
+      // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Location = new System.Drawing.Point(76, 376);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(79, 13);
+      this.label5.TabIndex = 25;
+      this.label5.Text = "Denominator 2:";
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(76, 348);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(68, 13);
+      this.label6.TabIndex = 24;
+      this.label6.Text = "Numerator 2:";
+      // 
+      // Numerator2Box
+      // 
+      this.Numerator2Box.Location = new System.Drawing.Point(164, 345);
+      this.Numerator2Box.Name = "Numerator2Box";
+      this.Numerator2Box.Size = new System.Drawing.Size(100, 20);
+      this.Numerator2Box.TabIndex = 23;
+      this.Numerator2Box.Text = "0";
+      // 
+      // ResultLabel
+      // 
+      this.ResultLabel.AutoSize = true;
+      this.ResultLabel.Location = new System.Drawing.Point(389, 293);
+      this.ResultLabel.Name = "ResultLabel";
+      this.ResultLabel.Size = new System.Drawing.Size(37, 13);
+      this.ResultLabel.TabIndex = 28;
+      this.ResultLabel.Text = "Result";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.ResultLabel);
+      this.Controls.Add(this.Denominator2Box);
+      this.Controls.Add(this.label5);
+      this.Controls.Add(this.label6);
+      this.Controls.Add(this.Numerator2Box);
+      this.Controls.Add(this.Denominator1Box);
+      this.Controls.Add(this.label4);
+      this.Controls.Add(this.label3);
+      this.Controls.Add(this.Numerator1Box);
+      this.Controls.Add(this.button9);
+      this.Controls.Add(this.button8);
       this.Controls.Add(this.button7);
       this.Controls.Add(this.GenerationBox);
       this.Controls.Add(this.label2);
@@ -258,6 +377,17 @@
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox GenerationBox;
     private System.Windows.Forms.Button button7;
+    private System.Windows.Forms.Button button8;
+    private System.Windows.Forms.Button button9;
+    private System.Windows.Forms.TextBox Numerator1Box;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.TextBox Denominator1Box;
+    private System.Windows.Forms.TextBox Denominator2Box;
+    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.TextBox Numerator2Box;
+    private System.Windows.Forms.Label ResultLabel;
   }
 }
 

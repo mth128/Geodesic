@@ -8,15 +8,15 @@ namespace Geodesic
 {
   public class Geodesic
   {
-    public static double IcosahedronRibLength { get; } = 4 / Math.Sqrt(10 + Math.Sqrt(20));
-    public static double FrontViewLength { get; } = Math.Sqrt(IcosahedronRibLength * IcosahedronRibLength - IcosahedronRibLength * IcosahedronRibLength / 4);
-    public static double FrontViewLength13 { get; } = FrontViewLength / 3.0;
-    public static double FrontViewLength23 { get; } = FrontViewLength13 * 2.0;
+    public static TraceCompute IcosahedronRibLength { get; } = new TraceCompute(4) / (new TraceCompute(10) + new TraceCompute(20).Sqrt()).Sqrt();
+    public static TraceCompute FrontViewLength { get; } = (IcosahedronRibLength.Squared() * 3 / 4).Sqrt();
+    public static TraceCompute FrontViewLength13 { get; } = FrontViewLength / 3;
+    public static TraceCompute FrontViewLength23 { get; } = FrontViewLength13 * 2;
 
     /// <summary>
     /// Standard coordinate large component. (Arc Left)
     /// </summary>
-    public static Vector3D ArcLeft { get; } = new Vector3D(-FrontViewLength23, 0, Math.Sqrt(1 - FrontViewLength23 * FrontViewLength23));
+    public static Vector3D ArcLeft { get; } = new Vector3D(-FrontViewLength23, 0, (new TraceCompute(1) - FrontViewLength23 * FrontViewLength23).Sqrt());
     /// <summary>
     /// Standard coordinate small component. (Arc Right) 
     /// </summary>
@@ -35,7 +35,7 @@ namespace Geodesic
     /// </summary>
     public static Vector3D ArcTopFront { get; } = ArcTopRight.RotateTop120;
 
-    public static double EllipseSecondaryRadius = Math.Cos(0.2 * Math.PI);
+    public static TraceCompute EllipseSecondaryRadius = (new TraceCompute(5).Sqrt() + 1) / 4; 
     public static Vector3D MirrorPoint { get; } = ScaleEllipseOut(ArcTopFront.Front);
     public static Vector3D MirrorPerpendicular = MirrorPoint.RotateFront90;
 
@@ -92,9 +92,11 @@ namespace Geodesic
       MaxRibIndex = strikePoints.Count * 2; 
       strikePoints.Add(bound);
       StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine).ToList();
-      
+
+      TraceCompute count = new TraceCompute(StrikeThroughPoints.Count); 
+
       for (int i = 0; i<StrikeThroughPoints.Count;i++)
-        StrikeThroughPoints[i].onArcValue = i / (StrikeThroughPoints.Count - 1.0);
+        StrikeThroughPoints[i].onArcValue = new TraceCompute(i) / (count - 1);
     }
 
     public Vector3D GetStrikePoint(int index)
@@ -120,20 +122,20 @@ namespace Geodesic
       return new GridIndex(this, index); 
     }
 
-    public double Sigma(Vector3D point)
+    public TraceCompute Sigma(Vector3D point)
     {
       Line line = Line.Construct(ScaleEllipseOut(point), ProjectionPointScaledOut);
       Vector3D scaledOutPoint = line.UnitSphereIntersectionPositiveZ;
-      double distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
-      return Math.Asin(distanceToScaledCenterLine);
+      TraceCompute distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
+      return distanceToScaledCenterLine.Asin();
     }
 
     public static Vector3D ScaleEllipseOut(Vector3D vector)
     {
       Vector3D primary = ArcLeft;
       Vector3D secondary = ArcLeft.RotateFront90;
-      double dPrimary = vector.Dot(primary);
-      double dSecondary = vector.Dot(secondary);
+      TraceCompute dPrimary = vector.Dot(primary);
+      TraceCompute dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary / EllipseSecondaryRadius);
     }
 
@@ -141,8 +143,8 @@ namespace Geodesic
     {
       Vector3D primary = ArcLeft;
       Vector3D secondary = ArcLeft.RotateFront90;
-      double dPrimary = vector.Dot(primary);
-      double dSecondary = vector.Dot(secondary);
+      TraceCompute dPrimary = vector.Dot(primary);
+      TraceCompute dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary * EllipseSecondaryRadius);
     }
   }

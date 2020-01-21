@@ -15,12 +15,12 @@ namespace Geodesic
 
     public Vector3D UnitSphereIntersection1 =>
       unitSphereIntersection1 == null ?
-      unitSphereIntersection1 = Point + UnitVector * Math.Sqrt(1 - Point.MagnitudeSquared)
+      unitSphereIntersection1 = Point + UnitVector * (new TraceCompute(1) - Point.MagnitudeSquared).Sqrt()
       : unitSphereIntersection1; 
 
     public Vector3D UnitSphereIntersection2 =>
       unitSphereIntersection2 == null ?
-      unitSphereIntersection2 = Point - UnitVector * Math.Sqrt(1 - Point.MagnitudeSquared)
+      unitSphereIntersection2 = Point - UnitVector * (new TraceCompute(1) - Point.MagnitudeSquared).Sqrt()
       : unitSphereIntersection2;
 
     public Vector3D UnitSphereIntersectionPositiveZ => UnitSphereIntersection1.Z >= 0 ? UnitSphereIntersection1 : UnitSphereIntersection2; 
@@ -28,7 +28,7 @@ namespace Geodesic
     public Line(Vector3D point, Vector3D unitVector)
     {
       UnitVector = unitVector;
-      double distance = unitVector.Dot(point);
+      TraceCompute distance = unitVector.Dot(point);
       Vector3D shift = unitVector * distance;
       Point = point - shift;
     }
@@ -37,20 +37,20 @@ namespace Geodesic
       return new Line(from, (to - from).UnitVector); 
     }
 
-    public double DistanceTo(Vector3D point)
+    public TraceCompute DistanceTo(Vector3D point)
     {
       if (point == Point)
-        return 0;
+        return new TraceCompute(0);
       Vector3D dif = Point - point;
-      double dot = Math.Abs(dif.UnitVector.Dot(UnitVector));
+      TraceCompute dot = dif.UnitVector.Dot(UnitVector).Abs();
 
       if (dot > 1)
         if (dot > 1.01)
           throw new Exception("Error in calculating distance.");
         else
-          return 0; 
+          return new TraceCompute(0); 
 
-      return dif.Magnitude * Math.Sqrt(1 - dot * dot); 
+      return dif.Magnitude * (new TraceCompute(1) - dot.Squared()).Sqrt(); 
     }
 
 
@@ -80,8 +80,8 @@ namespace Geodesic
       Vector3D b = c - offset;
 
       //selecting a or b. 
-      double aDist = DistanceTo(a) + other.DistanceTo(a);
-      double bDist = DistanceTo(b) + other.DistanceTo(b);
+      TraceCompute aDist = DistanceTo(a) + other.DistanceTo(a);
+      TraceCompute bDist = DistanceTo(b) + other.DistanceTo(b);
 
       return aDist < bDist ? a : b;
 
