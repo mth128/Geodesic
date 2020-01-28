@@ -8,7 +8,7 @@ namespace Geodesic
 {
   public class GeodesicGridTriangle
   {
-    private TraceCompute area = new TraceCompute(0); 
+    private double area = 0; 
     public Plane PlaneA { get; }
     public Plane PlaneB { get; }
     public Plane PlaneC { get; }
@@ -16,26 +16,26 @@ namespace Geodesic
     public Vector3D PointBC { get; }
     public Vector3D PointCA { get; }
 
-    public TraceCompute Area
+    public double Area
     {
       get
       {
         if (area != 0)
           return area;
 
-        TraceCompute sphericalTriangleArea = new SphericalTriangle(PointAB, PointBC, PointCA).Area;
+        double sphericalTriangleArea = new SphericalTriangle(PointAB, PointBC, PointCA).Area;
 
-        TraceCompute sphericalTriangleAreaA = new SphericalTriangle(PointAB, PointCA, PlaneA.UnitVector).Area;
-        TraceCompute sphericalTriangleAreaB = new SphericalTriangle(PointBC, PointAB, PlaneB.UnitVector).Area;
-        TraceCompute sphericalTriangleAreaC = new SphericalTriangle(PointCA, PointBC, PlaneC.UnitVector).Area;
+        double sphericalTriangleAreaA = new SphericalTriangle(PointAB, PointCA, PlaneA.UnitVector).Area;
+        double sphericalTriangleAreaB = new SphericalTriangle(PointBC, PointAB, PlaneB.UnitVector).Area;
+        double sphericalTriangleAreaC = new SphericalTriangle(PointCA, PointBC, PlaneC.UnitVector).Area;
 
-        TraceCompute capAreaA = PlaneA.PartialSphereCapArea(PointAB, PointCA);
-        TraceCompute capAreaB = PlaneB.PartialSphereCapArea(PointBC, PointAB);
-        TraceCompute capAreaC = PlaneC.PartialSphereCapArea(PointCA, PointBC);
+        double capAreaA = PlaneA.PartialSphereCapArea(PointAB, PointCA);
+        double capAreaB = PlaneB.PartialSphereCapArea(PointBC, PointAB);
+        double capAreaC = PlaneC.PartialSphereCapArea(PointCA, PointBC);
 
-        TraceCompute chipAreaA = capAreaA - sphericalTriangleAreaA;
-        TraceCompute chipAreaB = capAreaB - sphericalTriangleAreaB;
-        TraceCompute chipAreaC = capAreaC - sphericalTriangleAreaC;
+        double chipAreaA = capAreaA - sphericalTriangleAreaA;
+        double chipAreaB = capAreaB - sphericalTriangleAreaB;
+        double chipAreaC = capAreaC - sphericalTriangleAreaC;
 
         //define whether to add or subtract chips
         if (!PlaneA.SameSide(PointBC, ((PointAB + PointCA)/2).UnitVector))

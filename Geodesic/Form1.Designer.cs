@@ -66,7 +66,6 @@
       this.button1.TabIndex = 0;
       this.button1.Text = "button1";
       this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.Button1_Click);
       // 
       // button2
       // 
@@ -124,7 +123,6 @@
       this.VarianceBox.Size = new System.Drawing.Size(100, 20);
       this.VarianceBox.TabIndex = 6;
       this.VarianceBox.Text = "0.992866587834743";
-      this.VarianceBox.TextChanged += new System.EventHandler(this.VarianceBox_TextChanged);
       // 
       // UpButton
       // 
@@ -316,6 +314,7 @@
       this.ResultLabel.Size = new System.Drawing.Size(37, 13);
       this.ResultLabel.TabIndex = 28;
       this.ResultLabel.Text = "Result";
+      this.ResultLabel.Click += new System.EventHandler(this.ResultLabel_Click);
       // 
       // Form1
       // 

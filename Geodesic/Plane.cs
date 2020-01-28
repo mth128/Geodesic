@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Computable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,13 @@ namespace Geodesic
   {
     private Vector3D nearestToOrigin; 
     public Vector3D UnitVector { get; }
-    public TraceCompute D { get; }
+    public Equation D { get; }
     public Vector3D NearestToOrigin => nearestToOrigin == null? nearestToOrigin = UnitVector * D : nearestToOrigin;
 
     public Plane RotateTop120 => new Plane(UnitVector.RotateTop120, D);
     public Plane RotateTop240 => new Plane(UnitVector.RotateTop240, D); 
     
-    public Plane (Vector3D unitVector, TraceCompute distance)
+    public Plane (Vector3D unitVector, Equation distance)
     {
       UnitVector = unitVector;
       D = distance; 
@@ -29,7 +30,7 @@ namespace Geodesic
     }
 
 
-    public TraceCompute DistanceTo(Vector3D point)
+    public Equation DistanceTo(Vector3D point)
     {
       return UnitVector.Dot(point) - D; 
     }
@@ -43,19 +44,19 @@ namespace Geodesic
       return new Line(intersectionPoint, sharedVector); 
     }
 
-    public TraceCompute PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
+    public double PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
     {
-      TraceCompute height = new TraceCompute(1) - D.Abs();
-      TraceCompute radius = (new TraceCompute(1) - D.Squared()).Sqrt();
-      TraceCompute unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
-      TraceCompute angle = (unitDistance / 2).Asin() * 2;
+      Equation height = new Equation(1) - MathE.Abs(D);
+      Equation radius = MathE.Sqrt(new Equation(1) - MathE.Squared(D));
+      Equation unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
+      double angle = MathE.Asin(unitDistance / 2) * 2;
       return height * angle; 
     }
 
     internal bool SameSide(Vector3D a, Vector3D b)
     {
-      TraceCompute da = DistanceTo(a);
-      TraceCompute db = DistanceTo(b);
+      Equation da = DistanceTo(a);
+      Equation db = DistanceTo(b);
       if (da >= 0 && db >= 0)
         return true;
       if (da <= 0 && db <= 0)

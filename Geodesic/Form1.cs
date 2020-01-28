@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Computable;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,14 +18,15 @@ namespace Geodesic
       InitializeComponent();
     }
 
+    /*
     private void Button1_Click(object sender, EventArgs e)
     {
       StrikeThroughPointPair center = new StrikeThroughPointPair(0);
       StrikeThroughPointPair bound = new StrikeThroughPointPair(Geodesic.ArcLeft.Dot(Geodesic.MirrorPerpendicular));
 
-      TraceCompute oneThird = (center.Sigma * 2 + bound.Sigma) / 3;
-      TraceCompute centerLineX = oneThird.Sin();
-      TraceCompute centerLineY = oneThird.Cos();
+      Equation oneThird = (center.Sigma * 2 + bound.Sigma) / 3;
+      Equation centerLineX = Math.Sin(oneThird);
+      Equation centerLineY = Math.Cos(oneThird);
 
       StrikeThroughPointPair topStrikeThrough = new StrikeThroughPointPair(centerLineX);
       Line strikeLine = Line.Construct(topStrikeThrough.Right, new Vector3D(0, 0, 1));
@@ -34,7 +36,7 @@ namespace Geodesic
       //Geodesic geodesic = new Geodesic(4,projectionPoint);
       Geodesic geodesic = new Geodesic(7);
 
-      TraceCompute variance = VarianceOf(geodesic); 
+      Equation variance = VarianceOf(geodesic); 
 
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
@@ -49,7 +51,7 @@ namespace Geodesic
         System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
 
-    }
+    }*/
 
     private void Button2_Click(object sender, EventArgs e)
     {
@@ -98,17 +100,17 @@ namespace Geodesic
       }
     }
 
-    public TraceCompute VarianceOf(Geodesic geodesic)
+    public double VarianceOf(Geodesic geodesic)
     {
-      List<TraceCompute> areas = new List<TraceCompute>();
-      TraceCompute totalArea = new TraceCompute(0);
-      TraceCompute maxArea = new TraceCompute (-10);
-      TraceCompute minArea = new TraceCompute(10);
+      List<double> areas = new List<double>();
+      double totalArea = 0;
+      double maxArea = -10;
+      double minArea = 10;
       for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
         GridIndex index = geodesic.GetGridIndex(i);
         GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
-        TraceCompute area = triangle.Area;
+        double area = triangle.Area;
         areas.Add(area);
         totalArea += area;
         if (area > maxArea)
@@ -116,7 +118,7 @@ namespace Geodesic
         if (area < minArea)
           minArea = area;
       }
-      TraceCompute variance = maxArea / minArea;
+      double variance = maxArea / minArea;
       return variance; 
 
     }
@@ -146,49 +148,50 @@ namespace Geodesic
       VarianceBox.Text = (Convert.ToDouble(VarianceBox.Text) - Convert.ToDouble(ShiftBox.Text)).ToString();
     }
 
+    /*
     private void VarianceBox_TextChanged(object sender, EventArgs e)
     {
       try
       {
-        Vector3D projectionPoint = Geodesic.DefaultProjectionPoint * new TraceCompute(Convert.ToDouble(VarianceBox.Text),"Custom");
+        Vector3D projectionPoint = Geodesic.DefaultProjectionPoint * new Equation(Convert.ToDouble(VarianceBox.Text),"Custom");
         Geodesic geodesic = new Geodesic(0, projectionPoint);
-        TraceCompute variance = VarianceOf(geodesic);
+        Equation variance = VarianceOf(geodesic);
         VarianceLabel.Text = variance.ToString(); 
       }
       catch
       {
 
       }
-    }
+    }*/
 
     private void Button6_Click(object sender, EventArgs e)
     {
       OldGeodesic oldGeodesic = new OldGeodesic(Convert.ToInt32(GenerationBox.Text));
-      TraceCompute min = new TraceCompute(10);
-      TraceCompute max = new TraceCompute(0);
+      double min = 10;
+      double max = 0;
       foreach (SphericalTriangle triangle in oldGeodesic.SphericalTriangles)
       {
-        TraceCompute area = triangle.Area;
+        double area = triangle.Area;
         if (area < min)
           min = area;
         if (area > max)
           max = area; 
       }
-      TraceCompute variance = max / min;
+      double variance = max / min;
       VarianceLabel.Text = (variance*100-100).ToString()+"%"; 
     }
 
     private void Button7_Click(object sender, EventArgs e)
     {
-      List<TraceCompute> sigmas = new List<TraceCompute>();
+      List<double> sigmas = new List<double>();
       List<string> lines = new List<string>();
       Geodesic geodesic = new Geodesic();
 
-      TraceCompute step = new TraceCompute(1) / geodesic.MaxRibIndex; 
+      Equation step = new Equation(1) / geodesic.MaxRibIndex; 
       for (int i =0; i<=geodesic.MaxRibIndex;i++)
       {
         Vector3D point = geodesic.GetStrikePoint(i);
-        TraceCompute sigma = geodesic.Sigma(point);
+        double sigma = geodesic.Sigma(point);
         sigmas.Add(sigma);
         lines.Add((step * i).ToString() + "\t" + sigma.ToString());// + "\t" + sigma.Equation); 
       }
@@ -203,19 +206,23 @@ namespace Geodesic
 
     private void Button8_Click(object sender, EventArgs e)
     {
-      List<TraceCompute> sigmas = new List<TraceCompute>();
+      List<double> sigmas = new List<double>();
       List<string> lines = new List<string>();
       Geodesic geodesic = new Geodesic();
 
-      TraceCompute step = new TraceCompute(1) / geodesic.MaxRibIndex;
+      Equation step = new Equation(1) / geodesic.MaxRibIndex;
       for (int i = 0; i <= geodesic.MaxRibIndex; i++)
       {
         Vector3D point = geodesic.GetStrikePoint(i);
-        TraceCompute sigma = geodesic.Sigma(point);
+        double sigma = geodesic.Sigma(point);
         sigmas.Add(sigma);
-        List<string> equation = sigma.GetFullEquation();
-        lines.Add((step * i).ToString() + "\t" + sigma.ToString());
-        lines.AddRange(equation);
+        //List<string> equation = sigma.GetFullEquation();
+        //lines.Add((step * i).ToString() + "\t" + sigma.ToString());
+        //lines.AddRange(equation);
+        lines.Add(point.X.ToString());
+        lines.Add(point.Y.ToString());
+        lines.Add(point.Z.ToString());
+        lines.Add(sigma.ToString()); 
         lines.Add("-----------------------------------"); 
       }
       using (SaveFileDialog sfd = new SaveFileDialog())
@@ -238,16 +245,23 @@ namespace Geodesic
         Fraction subtract = a - b;
         Fraction multiply = a * b;
         Fraction divide = a / b;
+        Radical radical = new Radical(a,b);
 
-        ResultLabel.Text = add.ToString() + "\n";
-        ResultLabel.Text += subtract.ToString() + "\n";
-        ResultLabel.Text += multiply.ToString() + "\n";
-        ResultLabel.Text += divide.ToString() + "\n";
+        ResultLabel.Text =  a.Value.ToString() + "+" + b.Value.ToString() +"="+ add.ToString() + "\n";
+        ResultLabel.Text += a.Value.ToString() + "-" + b.Value.ToString() + "=" + subtract.ToString() + "\n";
+        ResultLabel.Text += a.Value.ToString() + "*" + b.Value.ToString() + "=" + multiply.ToString() + "\n";
+        ResultLabel.Text += a.Value.ToString() + "/" + b.Value.ToString() + "=" + divide.ToString() + "\n";
+        ResultLabel.Text += b.Value.ToString() + "*Sqrt(" + a.Value.ToString() + ")="+  radical.ToString() + "\n";  
       }
       catch (Exception ex)
       {
         ResultLabel.Text = ex.Message; 
       }
+    }
+
+    private void ResultLabel_Click(object sender, EventArgs e)
+    {
+
     }
   }
 }

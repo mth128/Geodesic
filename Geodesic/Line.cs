@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Computable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,12 +16,12 @@ namespace Geodesic
 
     public Vector3D UnitSphereIntersection1 =>
       unitSphereIntersection1 == null ?
-      unitSphereIntersection1 = Point + UnitVector * (new TraceCompute(1) - Point.MagnitudeSquared).Sqrt()
+      unitSphereIntersection1 = Point + UnitVector * MathE.Sqrt(new Equation(1) - Point.MagnitudeSquared)
       : unitSphereIntersection1; 
 
     public Vector3D UnitSphereIntersection2 =>
       unitSphereIntersection2 == null ?
-      unitSphereIntersection2 = Point - UnitVector * (new TraceCompute(1) - Point.MagnitudeSquared).Sqrt()
+      unitSphereIntersection2 = Point - UnitVector * MathE.Sqrt(new Equation(1) - Point.MagnitudeSquared)
       : unitSphereIntersection2;
 
     public Vector3D UnitSphereIntersectionPositiveZ => UnitSphereIntersection1.Z >= 0 ? UnitSphereIntersection1 : UnitSphereIntersection2; 
@@ -28,7 +29,7 @@ namespace Geodesic
     public Line(Vector3D point, Vector3D unitVector)
     {
       UnitVector = unitVector;
-      TraceCompute distance = unitVector.Dot(point);
+      Equation distance = unitVector.Dot(point);
       Vector3D shift = unitVector * distance;
       Point = point - shift;
     }
@@ -37,20 +38,20 @@ namespace Geodesic
       return new Line(from, (to - from).UnitVector); 
     }
 
-    public TraceCompute DistanceTo(Vector3D point)
+    public Equation DistanceTo(Vector3D point)
     {
       if (point == Point)
-        return new TraceCompute(0);
+        return new Equation(0);
       Vector3D dif = Point - point;
-      TraceCompute dot = dif.UnitVector.Dot(UnitVector).Abs();
+      Equation dot = MathE.Abs(dif.UnitVector.Dot(UnitVector));
 
       if (dot > 1)
         if (dot > 1.01)
           throw new Exception("Error in calculating distance.");
         else
-          return new TraceCompute(0); 
+          return new Equation(0); 
 
-      return dif.Magnitude * (new TraceCompute(1) - dot.Squared()).Sqrt(); 
+      return dif.Magnitude * MathE.Sqrt(1 - MathE.Squared(dot)); 
     }
 
 
@@ -80,8 +81,8 @@ namespace Geodesic
       Vector3D b = c - offset;
 
       //selecting a or b. 
-      TraceCompute aDist = DistanceTo(a) + other.DistanceTo(a);
-      TraceCompute bDist = DistanceTo(b) + other.DistanceTo(b);
+      Equation aDist = DistanceTo(a) + other.DistanceTo(a);
+      Equation bDist = DistanceTo(b) + other.DistanceTo(b);
 
       return aDist < bDist ? a : b;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Computable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace Geodesic
 {
   public class Vector3D
   {
-    private static readonly TraceCompute R120 = (new TraceCompute(3)/4).Sqrt();
-    public TraceCompute X { get; }
-    public TraceCompute Y { get; }
-    public TraceCompute Z { get; }
-    public TraceCompute MagnitudeSquared => X * X + Y * Y + Z * Z;
-    public TraceCompute Magnitude =>(MagnitudeSquared).Sqrt();
+    private static readonly Equation R120 = MathE.Sqrt((new Equation(3)/4));
+    public Equation X { get; }
+    public Equation Y { get; }
+    public Equation Z { get; }
+    public Equation MagnitudeSquared => X * X + Y * Y + Z * Z;
+    public Equation Magnitude => MathE.Sqrt(MagnitudeSquared);
     public Vector3D UnitVector => this / Magnitude;
     public Vector3D Top => new Vector3D(X, Y, 0);
     public Vector3D Front => new Vector3D(X, 0, Z);
@@ -23,26 +24,26 @@ namespace Geodesic
     public Vector3D RotateTop240 => new Vector3D(-Y * R120 - X / 2, X * R120 - Y / 2, Z);    
     public Vector3D RotateTop120Front => new Vector3D(Y * R120 - X / 2, 0, Z);
 
-    public Vector3D(TraceCompute x, TraceCompute y, int z)
-      : this(x, y, new TraceCompute(z)) { }
-    public Vector3D(TraceCompute x, int y, TraceCompute z)
-      : this(x, new TraceCompute(y), z) { }
-    public Vector3D(TraceCompute x, int y, int z)
-      : this(x, new TraceCompute(y), new TraceCompute(z)) { }
-    public Vector3D(int x, TraceCompute y, TraceCompute z)
-      : this(new TraceCompute(x), y, z) { }
-    public Vector3D(int x, TraceCompute y, int z)
-      : this(new TraceCompute(x), y, new TraceCompute(z)) { }
-    public Vector3D(int x, int y, TraceCompute z)
-      : this(new TraceCompute(x), new TraceCompute(y), z) { }
+    public Vector3D(Equation x, Equation y, int z)
+      : this(x, y, new Equation(z)) { }
+    public Vector3D(Equation x, int y, Equation z)
+      : this(x, new Equation(y), z) { }
+    public Vector3D(Equation x, int y, int z)
+      : this(x, new Equation(y), new Equation(z)) { }
+    public Vector3D(int x, Equation y, Equation z)
+      : this(new Equation(x), y, z) { }
+    public Vector3D(int x, Equation y, int z)
+      : this(new Equation(x), y, new Equation(z)) { }
+    public Vector3D(int x, int y, Equation z)
+      : this(new Equation(x), new Equation(y), z) { }
     public Vector3D(int x, int y, int z)
-      : this(new TraceCompute(x), new TraceCompute(y), new TraceCompute(z)) { }
+      : this(new Equation(x), new Equation(y), new Equation(z)) { }
 
-    public Vector3D(TraceCompute x=null, TraceCompute y=null, TraceCompute z=null)
+    public Vector3D(Equation x=null, Equation y=null, Equation z=null)
     {
-      this.X = x ?? new TraceCompute(0);
-      this.Y = y ?? new TraceCompute(0);
-      this.Z = z ?? new TraceCompute(0); 
+      this.X = x ?? new Equation(0);
+      this.Y = y ?? new Equation(0);
+      this.Z = z ?? new Equation(0); 
     }
 
 
@@ -65,7 +66,7 @@ namespace Geodesic
         );
     }
 
-    public TraceCompute Dot(Vector3D other)
+    public Equation Dot(Vector3D other)
     {
       return X * other.X + Y * other.Y + Z * other.Z; 
     }
@@ -89,24 +90,24 @@ namespace Geodesic
       return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
     }
 
-    public static Vector3D operator *(Vector3D a, TraceCompute b)
+    public static Vector3D operator *(Vector3D a, IValue b)
     {
       return new Vector3D(a.X * b, a.Y * b, a.Z * b);
     }
 
-    public static Vector3D operator /(Vector3D a, TraceCompute b)
+    public static Vector3D operator /(Vector3D a, IValue b)
     {
       return new Vector3D(a.X/b,a.Y/b,a.Z/b); 
     }
     public static Vector3D operator *(Vector3D a, int b)
     {
-      TraceCompute i = new TraceCompute(b);
+      Equation i = new Equation(b);
       return new Vector3D(a.X * i, a.Y * i, a.Z * i);
     }
 
     public static Vector3D operator /(Vector3D a, int b)
     {
-      TraceCompute i = new TraceCompute(b);
+      Equation i = new Equation(b);
       return new Vector3D(a.X / i, a.Y / i, a.Z / i);
     }
 
@@ -117,12 +118,12 @@ namespace Geodesic
       return new Vector3D(-a.X, -a.Y, -a.Z);
     }
 
-    public static TraceCompute AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
+    public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
     {
-      TraceCompute magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
+      Equation magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
       if (magnitudeSquared>2)
         magnitudeSquared = (-unitVectorA - unitVectorB).MagnitudeSquared;
-      return (magnitudeSquared.Sqrt() / 2).Asin() * 2;
+      return (MathE.Asin(MathE.Sqrt(magnitudeSquared)/2)) * 2;
     }
 
     public override string ToString()

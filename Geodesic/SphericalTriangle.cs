@@ -15,7 +15,7 @@ namespace Geodesic
     public Vector3D B { get; }
     public Vector3D C { get; }
 
-    public TraceCompute Area
+    public double Area
     {
       get
       {
@@ -26,11 +26,11 @@ namespace Geodesic
         Vector3D Ca = C.Cross(A).Cross(C).UnitVector;
         Vector3D Cb = C.Cross(B).Cross(C).UnitVector;
 
-        TraceCompute a = Vector3D.AngleBetween(Ab, Ac);
-        TraceCompute b = Vector3D.AngleBetween(Ba, Bc);
-        TraceCompute c = Vector3D.AngleBetween(Ca, Cb);
+        double a = Vector3D.AngleBetween(Ab, Ac);
+        double b = Vector3D.AngleBetween(Ba, Bc);
+        double c = Vector3D.AngleBetween(Ca, Cb);
 
-        return a + b + c - TraceCompute.PI(); 
+        return a + b + c - Math.PI; 
       }
     }
        
