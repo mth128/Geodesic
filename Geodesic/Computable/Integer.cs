@@ -8,9 +8,9 @@ namespace Computable
 {
   public struct Integer : IValue
   {
-    public double Value => Int; 
-    private static Dictionary<long, List<long>> factorStorage = new Dictionary<long, List<long>>(); 
+    private static readonly Dictionary<long, List<long>> factorStorage = new Dictionary<long, List<long>>();
     public long Int { get; }
+    public double Value => Int; 
     public List<long> Factors
     {
       get
@@ -33,7 +33,14 @@ namespace Computable
 
     public string Type => "Integer";
 
-    public int RadicalDepth => 0; 
+    public int RadicalDepth => 0;
+
+    public Integer IntegerComponent => this;
+
+    public Integer PerfectSquareWidth => new Integer(GetDuplicateFactors());
+    public Integer PerfectSquare { get { Integer p = PerfectSquareWidth; return p * p; } }
+
+    public Integer DivisorIntegerComponent => new Integer(1); 
 
     public Integer (long value)
     {
@@ -147,6 +154,58 @@ namespace Computable
     public override string ToString()
     {
       return "[" + Type + "]" + Int.ToString(); 
+    }
+
+    public Integer CommonFactors(Integer other)
+    {
+      List<long> a = Factors;
+      List<long> b = other.Factors;
+
+      long shared = 1;
+      int ai = 0;
+      int bi = 0;
+      while (ai<a.Count && bi<b.Count)
+      {
+        while (ai < a.Count && bi < b.Count &&a[ai]==b[bi])
+        {
+          shared *= a[ai];
+          ai++;
+          bi++; 
+        }
+
+        if (ai >= a.Count || bi >= b.Count)
+          break;
+
+        while (ai < a.Count && a[ai] < b[bi])
+          ai++;
+
+        if (ai >= a.Count)
+          break;
+
+        while (bi < b.Count && a[ai] > b[bi])
+          bi++;
+      }
+
+      if (Negative && other.Negative)
+        return new Integer(-shared);
+
+      return new Integer(shared); 
+    }
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      if (sharedComponent == 0)
+        throw new DivideByZeroException("Reduce integer component tries to divide by 0");  
+      if (Int % sharedComponent.Int != 0)
+        throw new Exception("Error in reducing integer component. " + Int.ToString() + " is not divisible by " + sharedComponent.Int.ToString());
+      return new Integer(Int / sharedComponent.Int); 
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      if (sharedComponent != 1)
+        throw new Exception("Cannot reduces divisor of an integer.");
+      return this; 
     }
   }
 }

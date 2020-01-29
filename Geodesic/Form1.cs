@@ -210,7 +210,6 @@ namespace Geodesic
       List<string> lines = new List<string>();
       Geodesic geodesic = new Geodesic();
 
-      Equation step = new Equation(1) / geodesic.MaxRibIndex;
       for (int i = 0; i <= geodesic.MaxRibIndex; i++)
       {
         Vector3D point = geodesic.GetStrikePoint(i);
@@ -262,6 +261,12 @@ namespace Geodesic
     private void ResultLabel_Click(object sender, EventArgs e)
     {
 
+    }
+
+    private void Button10_Click(object sender, EventArgs e)
+    {
+      Equation IcosahedronRibLength = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
+      Equation FrontViewLength = MathE.Sqrt(new Fraction(new Product(MathE.Squared(IcosahedronRibLength), 3), 4));
     }
   }
 }

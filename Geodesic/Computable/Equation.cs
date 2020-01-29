@@ -8,35 +8,39 @@ namespace Computable
 {
   public class Equation : IValue
   {
-    private IValue content;
+    public bool Negative => Content.Negative;
 
-    public bool Negative => content.Negative;
+    public double Value => Content.Value;
 
-    public double Value => content.Value;
+    public bool Integerable => Content.Integerable;
 
-    public bool Integerable => content.Integerable;
+    public bool Fractionable => Content.Fractionable;
 
-    public bool Fractionable => content.Fractionable;
+    public bool Radicalable => Content.Radicalable;
 
-    public bool Radicalable => content.Radicalable;
+    string IValue.Equation => "["+Type+"] "+ Value.ToString() + "=" + Content.Equation;
 
-    string IValue.Equation => "["+Type+"] "+ Value.ToString() + "=" + content.Equation;
+    public string Type => Content.Type;
 
-    public string Type => content.Type;
+    public int RadicalDepth => Content.RadicalDepth;
 
-    public int RadicalDepth => content.RadicalDepth;
+    public Integer IntegerComponent => Content.IntegerComponent;
+
+    public IValue Content { get; }
+
+    public Integer DivisorIntegerComponent => Content.DivisorIntegerComponent;
 
     public Equation(IValue value)
     {
       if (value == null)
-        content = new Integer(0);
+        Content = new Integer(0);
 
-      content = value.Direct();
+      Content = value.Direct();
     }
 
     public Equation(long value)
     {
-      content = new Integer(value); 
+      Content = new Integer(value); 
     }
            
 
@@ -192,37 +196,47 @@ namespace Computable
 
     public IValue Negate()
     {
-      return content.Negate(); 
+      return Content.Negate(); 
     }
 
     public IValue Simple()
     {
-      return content.Simple(); 
+      return Content.Simple(); 
     }
 
     public Fraction ToFraction()
     {
-      return content.ToFraction();
+      return Content.ToFraction();
     }
 
     public Integer ToInteger()
     {
-      return content.ToInteger(); 
+      return Content.ToInteger(); 
     }
 
     public Radical ToRadical()
     {
-      return content.ToRadical();
+      return Content.ToRadical();
     }
 
     public IValue Squared()
     {
-      return content.Squared(); 
+      return Content.Squared(); 
     }
 
     public override string ToString()
     {
       return (this as IValue).Equation; 
+    }
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      return Content.ReduceIntegerComponent(sharedComponent); 
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      return Content.ReduceDivisorIntegerComponent(sharedComponent);
     }
   }
 }

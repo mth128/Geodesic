@@ -8,8 +8,10 @@ namespace Computable
 {
   public class Sum : IValue
   {
+    private Integer integerComponent = new Integer(0);
+    private Integer divisorIntegerComponent = new Integer(0);
+
     private double value = double.NaN;
-    private bool firstItteration;
 
     public IValue First { get; private set; }
     public IValue Second { get; private set; }
@@ -24,7 +26,7 @@ namespace Computable
 
     public bool Fractionable => SecondIsZero && First.Fractionable;
 
-    public bool Radicalable => SecondIsZero && Second.Radicalable;
+    public bool Radicalable => SecondIsZero && First.Radicalable;
 
     public string Equation => "(" + First.Equation + "+" + Second.Equation + ")";
 
@@ -39,7 +41,13 @@ namespace Computable
         return depth1 > depth2 ? depth1 : depth2;
       }
     }
+    public Integer IntegerComponent => (integerComponent == 0) ? 
+      (integerComponent = First.IntegerComponent.CommonFactors(Second.IntegerComponent)) : 
+      integerComponent;
 
+    public Integer DivisorIntegerComponent => (integerComponent == 0) ?
+      (divisorIntegerComponent = First.DivisorIntegerComponent.CommonFactors(Second.DivisorIntegerComponent)) :
+      divisorIntegerComponent;
 
     public Sum(IValue first, IValue second)
     {
@@ -48,9 +56,8 @@ namespace Computable
 
     private void Set(IValue first, IValue second, bool firstItteration = true)
     {
-      this.firstItteration = firstItteration; 
-      first = first.Direct();
-      second = second.Direct();
+      first = first.Direct().Simple();
+      second = second.Direct().Simple();
 
       if (first.Integerable && second.Integerable)
       {
@@ -269,5 +276,15 @@ namespace Computable
     }
 
     public override string ToString() => "[" + Type + "] " + Equation + "=" + Value.ToString();
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      return new Sum(First.ReduceIntegerComponent(sharedComponent), Second.ReduceIntegerComponent(sharedComponent)).Simple(); 
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      return new Sum(First.ReduceDivisorIntegerComponent(sharedComponent), Second.ReduceDivisorIntegerComponent(sharedComponent)).Simple();
+    }
   }
 }

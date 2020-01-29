@@ -8,6 +8,8 @@ namespace Computable
 {
   public class Product: IValue
   {
+    private Integer integerComponent = new Integer(0);
+    private Integer divisorIntegerComponent = new Integer(0);
     private double value = double.NaN;
     public IValue First { get; }
     public IValue Second { get; }
@@ -37,6 +39,24 @@ namespace Computable
         return depth1 > depth2 ? depth1 : depth2; 
       }
     }
+
+    public Integer IntegerComponent => (integerComponent == 0)? 
+      (integerComponent = First.IntegerComponent * Second.IntegerComponent) : 
+      integerComponent;
+
+    public Integer DivisorIntegerComponent => (integerComponent == 0) ? 
+      (divisorIntegerComponent = First.DivisorIntegerComponent * Second.DivisorIntegerComponent) :
+      divisorIntegerComponent;
+
+
+    public Product(IValue first, int second) : this(first, new Integer(second))
+    { }
+
+    public Product(int first, int second) : this(new Integer(first), new Integer(second))
+    { }
+
+    public Product(int first, IValue second) : this(new Integer(first), second)
+    { }
 
     public Product(IValue first, IValue second)
     {
@@ -79,8 +99,8 @@ namespace Computable
         return;
       }
 
-      First = first;
-      Second = second;
+      First = first.Simple();
+      Second = second.Simple();
     }
 
     public IValue Negate()
@@ -120,8 +140,7 @@ namespace Computable
       if (Second is Sum secondSum)
         return new Sum(new Product(secondSum.First, First).Simple(), new Product(secondSum.Second, First).Simple()).Simple();
 
-
-      return this; 
+      return this.ReduceDivisorAndMultiplyer(); 
     }
 
     private IValue TrySimplify(Product product, IValue other)
@@ -163,7 +182,37 @@ namespace Computable
       return new Product(First.Squared(), Second.Squared()).Simple(); 
     }
 
-    public override string ToString() => "[" + Type + "] " + Equation + "=" + Value.ToString();  
+    public override string ToString() => "[" + Type + "] " + Equation + "=" + Value.ToString();
 
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      Integer first = First.IntegerComponent;
+      Integer firstPart = first.CommonFactors(sharedComponent);
+
+      Integer remainder = (sharedComponent / firstPart).ToInteger();
+
+      if (firstPart == 1)
+        return new Product(First, Second.ReduceIntegerComponent(remainder)).Simple();
+
+      if (remainder == 1)
+        return new Product(First.ReduceIntegerComponent(firstPart), Second).Simple();
+
+      return new Product(First.ReduceIntegerComponent(firstPart), Second.ReduceIntegerComponent(remainder)).Simple(); 
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      Integer first = First.DivisorIntegerComponent;
+      Integer firstPart = first.CommonFactors(sharedComponent);
+      Integer remainder = (sharedComponent / firstPart).ToInteger();
+
+      if (firstPart == 1)
+        return new Product(First, Second.ReduceDivisorIntegerComponent(remainder)).Simple();
+
+      if (remainder == 1)
+        return new Product(First.ReduceDivisorIntegerComponent(firstPart), Second).Simple();
+
+      return new Product(First.ReduceDivisorIntegerComponent(firstPart), Second.ReduceDivisorIntegerComponent(remainder)).Simple();
+    }
   }
 }

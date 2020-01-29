@@ -9,7 +9,7 @@ namespace Geodesic
   public class Geodesic
   {
     public static Equation IcosahedronRibLength { get; } = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
-    public static Equation FrontViewLength { get; } = MathE.Sqrt(MathE.Squared(IcosahedronRibLength) * 3 / 4);
+    public static Equation FrontViewLength { get; } = MathE.Sqrt(new Fraction(new Product(MathE.Squared(IcosahedronRibLength), 3), 4));
     public static Equation FrontViewLength13 { get; } = FrontViewLength / 3;
     public static Equation FrontViewLength23 { get; } = FrontViewLength13 * 2;
 

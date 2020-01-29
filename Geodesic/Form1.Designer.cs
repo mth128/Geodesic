@@ -56,6 +56,7 @@
       this.label6 = new System.Windows.Forms.Label();
       this.Numerator2Box = new System.Windows.Forms.TextBox();
       this.ResultLabel = new System.Windows.Forms.Label();
+      this.button10 = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // button1
@@ -316,11 +317,22 @@
       this.ResultLabel.Text = "Result";
       this.ResultLabel.Click += new System.EventHandler(this.ResultLabel_Click);
       // 
+      // button10
+      // 
+      this.button10.Location = new System.Drawing.Point(93, 12);
+      this.button10.Name = "button10";
+      this.button10.Size = new System.Drawing.Size(75, 23);
+      this.button10.TabIndex = 29;
+      this.button10.Text = "button10";
+      this.button10.UseVisualStyleBackColor = true;
+      this.button10.Click += new System.EventHandler(this.Button10_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.button10);
       this.Controls.Add(this.ResultLabel);
       this.Controls.Add(this.Denominator2Box);
       this.Controls.Add(this.label5);
@@ -387,6 +399,7 @@
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.TextBox Numerator2Box;
     private System.Windows.Forms.Label ResultLabel;
+    private System.Windows.Forms.Button button10;
   }
 }
 

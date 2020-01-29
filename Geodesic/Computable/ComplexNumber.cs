@@ -23,7 +23,11 @@ namespace Computable
 
     public string Type => "Complex Number";
 
-    public int RadicalDepth => source.RadicalDepth + 1; 
+    public int RadicalDepth => source.RadicalDepth + 1;
+
+    public Integer IntegerComponent => new Integer(1);
+
+    public Integer DivisorIntegerComponent => new Integer(1); 
 
     public ComplexNumber(IValue valueToSqrt, bool negative = false)
     {
@@ -59,6 +63,16 @@ namespace Computable
     }
 
     public Radical ToRadical()
+    {
+      throw new NotImplementedException();
+    }
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      throw new NotImplementedException();
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
     {
       throw new NotImplementedException();
     }

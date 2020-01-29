@@ -17,6 +17,8 @@ namespace Computable
     string Type { get; }
 
     int RadicalDepth { get; }
+    Integer IntegerComponent { get; }
+    Integer DivisorIntegerComponent { get; } 
 
     IValue Negate();
     IValue Simple();
@@ -25,8 +27,8 @@ namespace Computable
     Radical ToRadical();
     Integer ToInteger();
     IValue Squared();
-
-
+    IValue ReduceIntegerComponent(Integer sharedComponent);
+    IValue ReduceDivisorIntegerComponent(Integer sharedComponent);
   }
 
   public static class IValueExtension
@@ -59,6 +61,18 @@ namespace Computable
       }
 
       return a.Value == b.Value; 
+    }
+    
+    public static IValue ReduceDivisorAndMultiplyer(this IValue value)
+    {
+      Integer multiplyer = value.IntegerComponent;
+      Integer devisor = value.DivisorIntegerComponent;
+      Integer sharedComponent = multiplyer.CommonFactors(devisor);
+
+      if (sharedComponent == 1)
+        return value; 
+
+      return value.ReduceDivisorIntegerComponent(sharedComponent).Simple().ReduceIntegerComponent(sharedComponent).Simple();
     }
   }
 }

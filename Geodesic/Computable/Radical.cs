@@ -8,6 +8,8 @@ namespace Computable
 {
   public class Radical: IValue
   {
+    private Integer integerComponent;
+    private Integer divisorIntegerComponent;
     private double value = double.NaN;
     public IValue Coefficient; 
     public IValue Radicant;
@@ -37,6 +39,12 @@ namespace Computable
         return depth1 > depth2 ? depth1 : depth2; 
       }
     }
+
+    public Integer IntegerComponent => (integerComponent == 0)? 
+      (integerComponent = Coefficient.IntegerComponent * Radicant.IntegerComponent.PerfectSquareWidth):integerComponent;
+
+    public Integer DivisorIntegerComponent => (divisorIntegerComponent==0)?
+      (divisorIntegerComponent = Coefficient.DivisorIntegerComponent * Radicant.DivisorIntegerComponent.PerfectSquareWidth):divisorIntegerComponent;
 
     public Radical(IValue value)
     {
@@ -165,8 +173,10 @@ namespace Computable
 
     public IValue Simple()
     {
-      if (Radicant.Simple() is Integer i)
+      Radicant = Radicant.Simple(); 
+      if (Radicant.Integerable)
       {
+        Integer i = Radicant.ToInteger(); 
         if (i == 1)
           return Coefficient.Simple(); 
       }
@@ -189,8 +199,9 @@ namespace Computable
         IValue radical2 = new Radical(product.Second).Simple();
         return new Product(radical1, radical2).Simple();
       }
+      Coefficient = Coefficient.Simple(); 
 
-      return this; 
+      return this.ReduceDivisorAndMultiplyer(); 
     }
 
     /// <summary>
@@ -295,9 +306,35 @@ namespace Computable
 
     public IValue Squared()
     {
-      return MathE.Abs(new Product(Coefficient.Squared(), Radicant)).Simple();
+      return MathE.Abs(new Product(Coefficient.Squared(), Radicant).Simple()).Simple();
     }
 
     public override string ToString() => "[" + Type + "] " + Equation + "=" + Value.ToString();
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      Integer coefficient = Coefficient.IntegerComponent;
+      Integer coefficientPart = coefficient.CommonFactors(sharedComponent);
+
+      Integer remainder = (sharedComponent / coefficientPart).ToInteger();
+
+      if (remainder==1)
+        return new Radical(Radicant, Coefficient.ReduceIntegerComponent(sharedComponent));
+
+      return new Radical(Radicant.ReduceIntegerComponent(remainder*remainder), Coefficient.ReduceIntegerComponent(coefficientPart));
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      Integer coefficient = Coefficient.DivisorIntegerComponent;
+      Integer coefficientPart = coefficient.CommonFactors(sharedComponent);
+
+      Integer remainder = (sharedComponent / coefficientPart).ToInteger();
+
+      if (remainder == 1)
+        return new Radical(Radicant, Coefficient.ReduceDivisorIntegerComponent(sharedComponent));
+
+      return new Radical(Radicant.ReduceDivisorIntegerComponent(remainder * remainder), Coefficient.ReduceDivisorIntegerComponent(coefficientPart));
+    }
   }
 }

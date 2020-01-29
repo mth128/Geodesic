@@ -128,7 +128,7 @@ namespace Geodesic
 
     public override string ToString()
     {
-      return X.ToString() + ", " + Y.ToString() + ", " + Z.ToString();
+      return X.Value.ToString() + ", " + Y.Value.ToString() + ", " + Z.Value.ToString() + " [" +X.ToString() + "], [" + Y.ToString() + "], [" + Z.ToString() + "]";
     }
   }
 

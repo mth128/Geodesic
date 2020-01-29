@@ -38,11 +38,19 @@ namespace Computable
       }
     }
 
+    public Integer IntegerComponent => Numerator.IntegerComponent;
+    public Integer DivisorIntegerComponent => Denominator.IntegerComponent; 
 
-    public Fraction(long numerator, long denominator)
+    public Fraction(long numerator, long denominator): this (new Integer(numerator), new Integer(denominator))
     {
-      Numerator = new Integer(numerator);
-      Denominator = new Integer(denominator);
+    }
+
+    public Fraction(IValue numerator, long denominator) : this(numerator, new Integer(denominator))
+    {
+    }
+
+    public Fraction(long numerator, IValue denominator) : this(new Integer(numerator), denominator)
+    {
     }
 
     public Fraction(IValue numerator, IValue denominator)
@@ -191,6 +199,13 @@ namespace Computable
         return new Fraction(numeratorFraction.Numerator, new Product(numeratorFraction.Denominator, Denominator).Simple()).Simple(); 
       }
 
+      Integer sharedComponent = Denominator.IntegerComponent.CommonFactors(Numerator.IntegerComponent);
+      if (sharedComponent!=1)
+      {
+        Numerator = Numerator.ReduceIntegerComponent(sharedComponent);
+        Denominator = Denominator.ReduceIntegerComponent(sharedComponent); 
+      }
+
       return this; 
     }
 
@@ -257,5 +272,15 @@ namespace Computable
     }
     
     public override string ToString() => "[" + Type + "] " + Equation + "=" + Value.ToString();
+
+    public IValue ReduceIntegerComponent(Integer sharedComponent)
+    {
+      return new Fraction(Numerator.ReduceIntegerComponent(sharedComponent), Denominator); 
+    }
+
+    public IValue ReduceDivisorIntegerComponent(Integer sharedComponent)
+    {
+      return new Fraction(Numerator, Denominator.ReduceIntegerComponent(sharedComponent));
+    }
   }
 }
