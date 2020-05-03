@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class QuadraticFormula
   {
     private IValue discriminant = null;

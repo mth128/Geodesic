@@ -17,6 +17,8 @@ namespace Computable
     string Type { get; }
 
     int RadicalDepth { get; }
+    int Complexity { get; }
+
     Integer IntegerComponent { get; }
     Integer DivisorIntegerComponent { get; } 
 
@@ -72,7 +74,9 @@ namespace Computable
       if (sharedComponent == 1)
         return value; 
 
-      return value.ReduceDivisorIntegerComponent(sharedComponent).Simple().ReduceIntegerComponent(sharedComponent).Simple();
+      return value.ReduceDivisorIntegerComponent(sharedComponent).ReduceIntegerComponent(sharedComponent).Simple();
     }
+
+
   }
 }

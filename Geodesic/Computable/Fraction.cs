@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
+
   public class Fraction :IValue
   {
     private double value = double.NaN; 
@@ -39,7 +41,9 @@ namespace Computable
     }
 
     public Integer IntegerComponent => Numerator.IntegerComponent;
-    public Integer DivisorIntegerComponent => Denominator.IntegerComponent; 
+    public Integer DivisorIntegerComponent => Denominator.IntegerComponent;
+
+    public int Complexity => Numerator.Complexity+Denominator.Complexity + 2;
 
     public Fraction(long numerator, long denominator): this (new Integer(numerator), new Integer(denominator))
     {

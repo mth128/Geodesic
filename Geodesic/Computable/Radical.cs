@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class Radical: IValue
   {
+    private bool allowDenesting = true; 
     private Integer integerComponent;
     private Integer divisorIntegerComponent;
     private double value = double.NaN;
@@ -46,10 +48,16 @@ namespace Computable
     public Integer DivisorIntegerComponent => (divisorIntegerComponent==0)?
       (divisorIntegerComponent = Coefficient.DivisorIntegerComponent * Radicant.DivisorIntegerComponent.PerfectSquareWidth):divisorIntegerComponent;
 
-    public Radical(IValue value)
+    public int Complexity => Coefficient.Complexity + Radicant.Complexity + 2;
+
+    internal Radical(IValue radicant, bool allowDenesting):this(radicant)
     {
-      value = value.Direct(); 
-      if (value is Integer integer)
+      allowDenesting = false; 
+    }
+    public Radical(IValue radicant)
+    {
+      radicant = radicant.Direct(); 
+      if (radicant is Integer integer)
       {
         if (integer < 0)
           throw new ArgumentOutOfRangeException("Cannot calculate radical for negative integer.");
@@ -57,7 +65,7 @@ namespace Computable
         Coefficient = new Integer(integer.GetDuplicateFactors());
         return; 
       }
-      if (value is Fraction fraction)
+      if (radicant is Fraction fraction)
       {
         if (fraction.Numerator is Integer numerator && fraction.Denominator is Integer denominator)
         {
@@ -83,7 +91,7 @@ namespace Computable
           return; 
         }
       }
-      if (value is Radical radical)
+      if (radicant is Radical radical)
       {
         Radical coefficientRadical = new Radical(radical.Coefficient);
         Coefficient = coefficientRadical.Coefficient;
@@ -92,7 +100,7 @@ namespace Computable
       }
 
       Coefficient = new Integer(1); 
-      Radicant = value;
+      Radicant = radicant;
     }
 
     public Radical(IValue radicant, IValue coefficient, bool simplify = false)
@@ -181,7 +189,6 @@ namespace Computable
           return Coefficient.Simple(); 
       }
 
-
       if (Radicant is Sum sum)
       {
         if (sum.First is Radical || sum.Second is Radical)
@@ -201,24 +208,44 @@ namespace Computable
       }
       Coefficient = Coefficient.Simple(); 
 
-      return this.ReduceDivisorAndMultiplyer(); 
+      IValue reduced = this.ReduceDivisorAndMultiplyer();
+      if (RadicalDepth >=2)
+      {
+        if (Radicant is Sum radicantSum)
+        {
+          IValue denested = TryDenest(radicantSum);
+          if (denested != null)
+            return new Product(denested, Coefficient).Simple();
+        }
+      }
+
+      return reduced; 
     }
 
     /// <summary>
     /// Used to simplyfy a radical within a sum, within another radical. 
     /// </summary>
-    /// <param name="sum"></param>
+    /// <param name="radicantSum"></param>
     /// <returns></returns>
-    private IValue TryDenest(Sum sum)
+    private IValue TryDenest(Sum radicantSum)
     {
-      //https://www.youtube.com/watch?v=VGl_p6aTIN4&t=35s
+      if (!allowDenesting)
+        return null; 
+      try
+      {
+        //https://www.youtube.com/watch?v=VGl_p6aTIN4&t=35s
 
-      //check if this might be denested.
-      if (sum.First.Integerable && sum.Second.Radicalable)
-        return TryDenest(sum.First.ToInteger(), sum.Second.ToRadical());
+        //check if this might be denested.
+        if (radicantSum.First.Integerable && radicantSum.Second.Radicalable)
+          return TryDenest(radicantSum.First.ToInteger(), radicantSum.Second.ToRadical());
 
-      if (sum.Second.Integerable && sum.First.Radicalable)
-        return TryDenest(sum.Second.ToInteger(), sum.First.ToRadical());
+        if (radicantSum.Second.Integerable && radicantSum.First.Radicalable)
+          return TryDenest(radicantSum.Second.ToInteger(), radicantSum.First.ToRadical());
+      }
+      catch
+      {
+        allowDenesting = false; 
+      }
 
       //failed. 
       return null; 
@@ -226,6 +253,8 @@ namespace Computable
 
     private IValue TryDenest(Integer i, Radical r)
     {
+      if (!allowDenesting)
+        return null; 
       //when radical is sqrt(i+r):
       //sqrt(a^2-2ab+b^2) = sqrt((a-b)^2) = abs(a-b)
       //To get to thate:
@@ -254,11 +283,16 @@ namespace Computable
 
       //result = abs(a-b);
       QuadraticFormula f = new QuadraticFormula(new Integer(1), i.Negate(), new Fraction(r.Squared(), new Integer(4)).Simple());
-      if (!f.DiscriminantSqrt.Integerable)
-        //simplification not possible. 
+
+      IValue discriminant = f.Discriminant;
+      if (!discriminant.Integerable)
         return null;
 
-     
+      IValue discriminantSqrt = new Radical(discriminant, false); 
+
+      if (!discriminantSqrt.Integerable)
+        //simplification not possible. 
+        return null;     
 
       IValue a = MathE.Sqrt(f.Result1);
       IValue b = MathE.Sqrt(f.Result2);

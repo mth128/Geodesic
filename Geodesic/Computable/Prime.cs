@@ -93,7 +93,7 @@ public static class Prime
     if (value <2)
       return new List<long>() { value };
     if (value >= 281474976710656)
-      throw new OverflowException();
+      throw new OverflowException("Cannot factorize "+value.ToString());
 
     List<long> factors = new List<long>();
     foreach (int prime in Prime.Primes)

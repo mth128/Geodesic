@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class ComplexNumber : IValue
   {
     private IValue source; 
@@ -27,7 +28,9 @@ namespace Computable
 
     public Integer IntegerComponent => new Integer(1);
 
-    public Integer DivisorIntegerComponent => new Integer(1); 
+    public Integer DivisorIntegerComponent => new Integer(1);
+
+    public int Complexity => source.Complexity + 2;
 
     public ComplexNumber(IValue valueToSqrt, bool negative = false)
     {

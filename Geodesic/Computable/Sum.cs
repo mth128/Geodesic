@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class Sum : IValue
   {
     private Integer integerComponent = new Integer(0);
@@ -48,6 +49,8 @@ namespace Computable
     public Integer DivisorIntegerComponent => (integerComponent == 0) ?
       (divisorIntegerComponent = First.DivisorIntegerComponent.CommonFactors(Second.DivisorIntegerComponent)) :
       divisorIntegerComponent;
+
+    public int Complexity => First.Complexity + Second.Complexity + 1;
 
     public Sum(IValue first, IValue second)
     {

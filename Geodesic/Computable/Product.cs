@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class Product: IValue
   {
     private Integer integerComponent = new Integer(0);
@@ -48,6 +49,7 @@ namespace Computable
       (divisorIntegerComponent = First.DivisorIntegerComponent * Second.DivisorIntegerComponent) :
       divisorIntegerComponent;
 
+    public int Complexity => First.Complexity + Second.Complexity + 1;
 
     public Product(IValue first, int second) : this(first, new Integer(second))
     { }

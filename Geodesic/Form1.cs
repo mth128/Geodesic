@@ -266,7 +266,15 @@ namespace Geodesic
     private void Button10_Click(object sender, EventArgs e)
     {
       Equation IcosahedronRibLength = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
+
       Equation FrontViewLength = MathE.Sqrt(new Fraction(new Product(MathE.Squared(IcosahedronRibLength), 3), 4));
+      Equation FrontViewLength13 = FrontViewLength / 3;
+      Equation FrontViewLength23 = FrontViewLength13 * 2;
+
+      Vector3D ArcLeft = new Vector3D(-FrontViewLength23, 0, MathE.Sqrt(new Equation(1) - FrontViewLength23 * FrontViewLength23));
+      Vector3D ArcRight = new Vector3D(FrontViewLength13, IcosahedronRibLength / 2, ArcLeft.Z);
+      Vector3D DefaultProjectionPoint  = new Vector3D(ArcLeft.X, 0, ArcRight.Z * -2);
+      Equation length = DefaultProjectionPoint.Magnitude; 
     }
   }
 }

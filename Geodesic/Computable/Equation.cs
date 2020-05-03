@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public class Equation : IValue
   {
     public bool Negative => Content.Negative;
@@ -30,12 +31,18 @@ namespace Computable
 
     public Integer DivisorIntegerComponent => Content.DivisorIntegerComponent;
 
+    public int Complexity => Content.Complexity;
+
     public Equation(IValue value)
     {
       if (value == null)
         Content = new Integer(0);
 
       Content = value.Direct();
+      if (Content.Complexity >5 && SimplifyForm.Instances < 1)
+      {
+        Content = Geodesic.Computable.CustomSimplify.CustomSimplifyStorage.CustomSimplify(this); 
+      }
     }
 
     public Equation(long value)
@@ -238,5 +245,13 @@ namespace Computable
     {
       return Content.ReduceDivisorIntegerComponent(sharedComponent);
     }
+
+    public bool EqualsClosely(Equation other)
+    {
+      return Math.Abs(Value - other.Value) < 1e-11;
+    }
+
+
+
   }
 }

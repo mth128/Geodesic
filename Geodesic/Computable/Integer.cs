@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Computable
 {
+  [Serializable]
   public struct Integer : IValue
   {
     private static readonly Dictionary<long, List<long>> factorStorage = new Dictionary<long, List<long>>();
@@ -40,7 +41,9 @@ namespace Computable
     public Integer PerfectSquareWidth => new Integer(GetDuplicateFactors());
     public Integer PerfectSquare { get { Integer p = PerfectSquareWidth; return p * p; } }
 
-    public Integer DivisorIntegerComponent => new Integer(1); 
+    public Integer DivisorIntegerComponent => new Integer(1);
+
+    public int Complexity => 0;
 
     public Integer (long value)
     {
