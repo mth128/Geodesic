@@ -15,6 +15,8 @@ namespace Geodesic.Computable.CustomSimplify
     public static string DefaultFileName = "custom.eqt";
     public string FileName { get; set; } = "custom.eqt";
     public Dictionary<string, Equation> library = new Dictionary<string, Equation>();
+    public Dictionary<double, Equation> libraryByValue = new Dictionary<double, Equation>(); 
+
     public static CustomSimplifyStorage main = FromFile(DefaultFileName); 
 
     public static CustomSimplifyStorage FromFile (string fileName)
@@ -31,7 +33,8 @@ namespace Geodesic.Computable.CustomSimplify
         {
           string key = formatter.Deserialize(stream) as string;
           Equation equation = formatter.Deserialize(stream) as Equation;
-          storage.library[key] = equation; 
+          storage.library[key] = equation;
+          storage.libraryByValue[equation.Value] = equation; 
         }
       }
       return storage; 
@@ -41,6 +44,21 @@ namespace Geodesic.Computable.CustomSimplify
     {
       if (main.library.TryGetValue(equation.Equation, out Equation value))
         return value;
+
+      if (main.libraryByValue.TryGetValue(equation.Value, out Equation value2))
+        return value2;
+
+      double v = equation.Value;
+      if (main.libraryByValue.Count < 4000)
+        foreach (KeyValuePair<double, Equation> pair in main.libraryByValue)
+          if (Math.Abs(pair.Key - v) < 1.0e-11)
+          {
+            main.library[equation.Equation] = pair.Value;
+            main.Save(main.FileName);
+            main.libraryByValue[v] = pair.Value; 
+            return pair.Value; 
+          }
+
       if (SimplifyForm.Instances > 0)
         return equation; 
       using (SimplifyForm simplifyForm = new SimplifyForm(equation))
@@ -49,6 +67,7 @@ namespace Geodesic.Computable.CustomSimplify
         {
           main.library[equation.Equation] = simplifyForm.CustomEquation;
           main.Save(main.FileName);
+          main.libraryByValue[equation.Value] = simplifyForm.CustomEquation; 
           return simplifyForm.CustomEquation; 
         }
       }

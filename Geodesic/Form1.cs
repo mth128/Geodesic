@@ -276,5 +276,48 @@ namespace Geodesic
       Vector3D DefaultProjectionPoint  = new Vector3D(ArcLeft.X, 0, ArcRight.Z * -2);
       Equation length = DefaultProjectionPoint.Magnitude; 
     }
+
+    private void OpenEquationFormButton_Click(object sender, EventArgs e)
+    {
+      using (SimplifyForm form = new SimplifyForm())
+        form.ShowDialog(); 
+    }
+
+    private void AnalyseButton_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+        Geodesic geodesic = new Geodesic(Convert.ToInt32(GenerationBox.Text));
+        List<string> lines = new List<string>();
+        string header = "Count;Index;IndexBin;Distance;DistanceEquation;X;Y;";
+        lines.Add(header);
+        int i = 0; 
+        foreach(StrikeThroughPointPair pair in geodesic.StrikeThroughPoints)
+        {
+          string line = i.ToString() + ";";
+          i++;
+          line += pair.LeftIndex.ToString() + ";";
+          line += Convert.ToString(pair.LeftIndex, 2)+";";
+          line += (-pair.DistanceToScaledCenterLine.Value).ToString()+";";
+          line += (-pair.DistanceToScaledCenterLine).Content.Equation + ";";
+          line += pair.Left.X.Value.ToString() + ";";
+          line += pair.Left.Y.Value.ToString() + ";";
+          lines.Add(line);
+          line = "";
+
+          line+=i.ToString() + ";";
+          i++;
+          line += pair.RightIndex.ToString() + ";";
+          line += Convert.ToString(pair.RightIndex, 2) + ";";
+          line += pair.DistanceToScaledCenterLine.Value.ToString() + ";";
+          line += pair.DistanceToScaledCenterLine.Content.Equation + ";";
+          line += pair.Right.X.Value.ToString() + ";";
+          line += pair.Right.Y.Value.ToString() + ";";
+          lines.Add(line);
+        }
+      }
+    }
   }
 }

@@ -25,7 +25,15 @@ namespace Computable
 
     public bool IsSimpleFraction => Numerator is Integer && Denominator is Integer;
 
-    public string Equation => "("+Numerator.Equation + "/" + Denominator.Equation+")";
+    public string Equation
+    {
+      get
+      {
+        string numerator = Numerator is Integer ? Numerator.Equation : "(" + Numerator.Equation + ")";
+        string denominator = Denominator is Integer ? Denominator.Equation : "(" + Denominator.Equation + ")";
+        return numerator + "/" + denominator; 
+      }
+    }
 
     public string Type => "Fraction";
 

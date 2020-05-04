@@ -51,6 +51,8 @@
       this.Cancel_Button = new System.Windows.Forms.Button();
       this.OK_Button = new System.Windows.Forms.Button();
       this.AcceptButton = new System.Windows.Forms.Button();
+      this.DebugButton = new System.Windows.Forms.Button();
+      this.ShowCurruntButton = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
@@ -303,11 +305,35 @@
       this.AcceptButton.UseVisualStyleBackColor = true;
       this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
       // 
+      // DebugButton
+      // 
+      this.DebugButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.DebugButton.Location = new System.Drawing.Point(15, 508);
+      this.DebugButton.Name = "DebugButton";
+      this.DebugButton.Size = new System.Drawing.Size(75, 23);
+      this.DebugButton.TabIndex = 22;
+      this.DebugButton.Text = "Debug";
+      this.DebugButton.UseVisualStyleBackColor = true;
+      this.DebugButton.Click += new System.EventHandler(this.DebugButton_Click);
+      // 
+      // ShowCurruntButton
+      // 
+      this.ShowCurruntButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.ShowCurruntButton.Location = new System.Drawing.Point(96, 508);
+      this.ShowCurruntButton.Name = "ShowCurruntButton";
+      this.ShowCurruntButton.Size = new System.Drawing.Size(97, 23);
+      this.ShowCurruntButton.TabIndex = 23;
+      this.ShowCurruntButton.Text = "Show Current";
+      this.ShowCurruntButton.UseVisualStyleBackColor = true;
+      this.ShowCurruntButton.Click += new System.EventHandler(this.ShowCurruntButton_Click);
+      // 
       // SimplifyForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(806, 533);
+      this.Controls.Add(this.ShowCurruntButton);
+      this.Controls.Add(this.DebugButton);
       this.Controls.Add(this.AcceptButton);
       this.Controls.Add(this.OK_Button);
       this.Controls.Add(this.Cancel_Button);
@@ -358,6 +384,8 @@
         private System.Windows.Forms.Button Cancel_Button;
         private System.Windows.Forms.Button OK_Button;
         private System.Windows.Forms.Button AcceptButton;
-    }
+        private System.Windows.Forms.Button DebugButton;
+    private System.Windows.Forms.Button ShowCurruntButton;
+  }
 }
 

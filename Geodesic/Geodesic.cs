@@ -68,7 +68,7 @@ namespace Geodesic
       List<StrikeThroughPointPair> strikePoints = new List<StrikeThroughPointPair>();
       if (generation > -1)
       {
-        StrikeThroughPointPair initialPair = new StrikeThroughPointPair(this, ArcTopFront);
+        StrikeThroughPointPair initialPair = new StrikeThroughPointPair(this, ArcTopFront,1);
 
         List<StrikeThroughPointPair> current = new List<StrikeThroughPointPair>();
         current.Add(initialPair);
@@ -78,9 +78,8 @@ namespace Geodesic
           List<StrikeThroughPointPair> next = new List<StrikeThroughPointPair>();
           foreach (StrikeThroughPointPair pair in current)
           {
-            StrikeThroughPointPair first = new StrikeThroughPointPair(this, pair.Right);
-            StrikeThroughPointPair second = new StrikeThroughPointPair(this, pair.Left);
-
+            StrikeThroughPointPair first = new StrikeThroughPointPair(this, pair.Right, pair.RightIndex);
+            StrikeThroughPointPair second = new StrikeThroughPointPair(this, pair.Left, pair.LeftIndex);
             next.Add(first);
             next.Add(second);
           }

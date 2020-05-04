@@ -57,6 +57,8 @@
       this.Numerator2Box = new System.Windows.Forms.TextBox();
       this.ResultLabel = new System.Windows.Forms.Label();
       this.button10 = new System.Windows.Forms.Button();
+      this.OpenEquationFormButton = new System.Windows.Forms.Button();
+      this.AnalyseButton = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // button1
@@ -221,7 +223,7 @@
       // 
       // button8
       // 
-      this.button8.Location = new System.Drawing.Point(517, 46);
+      this.button8.Location = new System.Drawing.Point(630, 46);
       this.button8.Name = "button8";
       this.button8.Size = new System.Drawing.Size(141, 23);
       this.button8.TabIndex = 17;
@@ -327,11 +329,33 @@
       this.button10.UseVisualStyleBackColor = true;
       this.button10.Click += new System.EventHandler(this.Button10_Click);
       // 
+      // OpenEquationFormButton
+      // 
+      this.OpenEquationFormButton.Location = new System.Drawing.Point(664, 12);
+      this.OpenEquationFormButton.Name = "OpenEquationFormButton";
+      this.OpenEquationFormButton.Size = new System.Drawing.Size(124, 23);
+      this.OpenEquationFormButton.TabIndex = 30;
+      this.OpenEquationFormButton.Text = "Open Equation Form";
+      this.OpenEquationFormButton.UseVisualStyleBackColor = true;
+      this.OpenEquationFormButton.Click += new System.EventHandler(this.OpenEquationFormButton_Click);
+      // 
+      // AnalyseButton
+      // 
+      this.AnalyseButton.Location = new System.Drawing.Point(488, 75);
+      this.AnalyseButton.Name = "AnalyseButton";
+      this.AnalyseButton.Size = new System.Drawing.Size(283, 23);
+      this.AnalyseButton.TabIndex = 31;
+      this.AnalyseButton.Text = "New Geodesic Analyse Distance To Scaled Centerline";
+      this.AnalyseButton.UseVisualStyleBackColor = true;
+      this.AnalyseButton.Click += new System.EventHandler(this.AnalyseButton_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.AnalyseButton);
+      this.Controls.Add(this.OpenEquationFormButton);
       this.Controls.Add(this.button10);
       this.Controls.Add(this.ResultLabel);
       this.Controls.Add(this.Denominator2Box);
@@ -400,6 +424,8 @@
     private System.Windows.Forms.TextBox Numerator2Box;
     private System.Windows.Forms.Label ResultLabel;
     private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button OpenEquationFormButton;
+    private System.Windows.Forms.Button AnalyseButton;
   }
 }
 

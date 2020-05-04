@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geodesic.Computable.CustomSimplify;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,12 +41,12 @@ namespace Computable
     {
       try
       {
-        Equation equation = new Equation(new Integer(Convert.ToInt64(InputBox.Text)));
+        Equation equation = new Equation(InputBox.Text);
         Add(equation); 
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message,"Error"); 
+        MessageBox.Show(ex.Message + "[Equation: "+InputBox.Text +"]","Error"); 
       }
     }
 
@@ -228,6 +229,29 @@ namespace Computable
     private void SimplifyForm_FormClosed(object sender, FormClosedEventArgs e)
     {
       Instances--; 
+    }
+
+    private void DebugButton_Click(object sender, EventArgs e)
+    {
+      int i = 1;
+
+    }
+
+    private void ShowCurruntButton_Click(object sender, EventArgs e)
+    {
+      using (StorageForm storageForm = new StorageForm())
+      {
+        string text = "";
+        List<KeyValuePair<string, Equation>> pairs = new List<KeyValuePair<string, Equation>>();
+        foreach (KeyValuePair<string, Equation> pair in CustomSimplifyStorage.main.library)
+          pairs.Add(pair); 
+        pairs = pairs.OrderBy(p => p.Value.Value).ToList(); 
+
+        foreach (KeyValuePair<string, Equation> pair in pairs)
+          text += pair.Value.ToString() + " <--- " + pair.Key.ToString() + "\r\n";
+        storageForm.TextBox.Text = text;
+        storageForm.ShowDialog(); 
+      }
     }
   }
 }

@@ -54,6 +54,12 @@
     <Compile Include="Computable\CustomSimplify\SimplifyForm.designer.cs">
       <DependentUpon>SimplifyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Computable\CustomSimplify\StorageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computable\CustomSimplify\StorageForm.Designer.cs">
+      <DependentUpon>StorageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Computable\Equation.cs" />
     <Compile Include="Computable\Fraction.cs" />
     <Compile Include="Computable\Integer.cs" />
@@ -84,6 +90,9 @@
     <Compile Include="Vector3D.cs" />
     <EmbeddedResource Include="Computable\CustomSimplify\SimplifyForm.resx">
       <DependentUpon>SimplifyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Computable\CustomSimplify\StorageForm.resx">
+      <DependentUpon>StorageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
