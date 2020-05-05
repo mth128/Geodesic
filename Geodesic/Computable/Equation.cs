@@ -27,7 +27,7 @@ namespace Computable
 
     public Integer IntegerComponent => Content.IntegerComponent;
 
-    public IValue Content { get; }
+    public IValue Content { get; private set; }
 
     public Integer DivisorIntegerComponent => Content.DivisorIntegerComponent;
 
@@ -39,9 +39,15 @@ namespace Computable
         Content = new Integer(0);
 
       Content = value.Direct();
-      if (Content.Complexity >5 && SimplifyForm.Instances < 1)
+      if (Content.Complexity > 5) 
+        CustomSimplify(); 
+    }
+
+    public void CustomSimplify()
+    {
+      if (Content.Complexity > 5 && SimplifyForm.Instances < 1)
       {
-        Content = Geodesic.Computable.CustomSimplify.CustomSimplifyStorage.CustomSimplify(this); 
+        Content = Geodesic.Computable.CustomSimplify.CustomSimplifyStorage.CustomSimplify(this);
       }
     }
 

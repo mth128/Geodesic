@@ -60,6 +60,17 @@
       this.OpenEquationFormButton = new System.Windows.Forms.Button();
       this.AnalyseButton = new System.Windows.Forms.Button();
       this.TestMinimalButton = new System.Windows.Forms.Button();
+      this.TestMinimal2Button = new System.Windows.Forms.Button();
+      this.button11 = new System.Windows.Forms.Button();
+      this.GetByIndexButton = new System.Windows.Forms.Button();
+      this.label7 = new System.Windows.Forms.Label();
+      this.IndexBox = new System.Windows.Forms.TextBox();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.YBox = new System.Windows.Forms.TextBox();
+      this.label9 = new System.Windows.Forms.Label();
+      this.XBox = new System.Windows.Forms.TextBox();
+      this.label8 = new System.Windows.Forms.Label();
+      this.groupBox1.SuspendLayout();
       this.SuspendLayout();
       // 
       // button1
@@ -356,15 +367,112 @@
       this.TestMinimalButton.Name = "TestMinimalButton";
       this.TestMinimalButton.Size = new System.Drawing.Size(148, 23);
       this.TestMinimalButton.TabIndex = 32;
-      this.TestMinimalButton.Text = "Test Minimal";
+      this.TestMinimalButton.Text = "Test Minimal Old";
       this.TestMinimalButton.UseVisualStyleBackColor = true;
       this.TestMinimalButton.Click += new System.EventHandler(this.TestMinimalButton_Click);
+      // 
+      // TestMinimal2Button
+      // 
+      this.TestMinimal2Button.Location = new System.Drawing.Point(226, 164);
+      this.TestMinimal2Button.Name = "TestMinimal2Button";
+      this.TestMinimal2Button.Size = new System.Drawing.Size(148, 23);
+      this.TestMinimal2Button.TabIndex = 33;
+      this.TestMinimal2Button.Text = "Test Minimal";
+      this.TestMinimal2Button.UseVisualStyleBackColor = true;
+      this.TestMinimal2Button.Click += new System.EventHandler(this.TestMinimal2Button_Click);
+      // 
+      // button11
+      // 
+      this.button11.Location = new System.Drawing.Point(488, 104);
+      this.button11.Name = "button11";
+      this.button11.Size = new System.Drawing.Size(283, 23);
+      this.button11.TabIndex = 34;
+      this.button11.Text = "Simple Geodesic Analyse Distance To Scaled Centerline";
+      this.button11.UseVisualStyleBackColor = true;
+      this.button11.Click += new System.EventHandler(this.button11_Click);
+      // 
+      // GetByIndexButton
+      // 
+      this.GetByIndexButton.Location = new System.Drawing.Point(94, 45);
+      this.GetByIndexButton.Name = "GetByIndexButton";
+      this.GetByIndexButton.Size = new System.Drawing.Size(100, 23);
+      this.GetByIndexButton.TabIndex = 35;
+      this.GetByIndexButton.Text = "Get By Index";
+      this.GetByIndexButton.UseVisualStyleBackColor = true;
+      this.GetByIndexButton.Click += new System.EventHandler(this.GetByIndexButton_Click);
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.Location = new System.Drawing.Point(8, 22);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(36, 13);
+      this.label7.TabIndex = 36;
+      this.label7.Text = "Index:";
+      // 
+      // IndexBox
+      // 
+      this.IndexBox.Location = new System.Drawing.Point(94, 19);
+      this.IndexBox.Name = "IndexBox";
+      this.IndexBox.Size = new System.Drawing.Size(100, 20);
+      this.IndexBox.TabIndex = 37;
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.YBox);
+      this.groupBox1.Controls.Add(this.label9);
+      this.groupBox1.Controls.Add(this.XBox);
+      this.groupBox1.Controls.Add(this.label8);
+      this.groupBox1.Controls.Add(this.IndexBox);
+      this.groupBox1.Controls.Add(this.GetByIndexButton);
+      this.groupBox1.Controls.Add(this.label7);
+      this.groupBox1.Location = new System.Drawing.Point(472, 213);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(200, 126);
+      this.groupBox1.TabIndex = 38;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "groupBox1";
+      // 
+      // YBox
+      // 
+      this.YBox.Location = new System.Drawing.Point(94, 99);
+      this.YBox.Name = "YBox";
+      this.YBox.Size = new System.Drawing.Size(100, 20);
+      this.YBox.TabIndex = 41;
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(8, 102);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(17, 13);
+      this.label9.TabIndex = 40;
+      this.label9.Text = "Y:";
+      // 
+      // XBox
+      // 
+      this.XBox.Location = new System.Drawing.Point(94, 73);
+      this.XBox.Name = "XBox";
+      this.XBox.Size = new System.Drawing.Size(100, 20);
+      this.XBox.TabIndex = 39;
+      // 
+      // label8
+      // 
+      this.label8.AutoSize = true;
+      this.label8.Location = new System.Drawing.Point(8, 76);
+      this.label8.Name = "label8";
+      this.label8.Size = new System.Drawing.Size(17, 13);
+      this.label8.TabIndex = 38;
+      this.label8.Text = "X:";
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.groupBox1);
+      this.Controls.Add(this.button11);
+      this.Controls.Add(this.TestMinimal2Button);
       this.Controls.Add(this.TestMinimalButton);
       this.Controls.Add(this.AnalyseButton);
       this.Controls.Add(this.OpenEquationFormButton);
@@ -400,6 +508,8 @@
       this.Name = "Form1";
       this.Text = "Form1";
       this.Load += new System.EventHandler(this.Form1_Load);
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox1.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -439,6 +549,16 @@
         private System.Windows.Forms.Button OpenEquationFormButton;
     private System.Windows.Forms.Button AnalyseButton;
         private System.Windows.Forms.Button TestMinimalButton;
-    }
+        private System.Windows.Forms.Button TestMinimal2Button;
+    private System.Windows.Forms.Button button11;
+    private System.Windows.Forms.Button GetByIndexButton;
+    private System.Windows.Forms.Label label7;
+    private System.Windows.Forms.TextBox IndexBox;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.TextBox YBox;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.TextBox XBox;
+    private System.Windows.Forms.Label label8;
+  }
 }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -323,7 +324,94 @@ namespace Geodesic
     private void TestMinimalButton_Click(object sender, EventArgs e)
     {
       MinimalEquation.Initialize();
-      Vector2D[] first = MinimalEquation.Next(MinimalEquation.FirstSeed);
+      Vector2D[] first = MinimalEquation.Next1(MinimalEquation.FirstSeed);
+    }
+
+    private void TestMinimal2Button_Click(object sender, EventArgs e)
+    {
+      MinimalEquation.Initialize();
+      Vector3D[] first = MinimalEquation.NextEquational(MinimalEquation.FirstSeedE);
+    }
+
+    private void button11_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        List<BasicSet> current = new List<BasicSet>();
+        List<BasicSet> next = new List<BasicSet>();
+
+        MinimalEquation.Initialize();
+        Vector2D seed = MinimalEquation.FirstSeed;
+
+        BasicSet basicSet = new BasicSet();
+        basicSet.primary = seed;
+        basicSet.distanceToScaledCenterLine = 0;
+        basicSet.primaryIndex = 1;
+
+        current.Add(basicSet);
+
+        List<string> lines = new List<string>();
+        string header = "Count;Index;IndexBin;Distance;X;Y;";
+        lines.Add(header);
+        int i = 1;
+        int generations = Convert.ToInt32(GenerationBox.Text);
+
+        for (int g = -1; g < generations; g++)
+        {
+          foreach (BasicSet set in current)
+          {
+            string line = i.ToString() + ";";
+            i++;
+            line += set.primaryIndex.ToString() + ";";
+            line += Convert.ToString(set.primaryIndex, 2) + ";";
+            line += (-set.distanceToScaledCenterLine).ToString() + ";";
+            line += set.primary.x.ToString() + ";";
+            line += set.primary.y.ToString() + ";";
+            lines.Add(line);
+            line = "";
+
+            if (set.secondary != null)
+            {
+              line += i.ToString() + ";";
+              i++;
+              line += set.secondaryIndex.ToString() + ";";
+              line += Convert.ToString(set.secondaryIndex, 2) + ";";
+              line += set.distanceToScaledCenterLine.ToString() + ";";
+              line += set.secondary.x.ToString() + ";";
+              line += set.secondary.y.ToString() + ";";
+              lines.Add(line);
+            }
+            
+            if (g<generations-1)
+            {
+              next.Add(MinimalEquation.NextBasic(set.primary, set.primaryIndex));
+              if (set.secondary != null)
+                next.Add(MinimalEquation.NextBasic(set.secondary, set.secondaryIndex));
+            }
+          }
+          current = next;
+          next = new List<BasicSet>(); 
+        }
+        File.WriteAllLines(sfd.FileName, lines); 
+      }
+    }
+
+    private void GetByIndexButton_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        int index = Convert.ToInt32(IndexBox.Text);
+        Vector2D result = MinimalEquation.ByIndex(index);
+        XBox.Text = result.x.ToString();
+        YBox.Text = result.y.ToString();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message, "Error"); 
+      }
     }
   }
 }
