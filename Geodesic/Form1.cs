@@ -319,5 +319,11 @@ namespace Geodesic
         }
       }
     }
+
+    private void TestMinimalButton_Click(object sender, EventArgs e)
+    {
+      MinimalEquation.Initialize();
+      Vector2D[] first = MinimalEquation.Next(MinimalEquation.FirstSeed);
+    }
   }
 }

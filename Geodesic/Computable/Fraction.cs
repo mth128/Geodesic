@@ -75,16 +75,25 @@ namespace Computable
         denominator = new Integer(1);
       Numerator = numerator;
       Denominator = denominator;
-      Simplify(); 
+      Simplify();
+
     }
 
     private void Simplify()
     {
+      if (Numerator.Value == 0)
+      {
+        Numerator = new Integer(0);
+        Denominator = new Integer(1); 
+      }
+
       if (Denominator.Negative)
       {
         Denominator = Denominator.Negate();
         Numerator = Numerator.Negate(); 
       }
+
+
 
       if (Numerator.Integerable && Denominator.Integerable)
       {
@@ -179,8 +188,14 @@ namespace Computable
         {
           Sum newNumerator = new Sum(new Product(Numerator, sum.First).Simple(), new Product(Numerator, sum.Second).Simple());
           Sum newDenominator = new Sum(sum.First.Squared().Simple(), sum.Second.Squared().Simple());
-          Numerator = newNumerator.Simple();
-          Denominator = newDenominator.Simple();
+          //extra check, since this seems to go wrong sometimes. 
+          double value1 = Numerator.Value / Denominator.Value;
+          double value2 = newNumerator.Value / newDenominator.Value;
+          if (Math.Abs(value1 - value2) < 1e-11)
+          {
+            Numerator = newNumerator.Simple();
+            Denominator = newDenominator.Simple();
+          }
         }
       }
     }

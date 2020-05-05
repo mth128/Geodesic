@@ -59,6 +59,7 @@
       this.button10 = new System.Windows.Forms.Button();
       this.OpenEquationFormButton = new System.Windows.Forms.Button();
       this.AnalyseButton = new System.Windows.Forms.Button();
+      this.TestMinimalButton = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // button1
@@ -349,11 +350,22 @@
       this.AnalyseButton.UseVisualStyleBackColor = true;
       this.AnalyseButton.Click += new System.EventHandler(this.AnalyseButton_Click);
       // 
+      // TestMinimalButton
+      // 
+      this.TestMinimalButton.Location = new System.Drawing.Point(226, 135);
+      this.TestMinimalButton.Name = "TestMinimalButton";
+      this.TestMinimalButton.Size = new System.Drawing.Size(148, 23);
+      this.TestMinimalButton.TabIndex = 32;
+      this.TestMinimalButton.Text = "Test Minimal";
+      this.TestMinimalButton.UseVisualStyleBackColor = true;
+      this.TestMinimalButton.Click += new System.EventHandler(this.TestMinimalButton_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.TestMinimalButton);
       this.Controls.Add(this.AnalyseButton);
       this.Controls.Add(this.OpenEquationFormButton);
       this.Controls.Add(this.button10);
@@ -426,6 +438,7 @@
     private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button OpenEquationFormButton;
     private System.Windows.Forms.Button AnalyseButton;
-  }
+        private System.Windows.Forms.Button TestMinimalButton;
+    }
 }
 

@@ -43,7 +43,7 @@ namespace Computable
 
     public Integer DivisorIntegerComponent => new Integer(1);
 
-    public int Complexity => 0;
+    public int Complexity => Value>1000000?6:Value>10000?4:0;
 
     public Integer (long value)
     {

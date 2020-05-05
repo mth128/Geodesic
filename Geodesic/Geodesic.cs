@@ -90,7 +90,7 @@ namespace Geodesic
       strikePoints.Add(center);
       MaxRibIndex = strikePoints.Count * 2; 
       strikePoints.Add(bound);
-      StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine).ToList();
+      StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine.Value).ToList();
 
       Equation count = new Equation(StrikeThroughPoints.Count); 
 
@@ -137,6 +137,8 @@ namespace Geodesic
       Equation dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary / EllipseSecondaryRadius);
     }
+
+
 
     public static Vector3D ScaleEllipseIn(Vector3D vector)
     {
