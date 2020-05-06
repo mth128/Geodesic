@@ -53,11 +53,11 @@ namespace Geodesic
       }
 
     }*/
-
+    /*
     private void Button2_Click(object sender, EventArgs e)
     {
       VarianceLabel.Text = (VarianceOf(new Geodesic(Convert.ToInt32(GenerationBox.Text)-2))*100-100).ToString()+"%"; 
-    }
+    }*/
 
     private void Button3_Click(object sender, EventArgs e)
     {
@@ -129,6 +129,7 @@ namespace Geodesic
 
     }
 
+    /*
     private void DownShiftBox_Click(object sender, EventArgs e)
     {
       ShiftBox.Text = (Convert.ToDouble(ShiftBox.Text) / 2).ToString(); 
@@ -147,7 +148,7 @@ namespace Geodesic
     private void DownButton_Click(object sender, EventArgs e)
     {
       VarianceBox.Text = (Convert.ToDouble(VarianceBox.Text) - Convert.ToDouble(ShiftBox.Text)).ToString();
-    }
+    }*/
 
     /*
     private void VarianceBox_TextChanged(object sender, EventArgs e)
@@ -165,7 +166,8 @@ namespace Geodesic
       }
     }*/
 
-    private void Button6_Click(object sender, EventArgs e)
+     
+    private void VarianceButton_Click(object sender, EventArgs e)
     {
       OldGeodesic oldGeodesic = new OldGeodesic(Convert.ToInt32(GenerationBox.Text));
       double min = 10;
@@ -179,7 +181,7 @@ namespace Geodesic
           max = area; 
       }
       double variance = max / min;
-      VarianceLabel.Text = (variance*100-100).ToString()+"%"; 
+      MessageBox.Show("Variance: " + (variance*100-100).ToString()+"%"); 
     }
 
     private void Button7_Click(object sender, EventArgs e)
@@ -233,7 +235,7 @@ namespace Geodesic
         System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
     }
-
+    /*
     private void Button9_Click(object sender, EventArgs e)
     {
       try
@@ -257,7 +259,7 @@ namespace Geodesic
       {
         ResultLabel.Text = ex.Message; 
       }
-    }
+    }*/
 
     private void ResultLabel_Click(object sender, EventArgs e)
     {
@@ -327,26 +329,27 @@ namespace Geodesic
       Vector2D[] first = MinimalEquation.Next1(MinimalEquation.FirstSeed);
     }
 
+    /*
     private void TestMinimal2Button_Click(object sender, EventArgs e)
     {
       MinimalEquation.Initialize();
       Vector3D[] first = MinimalEquation.NextEquational(MinimalEquation.FirstSeedE);
-    }
+    }*/
 
-    private void button11_Click(object sender, EventArgs e)
+    private void GeodesicAnalysisButton_Click(object sender, EventArgs e)
     {
       using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
       {
         if (sfd.ShowDialog() != DialogResult.OK)
           return;
 
-        List<BasicSet> current = new List<BasicSet>();
-        List<BasicSet> next = new List<BasicSet>();
+        List<ScaledCenterlinePair> current = new List<ScaledCenterlinePair>();
+        List<ScaledCenterlinePair> next = new List<ScaledCenterlinePair>();
 
         MinimalEquation.Initialize();
         Vector2D seed = MinimalEquation.FirstSeed;
 
-        BasicSet basicSet = new BasicSet();
+        ScaledCenterlinePair basicSet = new ScaledCenterlinePair();
         basicSet.primary = seed;
         basicSet.distanceToScaledCenterLine = 0;
         basicSet.primaryIndex = 1;
@@ -356,12 +359,12 @@ namespace Geodesic
         List<string> lines = new List<string>();
         string header = "Count;Index;IndexBin;Distance;X;Y;";
         lines.Add(header);
-        int i = 1;
-        int generations = Convert.ToInt32(GenerationBox.Text);
+        long i = 1;
+        long generations = Convert.ToInt32(GenerationBox.Text);
 
         for (int g = -1; g < generations; g++)
         {
-          foreach (BasicSet set in current)
+          foreach (ScaledCenterlinePair set in current)
           {
             string line = i.ToString() + ";";
             i++;
@@ -393,7 +396,7 @@ namespace Geodesic
             }
           }
           current = next;
-          next = new List<BasicSet>(); 
+          next = new List<ScaledCenterlinePair>(); 
         }
         File.WriteAllLines(sfd.FileName, lines); 
       }
@@ -403,7 +406,7 @@ namespace Geodesic
     {
       try
       {
-        int index = Convert.ToInt32(IndexBox.Text);
+        long index = Convert.ToInt64(IndexBox.Text);
         Vector2D result = MinimalEquation.ByIndex(index);
         XBox.Text = result.x.ToString();
         YBox.Text = result.y.ToString();
@@ -411,6 +414,45 @@ namespace Geodesic
       catch (Exception ex)
       {
         MessageBox.Show(ex.Message, "Error"); 
+      }
+    }
+
+    private void GetByPositionButton_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        double position = Convert.ToDouble(PositionBox.Text);
+
+        BoundPair pair = MinimalEquation.GetByX(position);
+        UpperPositionBox.Text = pair.upperIndex.ToString();
+        UpperXBox.Text = pair.upper.x.ToString();
+        UpperRangeBox.Text = pair.upperRange.ToString();
+        LowerPositionBox.Text = pair.lowerIndex.ToString();
+        LowerXBox.Text = pair.lower.x.ToString();
+        LowerRangeBox.Text = pair.lowerRange.ToString();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message, "Error");
+      }
+    }
+
+    private void RangePositionButton_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        double position = Convert.ToDouble(RangeBox.Text);
+        BoundPair pair = MinimalEquation.GetByRange(position);
+        UpperPositionBox.Text = pair.upperIndex.ToString();
+        UpperXBox.Text = pair.upper.x.ToString();
+        UpperRangeBox.Text = pair.upperRange.ToString(); 
+        LowerPositionBox.Text = pair.lowerIndex.ToString();
+        LowerXBox.Text = pair.lower.x.ToString();
+        LowerRangeBox.Text = pair.lowerRange.ToString(); 
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message, "Error");
       }
     }
   }

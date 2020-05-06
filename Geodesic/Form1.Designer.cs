@@ -28,40 +28,9 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.button1 = new System.Windows.Forms.Button();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button3 = new System.Windows.Forms.Button();
-      this.button4 = new System.Windows.Forms.Button();
-      this.button5 = new System.Windows.Forms.Button();
-      this.VarianceLabel = new System.Windows.Forms.Label();
-      this.VarianceBox = new System.Windows.Forms.TextBox();
-      this.UpButton = new System.Windows.Forms.Button();
-      this.DownButton = new System.Windows.Forms.Button();
-      this.ShiftBox = new System.Windows.Forms.TextBox();
-      this.DownShiftBox = new System.Windows.Forms.Button();
-      this.UpShiftBox = new System.Windows.Forms.Button();
-      this.button6 = new System.Windows.Forms.Button();
-      this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.GenerationBox = new System.Windows.Forms.TextBox();
-      this.button7 = new System.Windows.Forms.Button();
-      this.button8 = new System.Windows.Forms.Button();
-      this.button9 = new System.Windows.Forms.Button();
-      this.Numerator1Box = new System.Windows.Forms.TextBox();
-      this.label3 = new System.Windows.Forms.Label();
-      this.label4 = new System.Windows.Forms.Label();
-      this.Denominator1Box = new System.Windows.Forms.TextBox();
-      this.Denominator2Box = new System.Windows.Forms.TextBox();
-      this.label5 = new System.Windows.Forms.Label();
-      this.label6 = new System.Windows.Forms.Label();
-      this.Numerator2Box = new System.Windows.Forms.TextBox();
-      this.ResultLabel = new System.Windows.Forms.Label();
-      this.button10 = new System.Windows.Forms.Button();
-      this.OpenEquationFormButton = new System.Windows.Forms.Button();
-      this.AnalyseButton = new System.Windows.Forms.Button();
-      this.TestMinimalButton = new System.Windows.Forms.Button();
-      this.TestMinimal2Button = new System.Windows.Forms.Button();
-      this.button11 = new System.Windows.Forms.Button();
+      this.GeodesicAnalysisButton = new System.Windows.Forms.Button();
       this.GetByIndexButton = new System.Windows.Forms.Button();
       this.label7 = new System.Windows.Forms.Label();
       this.IndexBox = new System.Windows.Forms.TextBox();
@@ -70,146 +39,34 @@
       this.label9 = new System.Windows.Forms.Label();
       this.XBox = new System.Windows.Forms.TextBox();
       this.label8 = new System.Windows.Forms.Label();
+      this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.RangeBox = new System.Windows.Forms.TextBox();
+      this.RangePositionButton = new System.Windows.Forms.Button();
+      this.label5 = new System.Windows.Forms.Label();
+      this.LowerXBox = new System.Windows.Forms.TextBox();
+      this.UpperXBox = new System.Windows.Forms.TextBox();
+      this.LowerPositionBox = new System.Windows.Forms.TextBox();
+      this.label1 = new System.Windows.Forms.Label();
+      this.UpperPositionBox = new System.Windows.Forms.TextBox();
+      this.label3 = new System.Windows.Forms.Label();
+      this.PositionBox = new System.Windows.Forms.TextBox();
+      this.GetByPositionButton = new System.Windows.Forms.Button();
+      this.label4 = new System.Windows.Forms.Label();
+      this.VarianceButton = new System.Windows.Forms.Button();
+      this.label6 = new System.Windows.Forms.Label();
+      this.label10 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
+      this.label12 = new System.Windows.Forms.Label();
+      this.LowerRangeBox = new System.Windows.Forms.TextBox();
+      this.UpperRangeBox = new System.Windows.Forms.TextBox();
       this.groupBox1.SuspendLayout();
+      this.groupBox2.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // button1
-      // 
-      this.button1.Location = new System.Drawing.Point(12, 12);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 0;
-      this.button1.Text = "button1";
-      this.button1.UseVisualStyleBackColor = true;
-      // 
-      // button2
-      // 
-      this.button2.Location = new System.Drawing.Point(205, 50);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(91, 23);
-      this.button2.TabIndex = 1;
-      this.button2.Text = "New Geodesic";
-      this.button2.UseVisualStyleBackColor = true;
-      this.button2.Click += new System.EventHandler(this.Button2_Click);
-      // 
-      // button3
-      // 
-      this.button3.Location = new System.Drawing.Point(174, 12);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(75, 23);
-      this.button3.TabIndex = 2;
-      this.button3.Text = "button3";
-      this.button3.UseVisualStyleBackColor = true;
-      this.button3.Click += new System.EventHandler(this.Button3_Click);
-      // 
-      // button4
-      // 
-      this.button4.Location = new System.Drawing.Point(255, 12);
-      this.button4.Name = "button4";
-      this.button4.Size = new System.Drawing.Size(75, 23);
-      this.button4.TabIndex = 3;
-      this.button4.Text = "button4";
-      this.button4.UseVisualStyleBackColor = true;
-      this.button4.Click += new System.EventHandler(this.Button4_Click);
-      // 
-      // button5
-      // 
-      this.button5.Location = new System.Drawing.Point(336, 12);
-      this.button5.Name = "button5";
-      this.button5.Size = new System.Drawing.Size(75, 23);
-      this.button5.TabIndex = 4;
-      this.button5.Text = "button5";
-      this.button5.UseVisualStyleBackColor = true;
-      this.button5.Click += new System.EventHandler(this.Button5_Click);
-      // 
-      // VarianceLabel
-      // 
-      this.VarianceLabel.AutoSize = true;
-      this.VarianceLabel.Location = new System.Drawing.Point(202, 95);
-      this.VarianceLabel.Name = "VarianceLabel";
-      this.VarianceLabel.Size = new System.Drawing.Size(35, 13);
-      this.VarianceLabel.TabIndex = 5;
-      this.VarianceLabel.Text = "label1";
-      // 
-      // VarianceBox
-      // 
-      this.VarianceBox.Location = new System.Drawing.Point(12, 88);
-      this.VarianceBox.Name = "VarianceBox";
-      this.VarianceBox.Size = new System.Drawing.Size(100, 20);
-      this.VarianceBox.TabIndex = 6;
-      this.VarianceBox.Text = "0.992866587834743";
-      // 
-      // UpButton
-      // 
-      this.UpButton.Location = new System.Drawing.Point(13, 115);
-      this.UpButton.Name = "UpButton";
-      this.UpButton.Size = new System.Drawing.Size(52, 23);
-      this.UpButton.TabIndex = 7;
-      this.UpButton.Text = "+";
-      this.UpButton.UseVisualStyleBackColor = true;
-      this.UpButton.Click += new System.EventHandler(this.UpButton_Click);
-      // 
-      // DownButton
-      // 
-      this.DownButton.Location = new System.Drawing.Point(71, 115);
-      this.DownButton.Name = "DownButton";
-      this.DownButton.Size = new System.Drawing.Size(41, 23);
-      this.DownButton.TabIndex = 8;
-      this.DownButton.Text = "-";
-      this.DownButton.UseVisualStyleBackColor = true;
-      this.DownButton.Click += new System.EventHandler(this.DownButton_Click);
-      // 
-      // ShiftBox
-      // 
-      this.ShiftBox.Location = new System.Drawing.Point(12, 161);
-      this.ShiftBox.Name = "ShiftBox";
-      this.ShiftBox.Size = new System.Drawing.Size(100, 20);
-      this.ShiftBox.TabIndex = 9;
-      this.ShiftBox.Text = "0.5";
-      // 
-      // DownShiftBox
-      // 
-      this.DownShiftBox.Location = new System.Drawing.Point(70, 187);
-      this.DownShiftBox.Name = "DownShiftBox";
-      this.DownShiftBox.Size = new System.Drawing.Size(41, 23);
-      this.DownShiftBox.TabIndex = 11;
-      this.DownShiftBox.Text = "-";
-      this.DownShiftBox.UseVisualStyleBackColor = true;
-      this.DownShiftBox.Click += new System.EventHandler(this.DownShiftBox_Click);
-      // 
-      // UpShiftBox
-      // 
-      this.UpShiftBox.Location = new System.Drawing.Point(12, 187);
-      this.UpShiftBox.Name = "UpShiftBox";
-      this.UpShiftBox.Size = new System.Drawing.Size(52, 23);
-      this.UpShiftBox.TabIndex = 10;
-      this.UpShiftBox.Text = "+";
-      this.UpShiftBox.UseVisualStyleBackColor = true;
-      this.UpShiftBox.Click += new System.EventHandler(this.UpShiftBox_Click);
-      // 
-      // button6
-      // 
-      this.button6.Location = new System.Drawing.Point(316, 51);
-      this.button6.Name = "button6";
-      this.button6.Size = new System.Drawing.Size(121, 23);
-      this.button6.TabIndex = 12;
-      this.button6.Text = "OldGeodesic";
-      this.button6.UseVisualStyleBackColor = true;
-      this.button6.Click += new System.EventHandler(this.Button6_Click);
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(144, 95);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(52, 13);
-      this.label1.TabIndex = 13;
-      this.label1.Text = "Variance:";
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(13, 56);
+      this.label2.Location = new System.Drawing.Point(10, 9);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(59, 13);
       this.label2.TabIndex = 14;
@@ -217,179 +74,21 @@
       // 
       // GenerationBox
       // 
-      this.GenerationBox.Location = new System.Drawing.Point(78, 53);
+      this.GenerationBox.Location = new System.Drawing.Point(75, 6);
       this.GenerationBox.Name = "GenerationBox";
       this.GenerationBox.Size = new System.Drawing.Size(100, 20);
       this.GenerationBox.TabIndex = 15;
       this.GenerationBox.Text = "5";
       // 
-      // button7
+      // GeodesicAnalysisButton
       // 
-      this.button7.Location = new System.Drawing.Point(517, 12);
-      this.button7.Name = "button7";
-      this.button7.Size = new System.Drawing.Size(75, 23);
-      this.button7.TabIndex = 16;
-      this.button7.Text = "Sigma";
-      this.button7.UseVisualStyleBackColor = true;
-      this.button7.Click += new System.EventHandler(this.Button7_Click);
-      // 
-      // button8
-      // 
-      this.button8.Location = new System.Drawing.Point(630, 46);
-      this.button8.Name = "button8";
-      this.button8.Size = new System.Drawing.Size(141, 23);
-      this.button8.TabIndex = 17;
-      this.button8.Text = "Sigma Equations";
-      this.button8.UseVisualStyleBackColor = true;
-      this.button8.Click += new System.EventHandler(this.Button8_Click);
-      // 
-      // button9
-      // 
-      this.button9.Location = new System.Drawing.Point(281, 288);
-      this.button9.Name = "button9";
-      this.button9.Size = new System.Drawing.Size(75, 23);
-      this.button9.TabIndex = 18;
-      this.button9.Text = "FlexVariable";
-      this.button9.UseVisualStyleBackColor = true;
-      this.button9.Click += new System.EventHandler(this.Button9_Click);
-      // 
-      // Numerator1Box
-      // 
-      this.Numerator1Box.Location = new System.Drawing.Point(164, 291);
-      this.Numerator1Box.Name = "Numerator1Box";
-      this.Numerator1Box.Size = new System.Drawing.Size(100, 20);
-      this.Numerator1Box.TabIndex = 19;
-      this.Numerator1Box.Text = "0";
-      // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(76, 294);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(68, 13);
-      this.label3.TabIndex = 20;
-      this.label3.Text = "Numerator 1:";
-      // 
-      // label4
-      // 
-      this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(76, 322);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(79, 13);
-      this.label4.TabIndex = 21;
-      this.label4.Text = "Denominator 1:";
-      // 
-      // Denominator1Box
-      // 
-      this.Denominator1Box.Location = new System.Drawing.Point(164, 319);
-      this.Denominator1Box.Name = "Denominator1Box";
-      this.Denominator1Box.Size = new System.Drawing.Size(100, 20);
-      this.Denominator1Box.TabIndex = 22;
-      this.Denominator1Box.Text = "1";
-      // 
-      // Denominator2Box
-      // 
-      this.Denominator2Box.Location = new System.Drawing.Point(164, 373);
-      this.Denominator2Box.Name = "Denominator2Box";
-      this.Denominator2Box.Size = new System.Drawing.Size(100, 20);
-      this.Denominator2Box.TabIndex = 26;
-      this.Denominator2Box.Text = "1";
-      // 
-      // label5
-      // 
-      this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(76, 376);
-      this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(79, 13);
-      this.label5.TabIndex = 25;
-      this.label5.Text = "Denominator 2:";
-      // 
-      // label6
-      // 
-      this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(76, 348);
-      this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(68, 13);
-      this.label6.TabIndex = 24;
-      this.label6.Text = "Numerator 2:";
-      // 
-      // Numerator2Box
-      // 
-      this.Numerator2Box.Location = new System.Drawing.Point(164, 345);
-      this.Numerator2Box.Name = "Numerator2Box";
-      this.Numerator2Box.Size = new System.Drawing.Size(100, 20);
-      this.Numerator2Box.TabIndex = 23;
-      this.Numerator2Box.Text = "0";
-      // 
-      // ResultLabel
-      // 
-      this.ResultLabel.AutoSize = true;
-      this.ResultLabel.Location = new System.Drawing.Point(389, 293);
-      this.ResultLabel.Name = "ResultLabel";
-      this.ResultLabel.Size = new System.Drawing.Size(37, 13);
-      this.ResultLabel.TabIndex = 28;
-      this.ResultLabel.Text = "Result";
-      this.ResultLabel.Click += new System.EventHandler(this.ResultLabel_Click);
-      // 
-      // button10
-      // 
-      this.button10.Location = new System.Drawing.Point(93, 12);
-      this.button10.Name = "button10";
-      this.button10.Size = new System.Drawing.Size(75, 23);
-      this.button10.TabIndex = 29;
-      this.button10.Text = "button10";
-      this.button10.UseVisualStyleBackColor = true;
-      this.button10.Click += new System.EventHandler(this.Button10_Click);
-      // 
-      // OpenEquationFormButton
-      // 
-      this.OpenEquationFormButton.Location = new System.Drawing.Point(664, 12);
-      this.OpenEquationFormButton.Name = "OpenEquationFormButton";
-      this.OpenEquationFormButton.Size = new System.Drawing.Size(124, 23);
-      this.OpenEquationFormButton.TabIndex = 30;
-      this.OpenEquationFormButton.Text = "Open Equation Form";
-      this.OpenEquationFormButton.UseVisualStyleBackColor = true;
-      this.OpenEquationFormButton.Click += new System.EventHandler(this.OpenEquationFormButton_Click);
-      // 
-      // AnalyseButton
-      // 
-      this.AnalyseButton.Location = new System.Drawing.Point(488, 75);
-      this.AnalyseButton.Name = "AnalyseButton";
-      this.AnalyseButton.Size = new System.Drawing.Size(283, 23);
-      this.AnalyseButton.TabIndex = 31;
-      this.AnalyseButton.Text = "New Geodesic Analyse Distance To Scaled Centerline";
-      this.AnalyseButton.UseVisualStyleBackColor = true;
-      this.AnalyseButton.Click += new System.EventHandler(this.AnalyseButton_Click);
-      // 
-      // TestMinimalButton
-      // 
-      this.TestMinimalButton.Location = new System.Drawing.Point(226, 135);
-      this.TestMinimalButton.Name = "TestMinimalButton";
-      this.TestMinimalButton.Size = new System.Drawing.Size(148, 23);
-      this.TestMinimalButton.TabIndex = 32;
-      this.TestMinimalButton.Text = "Test Minimal Old";
-      this.TestMinimalButton.UseVisualStyleBackColor = true;
-      this.TestMinimalButton.Click += new System.EventHandler(this.TestMinimalButton_Click);
-      // 
-      // TestMinimal2Button
-      // 
-      this.TestMinimal2Button.Location = new System.Drawing.Point(226, 164);
-      this.TestMinimal2Button.Name = "TestMinimal2Button";
-      this.TestMinimal2Button.Size = new System.Drawing.Size(148, 23);
-      this.TestMinimal2Button.TabIndex = 33;
-      this.TestMinimal2Button.Text = "Test Minimal";
-      this.TestMinimal2Button.UseVisualStyleBackColor = true;
-      this.TestMinimal2Button.Click += new System.EventHandler(this.TestMinimal2Button_Click);
-      // 
-      // button11
-      // 
-      this.button11.Location = new System.Drawing.Point(488, 104);
-      this.button11.Name = "button11";
-      this.button11.Size = new System.Drawing.Size(283, 23);
-      this.button11.TabIndex = 34;
-      this.button11.Text = "Simple Geodesic Analyse Distance To Scaled Centerline";
-      this.button11.UseVisualStyleBackColor = true;
-      this.button11.Click += new System.EventHandler(this.button11_Click);
+      this.GeodesicAnalysisButton.Location = new System.Drawing.Point(12, 32);
+      this.GeodesicAnalysisButton.Name = "GeodesicAnalysisButton";
+      this.GeodesicAnalysisButton.Size = new System.Drawing.Size(283, 23);
+      this.GeodesicAnalysisButton.TabIndex = 34;
+      this.GeodesicAnalysisButton.Text = "Simple Geodesic Analyse Distance To Scaled Centerline";
+      this.GeodesicAnalysisButton.UseVisualStyleBackColor = true;
+      this.GeodesicAnalysisButton.Click += new System.EventHandler(this.GeodesicAnalysisButton_Click);
       // 
       // GetByIndexButton
       // 
@@ -426,7 +125,7 @@
       this.groupBox1.Controls.Add(this.IndexBox);
       this.groupBox1.Controls.Add(this.GetByIndexButton);
       this.groupBox1.Controls.Add(this.label7);
-      this.groupBox1.Location = new System.Drawing.Point(472, 213);
+      this.groupBox1.Location = new System.Drawing.Point(12, 61);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(200, 126);
       this.groupBox1.TabIndex = 38;
@@ -465,92 +164,218 @@
       this.label8.TabIndex = 38;
       this.label8.Text = "X:";
       // 
+      // groupBox2
+      // 
+      this.groupBox2.Controls.Add(this.label11);
+      this.groupBox2.Controls.Add(this.label12);
+      this.groupBox2.Controls.Add(this.LowerRangeBox);
+      this.groupBox2.Controls.Add(this.UpperRangeBox);
+      this.groupBox2.Controls.Add(this.label10);
+      this.groupBox2.Controls.Add(this.label6);
+      this.groupBox2.Controls.Add(this.RangeBox);
+      this.groupBox2.Controls.Add(this.RangePositionButton);
+      this.groupBox2.Controls.Add(this.label5);
+      this.groupBox2.Controls.Add(this.LowerXBox);
+      this.groupBox2.Controls.Add(this.UpperXBox);
+      this.groupBox2.Controls.Add(this.LowerPositionBox);
+      this.groupBox2.Controls.Add(this.label1);
+      this.groupBox2.Controls.Add(this.UpperPositionBox);
+      this.groupBox2.Controls.Add(this.label3);
+      this.groupBox2.Controls.Add(this.PositionBox);
+      this.groupBox2.Controls.Add(this.GetByPositionButton);
+      this.groupBox2.Controls.Add(this.label4);
+      this.groupBox2.Location = new System.Drawing.Point(12, 193);
+      this.groupBox2.Name = "groupBox2";
+      this.groupBox2.Size = new System.Drawing.Size(498, 126);
+      this.groupBox2.TabIndex = 42;
+      this.groupBox2.TabStop = false;
+      this.groupBox2.Text = "groupBox2";
+      // 
+      // RangeBox
+      // 
+      this.RangeBox.Location = new System.Drawing.Point(79, 46);
+      this.RangeBox.Name = "RangeBox";
+      this.RangeBox.Size = new System.Drawing.Size(100, 20);
+      this.RangeBox.TabIndex = 46;
+      // 
+      // RangePositionButton
+      // 
+      this.RangePositionButton.Location = new System.Drawing.Point(200, 44);
+      this.RangePositionButton.Name = "RangePositionButton";
+      this.RangePositionButton.Size = new System.Drawing.Size(137, 23);
+      this.RangePositionButton.TabIndex = 44;
+      this.RangePositionButton.Text = "Get By Range Position";
+      this.RangePositionButton.UseVisualStyleBackColor = true;
+      this.RangePositionButton.Click += new System.EventHandler(this.RangePositionButton_Click);
+      // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Location = new System.Drawing.Point(8, 49);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(72, 13);
+      this.label5.TabIndex = 45;
+      this.label5.Text = "Range (0 - 1):";
+      // 
+      // LowerXBox
+      // 
+      this.LowerXBox.Location = new System.Drawing.Point(200, 99);
+      this.LowerXBox.Name = "LowerXBox";
+      this.LowerXBox.Size = new System.Drawing.Size(137, 20);
+      this.LowerXBox.TabIndex = 43;
+      // 
+      // UpperXBox
+      // 
+      this.UpperXBox.Location = new System.Drawing.Point(200, 73);
+      this.UpperXBox.Name = "UpperXBox";
+      this.UpperXBox.Size = new System.Drawing.Size(137, 20);
+      this.UpperXBox.TabIndex = 42;
+      // 
+      // LowerPositionBox
+      // 
+      this.LowerPositionBox.Location = new System.Drawing.Point(79, 99);
+      this.LowerPositionBox.Name = "LowerPositionBox";
+      this.LowerPositionBox.Size = new System.Drawing.Size(100, 20);
+      this.LowerPositionBox.TabIndex = 41;
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(8, 102);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(39, 13);
+      this.label1.TabIndex = 40;
+      this.label1.Text = "Lower:";
+      // 
+      // UpperPositionBox
+      // 
+      this.UpperPositionBox.Location = new System.Drawing.Point(79, 73);
+      this.UpperPositionBox.Name = "UpperPositionBox";
+      this.UpperPositionBox.Size = new System.Drawing.Size(100, 20);
+      this.UpperPositionBox.TabIndex = 39;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(8, 76);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(39, 13);
+      this.label3.TabIndex = 38;
+      this.label3.Text = "Upper:";
+      // 
+      // PositionBox
+      // 
+      this.PositionBox.Location = new System.Drawing.Point(79, 19);
+      this.PositionBox.Name = "PositionBox";
+      this.PositionBox.Size = new System.Drawing.Size(100, 20);
+      this.PositionBox.TabIndex = 37;
+      // 
+      // GetByPositionButton
+      // 
+      this.GetByPositionButton.Location = new System.Drawing.Point(200, 17);
+      this.GetByPositionButton.Name = "GetByPositionButton";
+      this.GetByPositionButton.Size = new System.Drawing.Size(137, 23);
+      this.GetByPositionButton.TabIndex = 35;
+      this.GetByPositionButton.Text = "Get By X Position";
+      this.GetByPositionButton.UseVisualStyleBackColor = true;
+      this.GetByPositionButton.Click += new System.EventHandler(this.GetByPositionButton_Click);
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(8, 22);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(56, 13);
+      this.label4.TabIndex = 36;
+      this.label4.Text = "X position:";
+      // 
+      // VarianceButton
+      // 
+      this.VarianceButton.Location = new System.Drawing.Point(194, 4);
+      this.VarianceButton.Name = "VarianceButton";
+      this.VarianceButton.Size = new System.Drawing.Size(173, 23);
+      this.VarianceButton.TabIndex = 43;
+      this.VarianceButton.Text = "Calculate Area Variance";
+      this.VarianceButton.UseVisualStyleBackColor = true;
+      this.VarianceButton.Click += new System.EventHandler(this.VarianceButton_Click);
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(179, 76);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(17, 13);
+      this.label6.TabIndex = 47;
+      this.label6.Text = "X:";
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(179, 102);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(17, 13);
+      this.label10.TabIndex = 48;
+      this.label10.Text = "X:";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(343, 102);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(18, 13);
+      this.label11.TabIndex = 52;
+      this.label11.Text = "R:";
+      // 
+      // label12
+      // 
+      this.label12.AutoSize = true;
+      this.label12.Location = new System.Drawing.Point(343, 76);
+      this.label12.Name = "label12";
+      this.label12.Size = new System.Drawing.Size(18, 13);
+      this.label12.TabIndex = 51;
+      this.label12.Text = "R:";
+      // 
+      // LowerRangeBox
+      // 
+      this.LowerRangeBox.Location = new System.Drawing.Point(364, 99);
+      this.LowerRangeBox.Name = "LowerRangeBox";
+      this.LowerRangeBox.Size = new System.Drawing.Size(128, 20);
+      this.LowerRangeBox.TabIndex = 50;
+      // 
+      // UpperRangeBox
+      // 
+      this.UpperRangeBox.Location = new System.Drawing.Point(364, 73);
+      this.UpperRangeBox.Name = "UpperRangeBox";
+      this.UpperRangeBox.Size = new System.Drawing.Size(128, 20);
+      this.UpperRangeBox.TabIndex = 49;
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(522, 325);
+      this.Controls.Add(this.VarianceButton);
+      this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
-      this.Controls.Add(this.button11);
-      this.Controls.Add(this.TestMinimal2Button);
-      this.Controls.Add(this.TestMinimalButton);
-      this.Controls.Add(this.AnalyseButton);
-      this.Controls.Add(this.OpenEquationFormButton);
-      this.Controls.Add(this.button10);
-      this.Controls.Add(this.ResultLabel);
-      this.Controls.Add(this.Denominator2Box);
-      this.Controls.Add(this.label5);
-      this.Controls.Add(this.label6);
-      this.Controls.Add(this.Numerator2Box);
-      this.Controls.Add(this.Denominator1Box);
-      this.Controls.Add(this.label4);
-      this.Controls.Add(this.label3);
-      this.Controls.Add(this.Numerator1Box);
-      this.Controls.Add(this.button9);
-      this.Controls.Add(this.button8);
-      this.Controls.Add(this.button7);
+      this.Controls.Add(this.GeodesicAnalysisButton);
       this.Controls.Add(this.GenerationBox);
       this.Controls.Add(this.label2);
-      this.Controls.Add(this.label1);
-      this.Controls.Add(this.button6);
-      this.Controls.Add(this.DownShiftBox);
-      this.Controls.Add(this.UpShiftBox);
-      this.Controls.Add(this.ShiftBox);
-      this.Controls.Add(this.DownButton);
-      this.Controls.Add(this.UpButton);
-      this.Controls.Add(this.VarianceBox);
-      this.Controls.Add(this.VarianceLabel);
-      this.Controls.Add(this.button5);
-      this.Controls.Add(this.button4);
-      this.Controls.Add(this.button3);
-      this.Controls.Add(this.button2);
-      this.Controls.Add(this.button1);
       this.Name = "Form1";
       this.Text = "Form1";
       this.Load += new System.EventHandler(this.Form1_Load);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
+      this.groupBox2.ResumeLayout(false);
+      this.groupBox2.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
     }
 
     #endregion
-
-    private System.Windows.Forms.Button button1;
-    private System.Windows.Forms.Button button2;
-    private System.Windows.Forms.Button button3;
-    private System.Windows.Forms.Button button4;
-    private System.Windows.Forms.Button button5;
-    private System.Windows.Forms.Label VarianceLabel;
-    private System.Windows.Forms.TextBox VarianceBox;
-    private System.Windows.Forms.Button UpButton;
-    private System.Windows.Forms.Button DownButton;
-    private System.Windows.Forms.TextBox ShiftBox;
-    private System.Windows.Forms.Button DownShiftBox;
-    private System.Windows.Forms.Button UpShiftBox;
-    private System.Windows.Forms.Button button6;
-    private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox GenerationBox;
-    private System.Windows.Forms.Button button7;
-    private System.Windows.Forms.Button button8;
-    private System.Windows.Forms.Button button9;
-    private System.Windows.Forms.TextBox Numerator1Box;
-    private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.Label label4;
-    private System.Windows.Forms.TextBox Denominator1Box;
-    private System.Windows.Forms.TextBox Denominator2Box;
-    private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.Label label6;
-    private System.Windows.Forms.TextBox Numerator2Box;
-    private System.Windows.Forms.Label ResultLabel;
-    private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button OpenEquationFormButton;
-    private System.Windows.Forms.Button AnalyseButton;
-        private System.Windows.Forms.Button TestMinimalButton;
-        private System.Windows.Forms.Button TestMinimal2Button;
-    private System.Windows.Forms.Button button11;
+    private System.Windows.Forms.Button GeodesicAnalysisButton;
     private System.Windows.Forms.Button GetByIndexButton;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.TextBox IndexBox;
@@ -559,6 +384,26 @@
     private System.Windows.Forms.Label label9;
     private System.Windows.Forms.TextBox XBox;
     private System.Windows.Forms.Label label8;
+    private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.TextBox LowerPositionBox;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.TextBox UpperPositionBox;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.TextBox PositionBox;
+    private System.Windows.Forms.Button GetByPositionButton;
+    private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.Button VarianceButton;
+    private System.Windows.Forms.TextBox LowerXBox;
+    private System.Windows.Forms.TextBox UpperXBox;
+    private System.Windows.Forms.TextBox RangeBox;
+    private System.Windows.Forms.Button RangePositionButton;
+    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.Label label10;
+    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.Label label12;
+    private System.Windows.Forms.TextBox LowerRangeBox;
+    private System.Windows.Forms.TextBox UpperRangeBox;
   }
 }
 

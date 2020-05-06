@@ -14,18 +14,18 @@ namespace Geodesic
     private static Geodesic geodesic; 
     public static Vector2D ProjectionPoint;
     public static Vector2D ScaledProjectionPoint;
-    public static Vector3D ScaledProjectionPoint3D; 
+    //public static Vector3D ScaledProjectionPoint3D; 
     public static Vector2D ArcLeft;
     public static Vector2D ArcRight; 
     public static Vector2D FirstSeed;
     public static Vector2D MirrorPerpendicular; 
     public static double ScaleOut;
     public static double ScaleIn;
-    public static Equation ScaleOutE;
-    public static Equation ScaleInE;
-    public static Vector3D FirstSeedE;
+    public static int SearchDepth = 40; 
+    //public static Equation ScaleOutE;
+    //public static Equation ScaleInE;
+    //public static Vector3D FirstSeedE;
 
-    //Mark: i is the most interesting number. This is the distance to the centerline.
 
     //general calculation values. 
     static double v1x;
@@ -44,21 +44,34 @@ namespace Geodesic
     {
       if (initialized)
         return;
-      initialized = true; 
-      geodesic = new Geodesic(-1); 
-      ProjectionPoint = Vector2D.XZOf(geodesic.ProjectionPoint);
-      ArcLeft = Vector2D.XZOf(Geodesic.ArcLeft);
-      ArcRight = Vector2D.XZOf(Geodesic.ArcRight); 
-      FirstSeed = Vector2D.XZOf(Geodesic.ArcTopFront);
-      MirrorPerpendicular = Vector2D.XZOf(Geodesic.MirrorPerpendicular);
-      ScaleIn = Geodesic.EllipseSecondaryRadius.Value;
-      ScaleOut = 1 / ScaleIn;
-      ScaledProjectionPoint = ScaleEllipseOut(ProjectionPoint);
-      ScaledProjectionPoint3D = Geodesic.ScaleEllipseOut(geodesic.ProjectionPoint);
+      initialized = true;
+      //Geodesic geodesic = new Geodesic(-1);
+      double IcosahedronRibLength = 4 / (Math.Sqrt(10 + Math.Sqrt(20))); 
+      double FrontViewLength =  Math.Sqrt(IcosahedronRibLength*IcosahedronRibLength*3/4);
+      double FrontViewLength13 = FrontViewLength / 3;
+      double FrontViewLength23 = FrontViewLength13 * 2;
 
-      ScaleInE = Geodesic.EllipseSecondaryRadius;
-      ScaleOutE = 1 / ScaleInE;
-      FirstSeedE = new Vector3D(Geodesic.ArcTopFront.X, Geodesic.ArcTopFront.Z);
+      ArcLeft = new Vector2D(-FrontViewLength23, Math.Sqrt(1 - FrontViewLength23 * FrontViewLength23));
+      ArcRight  = new Vector2D(FrontViewLength13, ArcLeft.y);
+      ProjectionPoint = new Vector2D(ArcLeft.x, ArcRight.y * -2);
+
+      Vector2D ArcTopRight = ArcRight/Math.Sqrt(ArcRight.x*ArcRight.x+ArcRight.y*ArcRight.y);
+      Vector2D ArcTopFront = new Vector2D(ArcTopRight.x/-2, ArcTopRight.y);
+      double EllipseSecondaryRadius = (Math.Sqrt(5)+1)/4;
+      
+      FirstSeed = ArcTopFront;
+      ScaleIn = EllipseSecondaryRadius;
+      ScaleOut = 1 / ScaleIn;
+
+      Vector2D MirrorPoint = ArcLeft * ArcTopFront.Dot(ArcLeft) + ArcLeft.Rotate90 * (ArcTopFront.Dot(ArcLeft.Rotate90) * ScaleOut);
+      MirrorPerpendicular = MirrorPoint.Rotate90;
+
+      ScaledProjectionPoint = ScaleEllipseOut(ProjectionPoint);
+      //Vector3D ScaledProjectionPoint3D = Geodesic.ScaleEllipseOut(geodesic.ProjectionPoint);
+
+      //ScaleInE = Geodesic.EllipseSecondaryRadius;
+      //ScaleOutE = 1 / ScaleInE;
+      //FirstSeedE = new Vector3D(Geodesic.ArcTopFront.X, Geodesic.ArcTopFront.Z);
 
        v1x = ProjectionPoint.x;
        v1y = ProjectionPoint.y;
@@ -287,7 +300,7 @@ namespace Geodesic
     }
     */
 
-    public static BasicSet NextBasic(Vector2D v0, int index)
+    public static ScaledCenterlinePair NextBasic(Vector2D v0, long index)
     {
       //gather variables. 
       double v0x = v0.x;//the seed
@@ -356,7 +369,7 @@ namespace Geodesic
       double lx = v2x * j0 + v2y * j1;
       double ly = v2y * j0 - v2x * j1;
 
-      BasicSet result = new BasicSet()
+      ScaledCenterlinePair result = new ScaledCenterlinePair()
       {
         distanceToScaledCenterLine = i,
         primary = new Vector2D(kx, ky),
@@ -443,7 +456,194 @@ namespace Geodesic
       return new Vector2D(lx, ly);
     }
 
-    public static Vector2D Next2(Vector2D seed, bool primary)
+    public static BoundPair GetByRange(double position)
+    {
+
+      long lowerIndex = 0;
+      long upperIndex = -1;
+
+      Vector2D lower = MinimalEquation.ByIndex(lowerIndex);
+      Vector2D upper = MinimalEquation.ByIndex(upperIndex);
+      long mostSignificant = 1;
+      long rest = 0;
+      long current = mostSignificant | rest;
+
+      double lowerRange = 0;
+      double upperRange = 1;
+      double midRange = 0.5;
+      double incrementRange = 0.25;
+
+      if (position < 0 || position > 1)
+        throw new Exception("Out of bounds (" + lower.x.ToString() + " to " + upper.x.ToString() + ")");
+
+      Vector2D mid = MinimalEquation.ByIndex(1);
+
+      if (position < midRange)
+      {
+        upper = mid;
+        upperIndex = 1;
+        upperRange = midRange;
+      }
+      else
+      {
+        lower = mid;
+        lowerIndex = 1;
+        lowerRange = midRange;
+      }
+
+      for (int i = 0; i < SearchDepth; i++)
+      {
+        long flipBit = mostSignificant;
+        mostSignificant <<= 1;
+        long i1 = rest | mostSignificant;
+        long i2 = i1 | flipBit;
+        midRange = lowerRange + incrementRange;
+        incrementRange /= 2;
+
+        Vector2D v1 = MinimalEquation.ByIndex(i1);
+        Vector2D v2 = MinimalEquation.ByIndex(i2);
+
+        if (v1.x > lower.x && v1.x < upper.x)
+        {
+          if (position < midRange)
+          {
+            upper = v1;
+            upperIndex = i1;
+            upperRange = midRange;
+          }
+          else
+          {
+            lower = v1;
+            lowerIndex = i1;
+            lowerRange = midRange;
+          }
+        }
+        else if (v2.x > lower.x && v2.x < upper.x)
+        {
+          if (position < midRange)
+          {
+            upper = v2;
+            upperIndex = i2;
+            upperRange = midRange;
+          }
+          else
+          {
+            lower = v2;
+            lowerIndex = i2;
+            lowerRange = midRange;
+          }
+          rest |= flipBit;
+        }
+        else
+        {
+          throw new Exception("Cannot find value!");
+        }
+      }
+      return new BoundPair()
+      {
+        lower = lower,
+        lowerIndex = lowerIndex,
+        lowerRange = lowerRange,
+        upper = upper,
+        upperIndex = upperIndex,
+        upperRange = upperRange
+      };
+
+    }
+
+    public static BoundPair GetByX(double x)
+    { 
+      long lowerIndex = 0;
+      long upperIndex = -1;
+
+      Vector2D lower = MinimalEquation.ByIndex(lowerIndex);
+      Vector2D upper = MinimalEquation.ByIndex(upperIndex);
+      long mostSignificant = 1;
+      long rest = 0;
+      long current = mostSignificant | rest;
+      double lowerRange = 0;
+      double upperRange = 1;
+      double midRange = 0.5;
+      double incrementRange = 0.25;
+
+      if (x < lower.x || x > upper.x)
+        throw new Exception("Out of bounds (" + lower.x.ToString() + " to " + upper.x.ToString() + ")");
+
+      Vector2D mid = MinimalEquation.ByIndex(1);
+
+      if (x < mid.x)
+      {
+        upper = mid;
+        upperIndex = 1;
+        upperRange = midRange;
+      }
+      else
+      {
+        lower = mid;
+        lowerIndex = 1;
+        lowerRange = midRange; 
+      }
+
+      for (int i = 0; i < SearchDepth; i++)
+      {
+        long flipBit = mostSignificant;
+        mostSignificant <<= 1;
+        long i1 = rest | mostSignificant;
+        long i2 = i1 | flipBit;
+        midRange = lowerRange + incrementRange;
+        incrementRange /= 2;
+
+        Vector2D v1 = MinimalEquation.ByIndex(i1);
+        Vector2D v2 = MinimalEquation.ByIndex(i2);
+
+        if (v1.x > lower.x && v1.x < upper.x)
+        {
+          if (x < v1.x)
+          {
+            upper = v1;
+            upperIndex = i1;
+            upperRange = midRange; 
+          }
+          else
+          {
+            lower = v1;
+            lowerIndex = i1;
+            lowerRange = midRange; 
+          }
+        }
+        else if (v2.x > lower.x && v2.x < upper.x)
+        {
+          if (x < v2.x)
+          {
+            upper = v2;
+            upperIndex = i2;
+            upperRange = midRange; 
+          }
+          else
+          {
+            lower = v2;
+            lowerIndex = i2;
+            lowerRange = midRange; 
+          }
+          rest |= flipBit;
+        }
+        else
+        {
+          throw new Exception("Cannot find value!");
+        }
+      }
+      return new BoundPair()
+      {
+        upper = upper,
+        upperIndex = upperIndex,
+        upperRange = upperRange,
+        lower = lower,
+        lowerIndex = lowerIndex,
+        lowerRange = lowerRange
+      };
+    }
+
+    public static Vector2D NextGeneration(Vector2D seed, bool primary)
     {
       Vector2D lineUnitVector = (seed - ProjectionPoint).UnitVector;
       Vector2D linePoint = ProjectionPoint - lineUnitVector * lineUnitVector.Dot(ProjectionPoint);
@@ -465,7 +665,7 @@ namespace Geodesic
     }
 
 
-    public static Vector2D ByIndex(int index)
+    public static Vector2D ByIndex(long index)
     {
       Initialize(); 
 
@@ -475,23 +675,24 @@ namespace Geodesic
         return ArcRight;
       if (index == 1)
         return FirstSeed;
-      int frontBit = 1;
+      long frontBit = 1;
+
       while (frontBit <= index)
         frontBit <<= 1;
+      frontBit >>= 2;      
+
       Vector2D current = FirstSeed;
 
-      for (frontBit >>= 2; frontBit > 0; frontBit >>= 1)
+      for (; frontBit > 0; frontBit >>= 1)
       {
         bool primary = (index & frontBit) == 0;
-        Vector2D test = Next(current, primary);
-        current = Next2(current, primary);
-        if (Math.Abs(test.x-current.x)>1e-11 || Math.Abs(test.y-current.y)>1e-11)
-          throw new Exception("Error"); 
+        current = NextGeneration(current, primary);
       }
 
       return current; 
     }
 
+    /*
     public static Vector3D[] NextEquational(Vector3D v0)
     {
       //Mark: i is the most interesting number. This is the distance to the centerline.
@@ -579,7 +780,7 @@ namespace Geodesic
       Equation ly = v2y * j0 - v2x * j1;
 
       return new Vector3D[] { new Vector3D(kx, ky), new Vector3D(lx, ly) };
-    }
+    }*/
 
 
     /*
@@ -679,12 +880,24 @@ namespace Geodesic
     */
   }
 
-  public class BasicSet
+  public class ScaledCenterlinePair
   {
     public double distanceToScaledCenterLine;
     public Vector2D primary;
     public Vector2D secondary;
-    public int primaryIndex;
-    public int secondaryIndex; 
+    public long primaryIndex;
+    public long secondaryIndex; 
   }
+
+  public class BoundPair
+  {
+    public Vector2D upper;
+    public Vector2D lower;
+    public long lowerIndex;
+    public long upperIndex;
+    public double lowerRange;
+    public double upperRange;
+  }
+
+
 }
