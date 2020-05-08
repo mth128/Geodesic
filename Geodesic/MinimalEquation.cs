@@ -1,5 +1,4 @@
-﻿using Computable;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +20,7 @@ namespace Geodesic
     public static Vector2D MirrorPerpendicular; 
     public static double ScaleOut;
     public static double ScaleIn;
-    public static int SearchDepth = 40; 
+    public static int SearchDepth = 61; 
     //public static Equation ScaleOutE;
     //public static Equation ScaleInE;
     //public static Vector3D FirstSeedE;
@@ -491,6 +490,9 @@ namespace Geodesic
         lowerRange = midRange;
       }
 
+      //counter for testing performance 
+      int n = 0; 
+
       for (int i = 0; i < SearchDepth; i++)
       {
         long flipBit = mostSignificant;
@@ -502,7 +504,7 @@ namespace Geodesic
 
         Vector2D v1 = MinimalEquation.ByIndex(i1);
         Vector2D v2 = MinimalEquation.ByIndex(i2);
-
+        n += 2 * i + 2;
         if (v1.x > lower.x && v1.x < upper.x)
         {
           if (position < midRange)
@@ -536,7 +538,18 @@ namespace Geodesic
         }
         else
         {
-          throw new Exception("Cannot find value!");
+          //cannot search any deeper.
+          return new BoundPair()
+          {
+            lower = lower,
+            lowerIndex = lowerIndex,
+            lowerRange = lowerRange,
+            upper = upper,
+            upperIndex = upperIndex,
+            upperRange = upperRange,
+            itterations = i,
+            nextGenerationCalls = n
+          };
         }
       }
       return new BoundPair()
@@ -546,7 +559,9 @@ namespace Geodesic
         lowerRange = lowerRange,
         upper = upper,
         upperIndex = upperIndex,
-        upperRange = upperRange
+        upperRange = upperRange,
+        itterations = SearchDepth,
+        nextGenerationCalls = n
       };
 
     }
@@ -584,6 +599,9 @@ namespace Geodesic
         lowerRange = midRange; 
       }
 
+      //counter for testing performance
+      int n = 0; 
+      
       for (int i = 0; i < SearchDepth; i++)
       {
         long flipBit = mostSignificant;
@@ -595,7 +613,7 @@ namespace Geodesic
 
         Vector2D v1 = MinimalEquation.ByIndex(i1);
         Vector2D v2 = MinimalEquation.ByIndex(i2);
-
+        n += 2 * i + 2;
         if (v1.x > lower.x && v1.x < upper.x)
         {
           if (x < v1.x)
@@ -629,7 +647,18 @@ namespace Geodesic
         }
         else
         {
-          throw new Exception("Cannot find value!");
+          //cannot search any deeper.
+          return new BoundPair()
+          {
+            lower = lower,
+            lowerIndex = lowerIndex,
+            lowerRange = lowerRange,
+            upper = upper,
+            upperIndex = upperIndex,
+            upperRange = upperRange,
+            itterations = i,
+            nextGenerationCalls = n
+          };
         }
       }
       return new BoundPair()
@@ -639,7 +668,9 @@ namespace Geodesic
         upperRange = upperRange,
         lower = lower,
         lowerIndex = lowerIndex,
-        lowerRange = lowerRange
+        lowerRange = lowerRange,
+        itterations = SearchDepth,
+        nextGenerationCalls = n
       };
     }
 
@@ -897,6 +928,8 @@ namespace Geodesic
     public long upperIndex;
     public double lowerRange;
     public double upperRange;
+    public int itterations;
+    public int nextGenerationCalls; 
   }
 
 

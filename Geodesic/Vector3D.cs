@@ -1,4 +1,4 @@
-﻿using Computable;
+﻿//using Computable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +9,21 @@ namespace Geodesic
 {
   public class Vector3D
   {
+    /*
     private static readonly Equation R120 = MathE.Sqrt((new Equation(3)/4));
     public Equation X { get; }
     public Equation Y { get; }
     public Equation Z { get; }
     public Equation MagnitudeSquared => X * X + Y * Y + Z * Z;
     public Equation Magnitude => MathE.Sqrt(MagnitudeSquared);
+    */
+    private static readonly double R120 = Math.Sqrt(3.0 / 4.0);
+    public double X { get; }
+    public double Y { get; }
+    public double Z { get; }
+    public double MagnitudeSquared => X * X + Y * Y + Z * Z;
+    public double Magnitude => Math.Sqrt(MagnitudeSquared);
+
     public Vector3D UnitVector => this / Magnitude;
     public Vector3D Top => new Vector3D(X, Y, 0);
     public Vector3D Front => new Vector3D(X, 0, Z);
@@ -24,6 +33,11 @@ namespace Geodesic
     public Vector3D RotateTop240 => new Vector3D(-Y * R120 - X / 2, X * R120 - Y / 2, Z);    
     public Vector3D RotateTop120Front => new Vector3D(Y * R120 - X / 2, 0, Z);
 
+    public Vector3D RotateFront120 => new Vector3D(Z * R120 - X / 2, Y, -X * R120 - Z / 2);
+    public Vector3D RotateFront240 => new Vector3D(-Z * R120 - X / 2, Y, X * R120 - Z / 2);
+
+
+    /*
     public Vector3D(Equation x, Equation y, int z)
       : this(x, y, new Equation(z)) { }
     public Vector3D(Equation x, int y, Equation z)
@@ -44,6 +58,14 @@ namespace Geodesic
       this.X = x ?? new Equation(0);
       this.Y = y ?? new Equation(0);
       this.Z = z ?? new Equation(0); 
+    }
+    */
+
+    public Vector3D(double x = 0, double y = 0, double z = 0)
+    {
+      X = x ;
+      Y = y ;
+      Z = z ;
     }
 
 
@@ -66,9 +88,15 @@ namespace Geodesic
         );
     }
 
+    /*
     public Equation Dot(Vector3D other)
     {
       return X * other.X + Y * other.Y + Z * other.Z; 
+    }*/
+
+    public double Dot(Vector3D other)
+    {
+      return X * other.X + Y * other.Y + Z * other.Z;
     }
 
 
@@ -90,6 +118,7 @@ namespace Geodesic
       return a.X != b.X || a.Y != b.Y || a.Z != b.Z;
     }
 
+    /*
     public static Vector3D operator *(Vector3D a, IValue b)
     {
       return new Vector3D(a.X * b, a.Y * b, a.Z * b);
@@ -109,27 +138,51 @@ namespace Geodesic
     {
       Equation i = new Equation(b);
       return new Vector3D(a.X / i, a.Y / i, a.Z / i);
+    }*/
+
+
+    public static Vector3D operator *(Vector3D a, double b)
+    {
+      return new Vector3D(a.X * b, a.Y * b, a.Z * b);
     }
 
-
+    public static Vector3D operator /(Vector3D a, double b)
+    {
+      return new Vector3D(a.X / b, a.Y / b, a.Z / b);
+    }
 
     public static Vector3D operator-(Vector3D a)
     {
       return new Vector3D(-a.X, -a.Y, -a.Z);
     }
 
+    /*
     public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
     {
       Equation magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
       if (magnitudeSquared>2)
         magnitudeSquared = (-unitVectorA - unitVectorB).MagnitudeSquared;
       return (MathE.Asin(MathE.Sqrt(magnitudeSquared)/2)) * 2;
+    }*/
+
+    public static double AngleBetween(Vector3D unitVectorA, Vector3D unitVectorB)
+    {
+      double magnitudeSquared = (unitVectorA - unitVectorB).MagnitudeSquared;
+      if (magnitudeSquared > 2)
+        magnitudeSquared = (-unitVectorA - unitVectorB).MagnitudeSquared;
+      return (Math.Asin(Math.Sqrt(magnitudeSquared) / 2)) * 2;
     }
 
     public override string ToString()
     {
-      return X.Value.ToString() + ", " + Y.Value.ToString() + ", " + Z.Value.ToString() + " [" +X.ToString() + "], [" + Y.ToString() + "], [" + Z.ToString() + "]";
+      return X.ToString() + ", " + Y.ToString() + ", " + Z.ToString();
     }
+
+    /*
+    public override string ToString()
+    {
+      return X.Value.ToString() + ", " + Y.Value.ToString() + ", " + Z.Value.ToString() + " [" +X.ToString() + "], [" + Y.ToString() + "], [" + Z.ToString() + "]";
+    }*/
   }
 
 }

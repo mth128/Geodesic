@@ -1,4 +1,4 @@
-﻿using Computable;
+﻿//using Computable;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -169,10 +169,11 @@ namespace Geodesic
      
     private void VarianceButton_Click(object sender, EventArgs e)
     {
-      OldGeodesic oldGeodesic = new OldGeodesic(Convert.ToInt32(GenerationBox.Text));
+      int generation = Convert.ToInt32(GenerationBox.Text);
+      BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
       double min = 10;
       double max = 0;
-      foreach (SphericalTriangle triangle in oldGeodesic.SphericalTriangles)
+      foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
       {
         double area = triangle.Area;
         if (area < min)
@@ -180,10 +181,15 @@ namespace Geodesic
         if (area > max)
           max = area; 
       }
-      double variance = max / min;
-      MessageBox.Show("Variance: " + (variance*100-100).ToString()+"%"); 
-    }
+      double bisectVariance = max / min;
+      double geodesicViariance = VarianceOf(new Geodesic(Convert.ToInt32(generation) - 2));
 
+      string bisectVarianceString = "Bisect: "+(bisectVariance * 100 - 100).ToString() + "%";
+      string geodesicVarianceString = "Projection point: " +(geodesicViariance * 100 - 100).ToString() + "%"; 
+
+      MessageBox.Show(bisectVarianceString + " - " + geodesicVarianceString); 
+    }
+    /*
     private void Button7_Click(object sender, EventArgs e)
     {
       List<double> sigmas = new List<double>();
@@ -205,7 +211,7 @@ namespace Geodesic
 
         System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
-    }
+    }*/
 
     private void Button8_Click(object sender, EventArgs e)
     {
@@ -266,6 +272,7 @@ namespace Geodesic
 
     }
 
+    /*
     private void Button10_Click(object sender, EventArgs e)
     {
       Equation IcosahedronRibLength = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
@@ -278,13 +285,14 @@ namespace Geodesic
       Vector3D ArcRight = new Vector3D(FrontViewLength13, IcosahedronRibLength / 2, ArcLeft.Z);
       Vector3D DefaultProjectionPoint  = new Vector3D(ArcLeft.X, 0, ArcRight.Z * -2);
       Equation length = DefaultProjectionPoint.Magnitude; 
-    }
+    }*/
 
+      /*
     private void OpenEquationFormButton_Click(object sender, EventArgs e)
     {
       using (SimplifyForm form = new SimplifyForm())
         form.ShowDialog(); 
-    }
+    }*/
 
     private void AnalyseButton_Click(object sender, EventArgs e)
     {
@@ -303,10 +311,15 @@ namespace Geodesic
           i++;
           line += pair.LeftIndex.ToString() + ";";
           line += Convert.ToString(pair.LeftIndex, 2)+";";
-          line += (-pair.DistanceToScaledCenterLine.Value).ToString()+";";
-          line += (-pair.DistanceToScaledCenterLine).Content.Equation + ";";
-          line += pair.Left.X.Value.ToString() + ";";
-          line += pair.Left.Y.Value.ToString() + ";";
+          line += (-pair.DistanceToScaledCenterLine).ToString() + ";";
+          //line += (-pair.DistanceToScaledCenterLine.Value).ToString()+";";
+          //line += (-pair.DistanceToScaledCenterLine).Content.Equation + ";";
+          //line += pair.Left.X.Value.ToString() + ";";
+          //line += pair.Left.Y.Value.ToString() + ";";
+
+          line += pair.Left.X.ToString() + ";";
+          line += pair.Left.Y.ToString() + ";";
+
           lines.Add(line);
           line = "";
 
@@ -314,10 +327,14 @@ namespace Geodesic
           i++;
           line += pair.RightIndex.ToString() + ";";
           line += Convert.ToString(pair.RightIndex, 2) + ";";
-          line += pair.DistanceToScaledCenterLine.Value.ToString() + ";";
-          line += pair.DistanceToScaledCenterLine.Content.Equation + ";";
-          line += pair.Right.X.Value.ToString() + ";";
-          line += pair.Right.Y.Value.ToString() + ";";
+          line += pair.DistanceToScaledCenterLine.ToString() + ";";
+          //line += pair.DistanceToScaledCenterLine.Value.ToString() + ";";
+          //line += pair.DistanceToScaledCenterLine.Content.Equation + ";";
+          line += pair.Right.X.ToString() + ";";
+          line += pair.Right.Y.ToString() + ";";
+          //line += pair.Right.X.Value.ToString() + ";";
+          //line += pair.Right.Y.Value.ToString() + ";";
+
           lines.Add(line);
         }
       }
@@ -430,6 +447,8 @@ namespace Geodesic
         LowerPositionBox.Text = pair.lowerIndex.ToString();
         LowerXBox.Text = pair.lower.x.ToString();
         LowerRangeBox.Text = pair.lowerRange.ToString();
+        ItterationsBox.Text = pair.itterations.ToString();
+        NextGenerationCallsBox.Text = pair.nextGenerationCalls.ToString(); 
       }
       catch (Exception ex)
       {
@@ -448,7 +467,9 @@ namespace Geodesic
         UpperRangeBox.Text = pair.upperRange.ToString(); 
         LowerPositionBox.Text = pair.lowerIndex.ToString();
         LowerXBox.Text = pair.lower.x.ToString();
-        LowerRangeBox.Text = pair.lowerRange.ToString(); 
+        LowerRangeBox.Text = pair.lowerRange.ToString();
+        ItterationsBox.Text = pair.itterations.ToString();
+        NextGenerationCallsBox.Text = pair.nextGenerationCalls.ToString();
       }
       catch (Exception ex)
       {

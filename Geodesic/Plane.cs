@@ -1,4 +1,4 @@
-﻿using Computable;
+﻿//using Computable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +11,15 @@ namespace Geodesic
   {
     private Vector3D nearestToOrigin; 
     public Vector3D UnitVector { get; }
-    public Equation D { get; }
+    //public Equation D { get; }
+    public double D { get; }
+
     public Vector3D NearestToOrigin => nearestToOrigin == null? nearestToOrigin = UnitVector * D : nearestToOrigin;
 
     public Plane RotateTop120 => new Plane(UnitVector.RotateTop120, D);
     public Plane RotateTop240 => new Plane(UnitVector.RotateTop240, D); 
     
-    public Plane (Vector3D unitVector, Equation distance)
+    public Plane (Vector3D unitVector, double distance)
     {
       UnitVector = unitVector;
       D = distance; 
@@ -29,10 +31,14 @@ namespace Geodesic
       D = a.UnitVector.Dot(UnitVector) * a.Magnitude; 
     }
 
-
+    /*
     public Equation DistanceTo(Vector3D point)
     {
       return UnitVector.Dot(point) - D; 
+    }*/
+    public double DistanceTo(Vector3D point)
+    {
+      return UnitVector.Dot(point) - D;
     }
 
     public Line Intersection (Plane other)
@@ -44,6 +50,7 @@ namespace Geodesic
       return new Line(intersectionPoint, sharedVector); 
     }
 
+    /*
     public double PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
     {
       Equation height = new Equation(1) - MathE.Abs(D);
@@ -51,8 +58,17 @@ namespace Geodesic
       Equation unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
       double angle = MathE.Asin(unitDistance / 2) * 2;
       return height * angle; 
+    }*/
+    public double PartialSphereCapArea(Vector3D pointOnPlaneA, Vector3D pointOnPlaneB)
+    {
+      double height = 1 - Math.Abs(D);
+      double radius = Math.Sqrt(1 - D*D);
+      double unitDistance = (pointOnPlaneB - pointOnPlaneA).Magnitude / radius;
+      double angle = Math.Asin(unitDistance / 2) * 2;
+      return height * angle;
     }
 
+    /*
     internal bool SameSide(Vector3D a, Vector3D b)
     {
       Equation da = DistanceTo(a);
@@ -62,6 +78,16 @@ namespace Geodesic
       if (da <= 0 && db <= 0)
         return true;
       return false; 
+    }*/
+    internal bool SameSide(Vector3D a, Vector3D b)
+    {
+      double da = DistanceTo(a);
+      double db = DistanceTo(b);
+      if (da >= 0 && db >= 0)
+        return true;
+      if (da <= 0 && db <= 0)
+        return true;
+      return false;
     }
   }
 }

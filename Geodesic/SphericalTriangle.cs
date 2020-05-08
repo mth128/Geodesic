@@ -52,9 +52,7 @@ namespace Geodesic
       result[1] = new SphericalTriangle(B, bc, ab);
       result[2] = new SphericalTriangle(C, ca, bc);
       result[3] = new SphericalTriangle(ab, bc, ca);
-
-
-
+      
       return result;
     }
 

@@ -40,6 +40,14 @@
       this.XBox = new System.Windows.Forms.TextBox();
       this.label8 = new System.Windows.Forms.Label();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.ItterationsBox = new System.Windows.Forms.TextBox();
+      this.label13 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
+      this.label12 = new System.Windows.Forms.Label();
+      this.LowerRangeBox = new System.Windows.Forms.TextBox();
+      this.UpperRangeBox = new System.Windows.Forms.TextBox();
+      this.label10 = new System.Windows.Forms.Label();
+      this.label6 = new System.Windows.Forms.Label();
       this.RangeBox = new System.Windows.Forms.TextBox();
       this.RangePositionButton = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
@@ -53,12 +61,8 @@
       this.GetByPositionButton = new System.Windows.Forms.Button();
       this.label4 = new System.Windows.Forms.Label();
       this.VarianceButton = new System.Windows.Forms.Button();
-      this.label6 = new System.Windows.Forms.Label();
-      this.label10 = new System.Windows.Forms.Label();
-      this.label11 = new System.Windows.Forms.Label();
-      this.label12 = new System.Windows.Forms.Label();
-      this.LowerRangeBox = new System.Windows.Forms.TextBox();
-      this.UpperRangeBox = new System.Windows.Forms.TextBox();
+      this.NextGenerationCallsBox = new System.Windows.Forms.TextBox();
+      this.label14 = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.SuspendLayout();
@@ -166,6 +170,10 @@
       // 
       // groupBox2
       // 
+      this.groupBox2.Controls.Add(this.NextGenerationCallsBox);
+      this.groupBox2.Controls.Add(this.label14);
+      this.groupBox2.Controls.Add(this.ItterationsBox);
+      this.groupBox2.Controls.Add(this.label13);
       this.groupBox2.Controls.Add(this.label11);
       this.groupBox2.Controls.Add(this.label12);
       this.groupBox2.Controls.Add(this.LowerRangeBox);
@@ -186,10 +194,76 @@
       this.groupBox2.Controls.Add(this.label4);
       this.groupBox2.Location = new System.Drawing.Point(12, 193);
       this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(498, 126);
+      this.groupBox2.Size = new System.Drawing.Size(498, 156);
       this.groupBox2.TabIndex = 42;
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "groupBox2";
+      // 
+      // ItterationsBox
+      // 
+      this.ItterationsBox.Location = new System.Drawing.Point(79, 125);
+      this.ItterationsBox.Name = "ItterationsBox";
+      this.ItterationsBox.Size = new System.Drawing.Size(100, 20);
+      this.ItterationsBox.TabIndex = 54;
+      // 
+      // label13
+      // 
+      this.label13.AutoSize = true;
+      this.label13.Location = new System.Drawing.Point(8, 128);
+      this.label13.Name = "label13";
+      this.label13.Size = new System.Drawing.Size(56, 13);
+      this.label13.TabIndex = 53;
+      this.label13.Text = "Itterations:";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(343, 102);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(18, 13);
+      this.label11.TabIndex = 52;
+      this.label11.Text = "R:";
+      // 
+      // label12
+      // 
+      this.label12.AutoSize = true;
+      this.label12.Location = new System.Drawing.Point(343, 76);
+      this.label12.Name = "label12";
+      this.label12.Size = new System.Drawing.Size(18, 13);
+      this.label12.TabIndex = 51;
+      this.label12.Text = "R:";
+      // 
+      // LowerRangeBox
+      // 
+      this.LowerRangeBox.Location = new System.Drawing.Point(364, 99);
+      this.LowerRangeBox.Name = "LowerRangeBox";
+      this.LowerRangeBox.Size = new System.Drawing.Size(128, 20);
+      this.LowerRangeBox.TabIndex = 50;
+      // 
+      // UpperRangeBox
+      // 
+      this.UpperRangeBox.Location = new System.Drawing.Point(364, 73);
+      this.UpperRangeBox.Name = "UpperRangeBox";
+      this.UpperRangeBox.Size = new System.Drawing.Size(128, 20);
+      this.UpperRangeBox.TabIndex = 49;
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(179, 102);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(17, 13);
+      this.label10.TabIndex = 48;
+      this.label10.Text = "X:";
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(179, 76);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(17, 13);
+      this.label6.TabIndex = 47;
+      this.label6.Text = "X:";
       // 
       // RangeBox
       // 
@@ -299,61 +373,27 @@
       this.VarianceButton.UseVisualStyleBackColor = true;
       this.VarianceButton.Click += new System.EventHandler(this.VarianceButton_Click);
       // 
-      // label6
+      // NextGenerationCallsBox
       // 
-      this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(179, 76);
-      this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(17, 13);
-      this.label6.TabIndex = 47;
-      this.label6.Text = "X:";
+      this.NextGenerationCallsBox.Location = new System.Drawing.Point(303, 125);
+      this.NextGenerationCallsBox.Name = "NextGenerationCallsBox";
+      this.NextGenerationCallsBox.Size = new System.Drawing.Size(100, 20);
+      this.NextGenerationCallsBox.TabIndex = 56;
       // 
-      // label10
+      // label14
       // 
-      this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(179, 102);
-      this.label10.Name = "label10";
-      this.label10.Size = new System.Drawing.Size(17, 13);
-      this.label10.TabIndex = 48;
-      this.label10.Text = "X:";
-      // 
-      // label11
-      // 
-      this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(343, 102);
-      this.label11.Name = "label11";
-      this.label11.Size = new System.Drawing.Size(18, 13);
-      this.label11.TabIndex = 52;
-      this.label11.Text = "R:";
-      // 
-      // label12
-      // 
-      this.label12.AutoSize = true;
-      this.label12.Location = new System.Drawing.Point(343, 76);
-      this.label12.Name = "label12";
-      this.label12.Size = new System.Drawing.Size(18, 13);
-      this.label12.TabIndex = 51;
-      this.label12.Text = "R:";
-      // 
-      // LowerRangeBox
-      // 
-      this.LowerRangeBox.Location = new System.Drawing.Point(364, 99);
-      this.LowerRangeBox.Name = "LowerRangeBox";
-      this.LowerRangeBox.Size = new System.Drawing.Size(128, 20);
-      this.LowerRangeBox.TabIndex = 50;
-      // 
-      // UpperRangeBox
-      // 
-      this.UpperRangeBox.Location = new System.Drawing.Point(364, 73);
-      this.UpperRangeBox.Name = "UpperRangeBox";
-      this.UpperRangeBox.Size = new System.Drawing.Size(128, 20);
-      this.UpperRangeBox.TabIndex = 49;
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(185, 128);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(112, 13);
+      this.label14.TabIndex = 55;
+      this.label14.Text = "Next Generation Calls:";
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(522, 325);
+      this.ClientSize = new System.Drawing.Size(523, 376);
       this.Controls.Add(this.VarianceButton);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
@@ -404,6 +444,10 @@
     private System.Windows.Forms.Label label12;
     private System.Windows.Forms.TextBox LowerRangeBox;
     private System.Windows.Forms.TextBox UpperRangeBox;
+    private System.Windows.Forms.TextBox ItterationsBox;
+    private System.Windows.Forms.Label label13;
+    private System.Windows.Forms.TextBox NextGenerationCallsBox;
+    private System.Windows.Forms.Label label14;
   }
 }
 

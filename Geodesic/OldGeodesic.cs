@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Geodesic
 {
-  public class OldGeodesic
+  public class BisectGeodesic
   {
     public List<SphericalTriangle> SphericalTriangles { get; }
 
-    public OldGeodesic(int generation)
+    public BisectGeodesic(int generation)
     {
       List<SphericalTriangle> current = new List<SphericalTriangle>();
       current.Add(new SphericalTriangle(Geodesic.ArcLeft, Geodesic.ArcLeft.RotateTop120, Geodesic.ArcLeft.RotateTop240));

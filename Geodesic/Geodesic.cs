@@ -1,4 +1,4 @@
-﻿using Computable;
+﻿//using Computable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +8,23 @@ namespace Geodesic
 {
   public class Geodesic
   {
-    public static Equation IcosahedronRibLength { get; } = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
-    public static Equation FrontViewLength { get; } = MathE.Sqrt(new Fraction(new Product(MathE.Squared(IcosahedronRibLength), 3), 4));
-    public static Equation FrontViewLength13 { get; } = FrontViewLength / 3;
-    public static Equation FrontViewLength23 { get; } = FrontViewLength13 * 2;
+    //public static Equation IcosahedronRibLength { get; } = new Equation(4) / MathE.Sqrt(new Equation(10) + MathE.Sqrt(new Equation(20)));
+    //public static Equation FrontViewLength { get; } = MathE.Sqrt(new Fraction(new Product(MathE.Squared(IcosahedronRibLength), 3), 4));
+    //public static Equation FrontViewLength13 { get; } = FrontViewLength / 3;
+    //public static Equation FrontViewLength23 { get; } = FrontViewLength13 * 2;
+
+    public static double IcosahedronRibLength { get; } = 4 / Math.Sqrt(10 * Math.Sqrt(20));
+    public static double FrontViewLength { get; } = Math.Sqrt(IcosahedronRibLength* IcosahedronRibLength* 3.0/ 4);
+    public static double FrontViewLength13 { get; } = FrontViewLength / 3;
+    public static double FrontViewLength23 { get; } = FrontViewLength13 * 2;
+
 
     /// <summary>
     /// Standard coordinate large component. (Arc Left)
     /// </summary>
-    public static Vector3D ArcLeft { get; } = new Vector3D(-FrontViewLength23, 0, MathE.Sqrt(new Equation(1) - FrontViewLength23 * FrontViewLength23));
+    //public static Vector3D ArcLeft { get; } = new Vector3D(-FrontViewLength23, 0, MathE.Sqrt(new Equation(1) - FrontViewLength23 * FrontViewLength23));
+    public static Vector3D ArcLeft { get; } = new Vector3D(-FrontViewLength23, 0, Math.Sqrt(1 - FrontViewLength23 * FrontViewLength23));
+
     /// <summary>
     /// Standard coordinate small component. (Arc Right) 
     /// </summary>
@@ -35,7 +43,9 @@ namespace Geodesic
     /// </summary>
     public static Vector3D ArcTopFront { get; } = ArcTopRight.RotateTop120;
 
-    public static Equation EllipseSecondaryRadius = (MathE.Sqrt(new Equation(5))+ 1) / 4; 
+    //public static Equation EllipseSecondaryRadius = (MathE.Sqrt(new Equation(5))+ 1) / 4;
+    public static double EllipseSecondaryRadius = (Math.Sqrt(5) + 1) / 4;
+
     public static Vector3D MirrorPoint { get; } = ScaleEllipseOut(ArcTopFront.Front);
     public static Vector3D MirrorPerpendicular = MirrorPoint.RotateFront90;
 
@@ -90,12 +100,20 @@ namespace Geodesic
       strikePoints.Add(center);
       MaxRibIndex = strikePoints.Count * 2; 
       strikePoints.Add(bound);
-      StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine.Value).ToList();
+      //StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine.Value).ToList();
+      StrikeThroughPoints = strikePoints.OrderBy(o => o.DistanceToScaledCenterLine).ToList();
 
+      /*
       Equation count = new Equation(StrikeThroughPoints.Count); 
 
       for (int i = 0; i<StrikeThroughPoints.Count;i++)
         StrikeThroughPoints[i].onArcValue = new Equation(i) / (count - 1);
+      */
+      double count = StrikeThroughPoints.Count - 1;
+
+      for (int i = 0; i < StrikeThroughPoints.Count; i++)
+        StrikeThroughPoints[i].onArcValue = i / count;
+
     }
 
     public Vector3D GetStrikePoint(int index)
@@ -125,27 +143,54 @@ namespace Geodesic
     {
       Line line = Line.Construct(ScaleEllipseOut(point), ProjectionPointScaledOut);
       Vector3D scaledOutPoint = line.UnitSphereIntersectionPositiveZ;
-      Equation distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
-      return MathE.Asin(distanceToScaledCenterLine);
+      double distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
+      return Math.Asin(distanceToScaledCenterLine);
     }
 
+    /*
+    public double Sigma(Vector3D point)
+    {
+      Line line = Line.Construct(ScaleEllipseOut(point), ProjectionPointScaledOut);
+      Vector3D scaledOutPoint = line.UnitSphereIntersectionPositiveZ;
+      Equation distanceToScaledCenterLine = MirrorPerpendicular.Dot(scaledOutPoint);
+      return MathE.Asin(distanceToScaledCenterLine);
+    }*/
+
+    /*
+  public static Vector3D ScaleEllipseOut(Vector3D vector)
+  {
+    Vector3D primary = ArcLeft;
+    Vector3D secondary = ArcLeft.RotateFront90;
+    Equation dPrimary = vector.Dot(primary);
+    Equation dSecondary = vector.Dot(secondary);
+    return primary * dPrimary + secondary * (dSecondary / EllipseSecondaryRadius);
+  }
+
+
+
+  public static Vector3D ScaleEllipseIn(Vector3D vector)
+  {
+    Vector3D primary = ArcLeft;
+    Vector3D secondary = ArcLeft.RotateFront90;
+    Equation dPrimary = vector.Dot(primary);
+    Equation dSecondary = vector.Dot(secondary);
+    return primary * dPrimary + secondary * (dSecondary * EllipseSecondaryRadius);
+  }*/
     public static Vector3D ScaleEllipseOut(Vector3D vector)
     {
       Vector3D primary = ArcLeft;
       Vector3D secondary = ArcLeft.RotateFront90;
-      Equation dPrimary = vector.Dot(primary);
-      Equation dSecondary = vector.Dot(secondary);
+      double dPrimary = vector.Dot(primary);
+      double dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary / EllipseSecondaryRadius);
     }
-
-
 
     public static Vector3D ScaleEllipseIn(Vector3D vector)
     {
       Vector3D primary = ArcLeft;
       Vector3D secondary = ArcLeft.RotateFront90;
-      Equation dPrimary = vector.Dot(primary);
-      Equation dSecondary = vector.Dot(secondary);
+      double dPrimary = vector.Dot(primary);
+      double dSecondary = vector.Dot(secondary);
       return primary * dPrimary + secondary * (dSecondary * EllipseSecondaryRadius);
     }
   }

@@ -1,4 +1,4 @@
-﻿using Computable;
+﻿//using Computable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,30 +14,68 @@ namespace Geodesic
     public Vector3D Point { get; }
     public Vector3D UnitVector { get; }
 
+    /*
     public Vector3D UnitSphereIntersection1 =>
       unitSphereIntersection1 == null ?
       unitSphereIntersection1 = Point + UnitVector * MathE.Sqrt(new Equation(1) - Point.MagnitudeSquared)
-      : unitSphereIntersection1; 
+      : unitSphereIntersection1;
+      */
+    public Vector3D UnitSphereIntersection1 =>
+    unitSphereIntersection1 == null ?
+    unitSphereIntersection1 = Point + UnitVector * Math.Sqrt(1 - Point.MagnitudeSquared)
+    : unitSphereIntersection1;
 
+    public Vector3D UnitSphereIntersection2 =>
+      unitSphereIntersection2 == null ?
+      unitSphereIntersection2 = Point - UnitVector * Math.Sqrt(1 - Point.MagnitudeSquared)
+      : unitSphereIntersection2;
+
+    /*
     public Vector3D UnitSphereIntersection2 =>
       unitSphereIntersection2 == null ?
       unitSphereIntersection2 = Point - UnitVector * MathE.Sqrt(new Equation(1) - Point.MagnitudeSquared)
       : unitSphereIntersection2;
+      */
+    public Vector3D UnitSphereIntersectionPositiveZ => UnitSphereIntersection1.Z >= 0 ? UnitSphereIntersection1 : UnitSphereIntersection2;
 
-    public Vector3D UnitSphereIntersectionPositiveZ => UnitSphereIntersection1.Z >= 0 ? UnitSphereIntersection1 : UnitSphereIntersection2; 
-
+    /*
     public Line(Vector3D point, Vector3D unitVector)
     {
       UnitVector = unitVector;
       Equation distance = unitVector.Dot(point);
       Vector3D shift = unitVector * distance;
       Point = point - shift;
+    }*/
+    public Line(Vector3D point, Vector3D unitVector)
+    {
+      UnitVector = unitVector;
+      double distance = unitVector.Dot(point);
+      Vector3D shift = unitVector * distance;
+      Point = point - shift;
     }
+
     public static Line Construct(Vector3D from, Vector3D to)
     {
       return new Line(from, (to - from).UnitVector); 
     }
 
+    public double DistanceTo(Vector3D point)
+    {
+      if (point == Point)
+        return 0;
+      Vector3D dif = Point - point;
+      double dot = Math.Abs(dif.UnitVector.Dot(UnitVector));
+
+      if (dot > 1)
+        if (dot > 1.01)
+          throw new Exception("Error in calculating distance.");
+        else
+          return 0;
+
+      return dif.Magnitude * Math.Sqrt(1 - dot*dot);
+    }
+
+    /*
     public Equation DistanceTo(Vector3D point)
     {
       if (point == Point)
@@ -52,7 +90,7 @@ namespace Geodesic
           return new Equation(0); 
 
       return dif.Magnitude * MathE.Sqrt(1 - MathE.Squared(dot)); 
-    }
+    }*/
 
 
     /// <summary>
@@ -81,11 +119,13 @@ namespace Geodesic
       Vector3D b = c - offset;
 
       //selecting a or b. 
-      Equation aDist = DistanceTo(a) + other.DistanceTo(a);
-      Equation bDist = DistanceTo(b) + other.DistanceTo(b);
+      //Equation aDist = DistanceTo(a) + other.DistanceTo(a);
+      //Equation bDist = DistanceTo(b) + other.DistanceTo(b);
+
+      double aDist = DistanceTo(a) + other.DistanceTo(a);
+      double bDist = DistanceTo(b) + other.DistanceTo(b);
 
       return aDist < bDist ? a : b;
-
 
       /*
       Vector3D q = other.Point - Point;

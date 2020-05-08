@@ -17,9 +17,15 @@ namespace Geodesic
 
     public Vector2D Rotate90 => new Vector2D(y, -x);
 
+    /*
     public static Vector2D XZOf(Vector3D point)
     {
       return new Vector2D(point.X.Value, point.Z.Value); 
+    }*/
+
+    public static Vector2D XZOf(Vector3D point)
+    {
+      return new Vector2D(point.X, point.Z);
     }
 
     public Vector2D(double x, double y)
