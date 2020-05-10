@@ -84,6 +84,7 @@ namespace Geodesic
 
     private void Button5_Click(object sender, EventArgs e)
     {
+
       Geodesic geodesic = new Geodesic(1);
       List<string> areas = new List<string>(); 
       for (int i =0; i<geodesic.MaxGridIndex;i++)
@@ -179,15 +180,18 @@ namespace Geodesic
         if (area < min)
           min = area;
         if (area > max)
-          max = area; 
+          max = area;
+
       }
       double bisectVariance = max / min;
-      double geodesicViariance = VarianceOf(new Geodesic(Convert.ToInt32(generation) - 2));
+      Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2);
+      double geodesicViariance = VarianceOf(geodesic);
 
       string bisectVarianceString = "Bisect: "+(bisectVariance * 100 - 100).ToString() + "%";
       string geodesicVarianceString = "Projection point: " +(geodesicViariance * 100 - 100).ToString() + "%"; 
 
-      MessageBox.Show(bisectVarianceString + " - " + geodesicVarianceString); 
+      MessageBox.Show(bisectVarianceString + " - " + geodesicVarianceString);
+
     }
     /*
     private void Button7_Click(object sender, EventArgs e)
@@ -474,6 +478,29 @@ namespace Geodesic
       catch (Exception ex)
       {
         MessageBox.Show(ex.Message, "Error");
+      }
+    }
+
+    private void SavePointsButton_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog())
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        Geodesic geodesic = new Geodesic(Convert.ToInt32(GenerationBox.Text));
+        List<string> lines = new List<string>();
+
+        for (int i = 0; i < geodesic.MaxGridIndex; i++)
+        {
+          GridIndex index = geodesic.GetGridIndex(i);
+          GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
+
+          foreach (Vector3D point in triangle.Points)
+            lines.Add(point.ToString()); 
+        }
+
+        System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
     }
   }

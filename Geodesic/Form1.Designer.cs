@@ -40,6 +40,8 @@
       this.XBox = new System.Windows.Forms.TextBox();
       this.label8 = new System.Windows.Forms.Label();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.NextGenerationCallsBox = new System.Windows.Forms.TextBox();
+      this.label14 = new System.Windows.Forms.Label();
       this.ItterationsBox = new System.Windows.Forms.TextBox();
       this.label13 = new System.Windows.Forms.Label();
       this.label11 = new System.Windows.Forms.Label();
@@ -61,8 +63,7 @@
       this.GetByPositionButton = new System.Windows.Forms.Button();
       this.label4 = new System.Windows.Forms.Label();
       this.VarianceButton = new System.Windows.Forms.Button();
-      this.NextGenerationCallsBox = new System.Windows.Forms.TextBox();
-      this.label14 = new System.Windows.Forms.Label();
+      this.SavePointsButton = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.SuspendLayout();
@@ -198,6 +199,22 @@
       this.groupBox2.TabIndex = 42;
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "groupBox2";
+      // 
+      // NextGenerationCallsBox
+      // 
+      this.NextGenerationCallsBox.Location = new System.Drawing.Point(303, 125);
+      this.NextGenerationCallsBox.Name = "NextGenerationCallsBox";
+      this.NextGenerationCallsBox.Size = new System.Drawing.Size(100, 20);
+      this.NextGenerationCallsBox.TabIndex = 56;
+      // 
+      // label14
+      // 
+      this.label14.AutoSize = true;
+      this.label14.Location = new System.Drawing.Point(185, 128);
+      this.label14.Name = "label14";
+      this.label14.Size = new System.Drawing.Size(112, 13);
+      this.label14.TabIndex = 55;
+      this.label14.Text = "Next Generation Calls:";
       // 
       // ItterationsBox
       // 
@@ -373,27 +390,22 @@
       this.VarianceButton.UseVisualStyleBackColor = true;
       this.VarianceButton.Click += new System.EventHandler(this.VarianceButton_Click);
       // 
-      // NextGenerationCallsBox
+      // SavePointsButton
       // 
-      this.NextGenerationCallsBox.Location = new System.Drawing.Point(303, 125);
-      this.NextGenerationCallsBox.Name = "NextGenerationCallsBox";
-      this.NextGenerationCallsBox.Size = new System.Drawing.Size(100, 20);
-      this.NextGenerationCallsBox.TabIndex = 56;
-      // 
-      // label14
-      // 
-      this.label14.AutoSize = true;
-      this.label14.Location = new System.Drawing.Point(185, 128);
-      this.label14.Name = "label14";
-      this.label14.Size = new System.Drawing.Size(112, 13);
-      this.label14.TabIndex = 55;
-      this.label14.Text = "Next Generation Calls:";
+      this.SavePointsButton.Location = new System.Drawing.Point(373, 4);
+      this.SavePointsButton.Name = "SavePointsButton";
+      this.SavePointsButton.Size = new System.Drawing.Size(137, 23);
+      this.SavePointsButton.TabIndex = 44;
+      this.SavePointsButton.Text = "Save Points";
+      this.SavePointsButton.UseVisualStyleBackColor = true;
+      this.SavePointsButton.Click += new System.EventHandler(this.SavePointsButton_Click);
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(523, 376);
+      this.Controls.Add(this.SavePointsButton);
       this.Controls.Add(this.VarianceButton);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
@@ -448,6 +460,7 @@
     private System.Windows.Forms.Label label13;
     private System.Windows.Forms.TextBox NextGenerationCallsBox;
     private System.Windows.Forms.Label label14;
-  }
+        private System.Windows.Forms.Button SavePointsButton;
+    }
 }
 

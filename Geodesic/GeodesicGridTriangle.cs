@@ -16,6 +16,8 @@ namespace Geodesic
     public Vector3D PointBC { get; }
     public Vector3D PointCA { get; }
 
+    public Vector3D[] Points => new Vector3D[] { PointAB, PointBC, PointCA }; 
+
     public double Area
     {
       get

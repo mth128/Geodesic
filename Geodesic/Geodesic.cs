@@ -13,7 +13,7 @@ namespace Geodesic
     //public static Equation FrontViewLength13 { get; } = FrontViewLength / 3;
     //public static Equation FrontViewLength23 { get; } = FrontViewLength13 * 2;
 
-    public static double IcosahedronRibLength { get; } = 4 / Math.Sqrt(10 * Math.Sqrt(20));
+    public static double IcosahedronRibLength { get; } = 4 / Math.Sqrt(10 + Math.Sqrt(20));
     public static double FrontViewLength { get; } = Math.Sqrt(IcosahedronRibLength* IcosahedronRibLength* 3.0/ 4);
     public static double FrontViewLength13 { get; } = FrontViewLength / 3;
     public static double FrontViewLength23 { get; } = FrontViewLength13 * 2;
