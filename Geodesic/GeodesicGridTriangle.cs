@@ -17,7 +17,7 @@ namespace Geodesic
     public Vector3D PointCA { get; }
 
     public Vector3D[] Points => new Vector3D[] { PointAB, PointBC, PointCA }; 
-
+    public bool Inverted { get; }
     public double Area
     {
       get
@@ -40,20 +40,35 @@ namespace Geodesic
         double chipAreaC = capAreaC - sphericalTriangleAreaC;
 
         //define whether to add or subtract chips
+        if (Inverted)
+        {
+          chipAreaA = -Math.Abs(chipAreaA);
+          chipAreaB = -Math.Abs(chipAreaB);
+          chipAreaC = -Math.Abs(chipAreaC);
+        }
+        else
+        {
+          chipAreaA = Math.Abs(chipAreaA);
+          chipAreaB = Math.Abs(chipAreaB);
+          chipAreaC = Math.Abs(chipAreaC);
+        }
+
+        /*
         if (!PlaneA.SameSide(PointBC, ((PointAB + PointCA)/2).UnitVector))
           chipAreaA = -chipAreaA;
         if (!PlaneB.SameSide(PointCA, ((PointBC + PointAB)/2).UnitVector))
           chipAreaB = -chipAreaB;
         if (!PlaneC.SameSide(PointAB, ((PointCA + PointBC)/2).UnitVector))
           chipAreaC = -chipAreaC; 
-        
+        */
+
         area = sphericalTriangleArea + chipAreaA + chipAreaB + chipAreaC; 
 
         return area; 
       }
     }
 
-    public GeodesicGridTriangle(Plane a, Plane b, Plane c)
+    public GeodesicGridTriangle(Plane a, Plane b, Plane c, bool inverted)
     {
       PlaneA = a;
       PlaneB = b;
@@ -66,6 +81,8 @@ namespace Geodesic
       PointAB = ab.UnitSphereIntersectionPositiveZ;
       PointBC = bc.UnitSphereIntersectionPositiveZ;
       PointCA = ca.UnitSphereIntersectionPositiveZ;
+
+      Inverted = inverted; 
     }
   }
 }

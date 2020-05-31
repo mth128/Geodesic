@@ -20,11 +20,11 @@ namespace Geodesic
     public static Vector2D MirrorPerpendicular; 
     public static double ScaleOut;
     public static double ScaleIn;
-    public static int SearchDepth = 61; 
+    public static int SearchDepth = 61;
     //public static Equation ScaleOutE;
     //public static Equation ScaleInE;
     //public static Vector3D FirstSeedE;
-
+    public static Vector3D ProjectionPoint3D; 
 
     //general calculation values. 
     static double v1x;
@@ -53,6 +53,7 @@ namespace Geodesic
       ArcLeft = new Vector2D(-FrontViewLength23, Math.Sqrt(1 - FrontViewLength23 * FrontViewLength23));
       ArcRight  = new Vector2D(FrontViewLength13, ArcLeft.y);
       ProjectionPoint = new Vector2D(ArcLeft.x, ArcRight.y * -2);
+      ProjectionPoint3D = new Vector3D(ProjectionPoint); 
 
       Vector2D ArcTopRight = ArcRight/Math.Sqrt(ArcRight.x*ArcRight.x+ArcRight.y*ArcRight.y);
       Vector2D ArcTopFront = new Vector2D(ArcTopRight.x/-2, ArcTopRight.y);
@@ -455,6 +456,11 @@ namespace Geodesic
       return new Vector2D(lx, ly);
     }
 
+    public static Vector2D GetVector2DByRange(double position)
+    {
+      return GetByRange(position).FindLinear(position); 
+    }
+
     public static BoundPair GetByRange(double position)
     {
 
@@ -565,6 +571,13 @@ namespace Geodesic
       };
 
     }
+    
+
+    public static Plane GetPlane(Vector2D strikePoint)
+    {
+      return new Plane(ProjectionPoint3D, ProjectionPoint3D + new Vector3D(0, 1, 0), new Vector3D(strikePoint));
+    }
+
 
     public static BoundPair GetByX(double x)
     { 
@@ -930,6 +943,19 @@ namespace Geodesic
     public double upperRange;
     public int itterations;
     public int nextGenerationCalls; 
+
+    public Vector2D FindLinear(double range)
+    {
+      if (range == lowerRange)
+        return lower;
+      if (range == upperRange)
+        return upper;
+      double dif = range - lowerRange;
+      double width = upperRange - lowerRange;
+      Vector2D add = (upper - lower) * dif / width;
+      return lower + add; 
+    }
+
   }
 
 

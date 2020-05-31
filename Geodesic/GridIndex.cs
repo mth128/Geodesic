@@ -17,7 +17,7 @@ namespace Geodesic
     public Geodesic Parent { get; }
     public GeodesicGridTriangle GeodesicGridTriangle =>
       geodesicGridTriangle == null ? geodesicGridTriangle =
-      new GeodesicGridTriangle(Parent.GetPlane(A), Parent.GetPlane(B).RotateTop120, Parent.GetPlane(C).RotateTop240) :
+      new GeodesicGridTriangle(Parent.GetPlane(A), Parent.GetPlane(B).RotateTop120, Parent.GetPlane(C).RotateTop240, Inverted) :
       geodesicGridTriangle; 
 
     public GridIndex(Geodesic geodesic, int index)

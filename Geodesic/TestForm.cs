@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace Geodesic
 {
-  public partial class Form1 : Form
+  public partial class TestForm : Form
   {
-    public Form1()
+    public TestForm()
     {
       InitializeComponent();
     }
@@ -170,29 +170,42 @@ namespace Geodesic
      
     private void VarianceButton_Click(object sender, EventArgs e)
     {
-      int generation = Convert.ToInt32(GenerationBox.Text);
-      BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
-      double min = 10;
-      double max = 0;
-      foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+      using (SaveFileDialog sfd = new SaveFileDialog() {Filter="*.csv|*.csv" })
       {
-        double area = triangle.Area;
-        if (area < min)
-          min = area;
-        if (area > max)
-          max = area;
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
 
-      }
-      double bisectVariance = max / min;
-      Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2);
-      double geodesicViariance = VarianceOf(geodesic);
+        List<string> result = new List<string>();
+        result.Add("Generation,Bisect Variance,Geodesic Variance,");
 
-      string bisectVarianceString = "Bisect: "+(bisectVariance * 100 - 100).ToString() + "%";
-      string geodesicVarianceString = "Projection point: " +(geodesicViariance * 100 - 100).ToString() + "%"; 
+        int maxGeneration = Convert.ToInt32(GenerationBox.Text);
 
-      MessageBox.Show(bisectVarianceString + " - " + geodesicVarianceString);
+        for (int generation = 0; generation < maxGeneration; generation++)
+        {
+          BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
+          double min = 10;
+          double max = 0;
 
+          foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+          {
+            double area = triangle.Area;
+            if (area < min)
+              min = area;
+            if (area > max)
+              max = area;
+          }
+
+          double bisectVariance = max / min;
+          Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2);
+          double geodesicViariance = VarianceOf(geodesic);
+          if (generation == 0)
+            geodesicViariance = 1; 
+          result.Add(generation.ToString() + "," + bisectVariance.ToString() + "," + geodesicViariance.ToString() + ",");
+        }
+        File.WriteAllLines(sfd.FileName, result); 
+      }      
     }
+
     /*
     private void Button7_Click(object sender, EventArgs e)
     {
@@ -503,5 +516,86 @@ namespace Geodesic
         System.IO.File.WriteAllLines(sfd.FileName, lines);
       }
     }
+
+    private void GenerateButton_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        int finalLevel = Convert.ToInt32(LevelBox.Text);
+        List<string> result = new List<string>();
+        for (int level = 0; level <= finalLevel; level++)
+        {
+          if (level == 0)
+          {
+            result.Add(new Vector3D().ToString(true));
+            continue;
+          }
+
+          List<Plane> planes = new List<Plane>();
+          List<Plane> rotatedPlanes = new List<Plane>();
+          double range = 1;
+          double step = 1.0 / level;
+          for (int i = 0; i <= level; i++, range -= step)
+          {
+            if (range < 0)
+              range = 0; 
+            Vector2D cutPoint = MinimalEquation.GetVector2DByRange(range);
+            Plane plane = MinimalEquation.GetPlane(cutPoint);
+            planes.Add(plane);
+            rotatedPlanes.Add(plane.RotateTop120);
+          }
+
+          List<Vector3D> points = new List<Vector3D>();
+          for (int i = 0; i <= level; i++)
+          {
+            for (int j = 0; j + i <= level; j++)
+            {
+              Plane a = planes[i];
+              Plane b = rotatedPlanes[j];
+              Line intersection = b.Intersection(a);
+              Vector3D point = intersection.UnitSphereIntersection1;
+              points.Add(point);
+            }
+          }
+          foreach (Vector3D point in points)
+            result.Add((point * level).ToString(true));
+
+        }
+        File.WriteAllLines(sfd.FileName, result);
+      }
+    }
+
+    private void MultipleVarianceButton_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return; 
+
+        double min = 0;
+        double max = 2;
+        double step = 0.001;
+
+        int steps = Convert.ToInt32((Math.Round((max - min) / step)));
+
+        double current = step;
+        int generation = Convert.ToInt32(GenerationBox.Text);
+        List<string> content = new List<string>();
+        content.Add("Position,Variance,");
+
+        for (int i = 0; i < steps; i++, current += step)
+        {
+          Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2, Geodesic.DefaultProjectionPoint * current);
+          double variance = VarianceOf(geodesic);
+          content.Add(current.ToString() + "," + variance.ToString() + ",");
+        }
+        File.WriteAllLines(sfd.FileName, content); 
+      }
+
+    }
   }
 }
+ 

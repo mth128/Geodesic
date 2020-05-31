@@ -68,6 +68,12 @@ namespace Geodesic
       Z = z ;
     }
 
+    public Vector3D(Vector2D vector)
+    {
+      X = vector.x;
+      Y = 0;
+      Z = vector.y; 
+    }
 
     public static Vector3D operator +(Vector3D a, Vector3D b)
     {
@@ -176,6 +182,11 @@ namespace Geodesic
     public override string ToString()
     {
       return X.ToString() + ", " + Y.ToString() + ", " + Z.ToString();
+    }
+
+    public string ToString(bool noExponent)
+    {
+      return X.ToString("F99").TrimEnd('0') + ", " + Y.ToString("F99").TrimEnd('0') + ", " + Z.ToString("F99").TrimEnd('0');
     }
 
     /*

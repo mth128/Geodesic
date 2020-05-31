@@ -70,11 +70,14 @@
     <Compile Include="Computable\QuadraticFormula.cs" />
     <Compile Include="Computable\Radical.cs" />
     <Compile Include="Computable\Sum.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Geodesic3D.cs" />
+    <Compile Include="Paper\Geodesic.cs" />
+    <Compile Include="Paper\Vector3D.cs" />
+    <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Geodesic.cs" />
     <Compile Include="GeodesicGridTriangle.cs" />
@@ -97,8 +100,8 @@
     <EmbeddedResource Include="Computable\CustomSimplify\StorageForm.resx">
       <DependentUpon>StorageForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

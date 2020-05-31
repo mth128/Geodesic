@@ -1,6 +1,6 @@
 ﻿namespace Geodesic
 {
-  partial class Form1
+  partial class TestForm
   {
     /// <summary>
     /// Required designer variable.
@@ -64,8 +64,14 @@
       this.label4 = new System.Windows.Forms.Label();
       this.VarianceButton = new System.Windows.Forms.Button();
       this.SavePointsButton = new System.Windows.Forms.Button();
+      this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.LevelBox = new System.Windows.Forms.TextBox();
+      this.GenerateButton = new System.Windows.Forms.Button();
+      this.label17 = new System.Windows.Forms.Label();
+      this.MultipleVarianceButton = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
+      this.groupBox3.SuspendLayout();
       this.SuspendLayout();
       // 
       // label2
@@ -135,7 +141,7 @@
       this.groupBox1.Size = new System.Drawing.Size(200, 126);
       this.groupBox1.TabIndex = 38;
       this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "groupBox1";
+      this.groupBox1.Text = "Strike Point By Index";
       // 
       // YBox
       // 
@@ -198,7 +204,7 @@
       this.groupBox2.Size = new System.Drawing.Size(498, 156);
       this.groupBox2.TabIndex = 42;
       this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "groupBox2";
+      this.groupBox2.Text = "Strike Point By Position";
       // 
       // NextGenerationCallsBox
       // 
@@ -386,7 +392,7 @@
       this.VarianceButton.Name = "VarianceButton";
       this.VarianceButton.Size = new System.Drawing.Size(173, 23);
       this.VarianceButton.TabIndex = 43;
-      this.VarianceButton.Text = "Calculate Area Variance";
+      this.VarianceButton.Text = "Calculate Default Area Variance";
       this.VarianceButton.UseVisualStyleBackColor = true;
       this.VarianceButton.Click += new System.EventHandler(this.VarianceButton_Click);
       // 
@@ -400,11 +406,61 @@
       this.SavePointsButton.UseVisualStyleBackColor = true;
       this.SavePointsButton.Click += new System.EventHandler(this.SavePointsButton_Click);
       // 
-      // Form1
+      // groupBox3
+      // 
+      this.groupBox3.Controls.Add(this.LevelBox);
+      this.groupBox3.Controls.Add(this.GenerateButton);
+      this.groupBox3.Controls.Add(this.label17);
+      this.groupBox3.Location = new System.Drawing.Point(218, 61);
+      this.groupBox3.Name = "groupBox3";
+      this.groupBox3.Size = new System.Drawing.Size(200, 76);
+      this.groupBox3.TabIndex = 42;
+      this.groupBox3.TabStop = false;
+      this.groupBox3.Text = "Volume Grid";
+      // 
+      // LevelBox
+      // 
+      this.LevelBox.Location = new System.Drawing.Point(94, 19);
+      this.LevelBox.Name = "LevelBox";
+      this.LevelBox.Size = new System.Drawing.Size(100, 20);
+      this.LevelBox.TabIndex = 37;
+      // 
+      // GenerateButton
+      // 
+      this.GenerateButton.Location = new System.Drawing.Point(94, 45);
+      this.GenerateButton.Name = "GenerateButton";
+      this.GenerateButton.Size = new System.Drawing.Size(100, 23);
+      this.GenerateButton.TabIndex = 35;
+      this.GenerateButton.Text = "Generate";
+      this.GenerateButton.UseVisualStyleBackColor = true;
+      this.GenerateButton.Click += new System.EventHandler(this.GenerateButton_Click);
+      // 
+      // label17
+      // 
+      this.label17.AutoSize = true;
+      this.label17.Location = new System.Drawing.Point(8, 22);
+      this.label17.Name = "label17";
+      this.label17.Size = new System.Drawing.Size(41, 13);
+      this.label17.TabIndex = 36;
+      this.label17.Text = "Levels:";
+      // 
+      // MultipleVarianceButton
+      // 
+      this.MultipleVarianceButton.Location = new System.Drawing.Point(337, 32);
+      this.MultipleVarianceButton.Name = "MultipleVarianceButton";
+      this.MultipleVarianceButton.Size = new System.Drawing.Size(173, 23);
+      this.MultipleVarianceButton.TabIndex = 45;
+      this.MultipleVarianceButton.Text = "Calculate Multiple Area Variance";
+      this.MultipleVarianceButton.UseVisualStyleBackColor = true;
+      this.MultipleVarianceButton.Click += new System.EventHandler(this.MultipleVarianceButton_Click);
+      // 
+      // TestForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(523, 376);
+      this.Controls.Add(this.MultipleVarianceButton);
+      this.Controls.Add(this.groupBox3);
       this.Controls.Add(this.SavePointsButton);
       this.Controls.Add(this.VarianceButton);
       this.Controls.Add(this.groupBox2);
@@ -412,13 +468,15 @@
       this.Controls.Add(this.GeodesicAnalysisButton);
       this.Controls.Add(this.GenerationBox);
       this.Controls.Add(this.label2);
-      this.Name = "Form1";
+      this.Name = "TestForm";
       this.Text = "Form1";
       this.Load += new System.EventHandler(this.Form1_Load);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
+      this.groupBox3.ResumeLayout(false);
+      this.groupBox3.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -461,6 +519,11 @@
     private System.Windows.Forms.TextBox NextGenerationCallsBox;
     private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button SavePointsButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox LevelBox;
+        private System.Windows.Forms.Button GenerateButton;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button MultipleVarianceButton;
     }
 }
 
