@@ -1,4 +1,5 @@
 ﻿//using Computable;
+using Geodesic.Drawing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -167,7 +169,12 @@ namespace Geodesic
       }
     }*/
 
-     
+    /// <summary>
+    /// Calculate the area variance for both bisect and new geodesic grid for each generation up to the given one. 
+    /// This is put in a csv file. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void VarianceButton_Click(object sender, EventArgs e)
     {
       using (SaveFileDialog sfd = new SaveFileDialog() {Filter="*.csv|*.csv" })
@@ -180,7 +187,7 @@ namespace Geodesic
 
         int maxGeneration = Convert.ToInt32(GenerationBox.Text);
 
-        for (int generation = 0; generation < maxGeneration; generation++)
+        for (int generation = 0; generation <= maxGeneration; generation++)
         {
           BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
           double min = 10;
@@ -196,7 +203,7 @@ namespace Geodesic
           }
 
           double bisectVariance = max / min;
-          Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2);
+          Geodesic geodesic = new Geodesic(generation - 2);
           double geodesicViariance = VarianceOf(geodesic);
           if (generation == 0)
             geodesicViariance = 1; 
@@ -568,6 +575,12 @@ namespace Geodesic
       }
     }
 
+
+    /// <summary>
+    /// Calculate the area variance with a shifting projection point. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MultipleVarianceButton_Click(object sender, EventArgs e)
     {
       using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
@@ -595,6 +608,190 @@ namespace Geodesic
         File.WriteAllLines(sfd.FileName, content); 
       }
 
+    }
+
+    private void DrawAreaVarianceButton_Click(object sender, EventArgs e)
+    {
+      int generation = Convert.ToInt32(GenerationBox.Text);
+      Geodesic geodesic = new Geodesic(generation - 2);
+
+      BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
+
+      List<DrawTriangle> triangles = new List<DrawTriangle>();
+      List<DrawTriangle> bisectTriangles = new List<DrawTriangle>();
+
+      double minArea = 10;
+      double maxArea = 0;
+      double totalArea = 0;
+      double totalBisectArea = 0; 
+
+      for (int i = 0; i < geodesic.MaxGridIndex; i++)
+      {
+        GridIndex index = geodesic.GetGridIndex(i);
+        GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
+        double area = triangle.Area;
+        if (area < minArea)
+          minArea = area;
+        if (area > maxArea)
+          maxArea = area;
+        totalArea += area;
+      }
+
+      foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+      {
+        double area = triangle.Area;
+        if (area < minArea)
+          minArea = area;
+        if (area > maxArea)
+          maxArea = area;
+        totalBisectArea += area;
+      }
+
+      double averageArea = totalArea / geodesic.MaxGridIndex;
+      double averageBisectArea = totalBisectArea / bisectGeodesic.SphericalTriangles.Count; 
+
+      for (int i = 0; i < geodesic.MaxGridIndex; i++)
+      {
+        GridIndex index = geodesic.GetGridIndex(i);
+        GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
+        DrawTriangle drawTriangle = new DrawTriangle()
+        {
+          point1 = triangle.PointAB,
+          point2 = triangle.PointBC,
+          point3 = triangle.PointCA
+        };
+        drawTriangle.fillColor = GenerateEnhancedColorFor(triangle.Area, minArea, maxArea, averageArea);
+        triangles.Add(drawTriangle);
+      }
+
+      foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+      {
+        DrawTriangle drawTriangle = new DrawTriangle()
+        {
+          point1 = triangle.A,
+          point2 = triangle.B,
+          point3 = triangle.C
+        };
+        drawTriangle.fillColor = GenerateEnhancedColorFor(triangle.Area, minArea, maxArea, averageBisectArea);
+        bisectTriangles.Add(drawTriangle);
+      }
+
+
+      IllustrationForm illustrationForm = new IllustrationForm();
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        illustrationForm.triangles = triangles;
+        illustrationForm.fill = true;
+        illustrationForm.lines = false;
+        illustrationForm.Text = "Cut Geodesic Grid";
+        illustrationForm.Show(); 
+      }
+
+      IllustrationForm bisectForm = new IllustrationForm();
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        bisectForm.triangles = bisectTriangles;
+        bisectForm.fill = true;
+        bisectForm.lines = false;
+        bisectForm.Text = "Bisect Geodesic Grid";
+        bisectForm.Show();
+      }
+
+      DrawScale(minArea, maxArea, averageArea);
+
+    }
+
+
+
+
+
+    private Color GenerateColorFor(double area, double minArea, double maxArea, double averageArea)
+    {
+      double maxDeviation = maxArea - averageArea;
+      double minDeviation = averageArea - minArea;
+
+      double bigDeviation = maxDeviation > minDeviation ? maxDeviation : minDeviation;
+
+      if (area == averageArea)
+        return Color.White; 
+      if (area<averageArea)
+      {
+        double deviation = averageArea - area;
+        int yellowNess = Convert.ToInt32((1 - deviation/bigDeviation)*255);
+
+        return Color.FromArgb(yellowNess, yellowNess, 255); 
+      }
+      else
+      {
+        double deviation = area - averageArea;
+        int cyanNess = Convert.ToInt32((1 - deviation / bigDeviation) * 255);
+
+        return Color.FromArgb(255, cyanNess, cyanNess);
+      }
+
+    }
+
+    private Color GenerateEnhancedColorFor(double area, double minArea, double maxArea, double averageArea)
+    {
+      double maxDeviation = maxArea - averageArea;
+      double minDeviation = averageArea - minArea;
+
+      double bigDeviation = maxDeviation > minDeviation ? maxDeviation : minDeviation;
+
+      if (area == averageArea)
+        return Color.White;
+      if (area < averageArea)
+      {
+        double deviation = averageArea - area;
+        double scale = deviation / bigDeviation;
+        double enhanced = Enhance(scale); 
+        int greenNess = Convert.ToInt32((1 - scale) * 255);
+        int redNess = Convert.ToInt32((1 - enhanced) * 255);
+        return Color.FromArgb(redNess, greenNess, 255);
+      }
+      else
+      {
+        double deviation = area - averageArea;
+        double scale = deviation / bigDeviation;
+        double enhanced = Enhance(scale);
+        int blueNess = Convert.ToInt32((1 - enhanced) * 255);
+        int greenNess = Convert.ToInt32((1 - scale) * 255);
+        return Color.FromArgb(255, greenNess, blueNess);
+      }
+
+    }
+
+    private double Enhance(double value)
+    {
+      return Math.Sqrt(Math.Sqrt(value));
+    }
+
+    private void DrawScale(double minArea, double maxArea, double averageArea)
+    {
+      double deviation1 = maxArea - averageArea;
+      double deviation2 = averageArea - minArea;
+      double deviation = deviation1 > deviation2 ? deviation1 : deviation2;
+      minArea = averageArea - deviation;
+      maxArea = averageArea + deviation;
+
+      double step = (maxArea - minArea) / 800;
+
+      List<Color> colorArray = new List<Color>(); 
+      for (int i = 0; i<800; i++)
+      {
+        double current = minArea + step * i;
+        colorArray.Add(GenerateEnhancedColorFor(current, minArea, maxArea, averageArea));
+      }
+
+      IllustrationForm bisectForm = new IllustrationForm();
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        bisectForm.colorArray = colorArray;
+        bisectForm.fill = true;
+        bisectForm.lines = false;
+        bisectForm.Text = "Scale";
+        bisectForm.Show();
+      }
     }
   }
 }

@@ -69,6 +69,7 @@
       this.GenerateButton = new System.Windows.Forms.Button();
       this.label17 = new System.Windows.Forms.Label();
       this.MultipleVarianceButton = new System.Windows.Forms.Button();
+      this.DrawAreaVariance = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.groupBox3.SuspendLayout();
@@ -411,7 +412,7 @@
       this.groupBox3.Controls.Add(this.LevelBox);
       this.groupBox3.Controls.Add(this.GenerateButton);
       this.groupBox3.Controls.Add(this.label17);
-      this.groupBox3.Location = new System.Drawing.Point(218, 61);
+      this.groupBox3.Location = new System.Drawing.Point(218, 111);
       this.groupBox3.Name = "groupBox3";
       this.groupBox3.Size = new System.Drawing.Size(200, 76);
       this.groupBox3.TabIndex = 42;
@@ -454,11 +455,22 @@
       this.MultipleVarianceButton.UseVisualStyleBackColor = true;
       this.MultipleVarianceButton.Click += new System.EventHandler(this.MultipleVarianceButton_Click);
       // 
+      // DrawAreaVariance
+      // 
+      this.DrawAreaVariance.Location = new System.Drawing.Point(337, 61);
+      this.DrawAreaVariance.Name = "DrawAreaVariance";
+      this.DrawAreaVariance.Size = new System.Drawing.Size(173, 23);
+      this.DrawAreaVariance.TabIndex = 46;
+      this.DrawAreaVariance.Text = "Draw New Area Variance";
+      this.DrawAreaVariance.UseVisualStyleBackColor = true;
+      this.DrawAreaVariance.Click += new System.EventHandler(this.DrawAreaVarianceButton_Click);
+      // 
       // TestForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(523, 376);
+      this.Controls.Add(this.DrawAreaVariance);
       this.Controls.Add(this.MultipleVarianceButton);
       this.Controls.Add(this.groupBox3);
       this.Controls.Add(this.SavePointsButton);
@@ -524,6 +536,7 @@
         private System.Windows.Forms.Button GenerateButton;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button MultipleVarianceButton;
-    }
+    private System.Windows.Forms.Button DrawAreaVariance;
+  }
 }
 
