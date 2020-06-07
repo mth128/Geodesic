@@ -393,7 +393,7 @@
       this.VarianceButton.Name = "VarianceButton";
       this.VarianceButton.Size = new System.Drawing.Size(173, 23);
       this.VarianceButton.TabIndex = 43;
-      this.VarianceButton.Text = "Calculate Default Area Variance";
+      this.VarianceButton.Text = "Compare Area Variance";
       this.VarianceButton.UseVisualStyleBackColor = true;
       this.VarianceButton.Click += new System.EventHandler(this.VarianceButton_Click);
       // 
@@ -447,11 +447,11 @@
       // 
       // MultipleVarianceButton
       // 
-      this.MultipleVarianceButton.Location = new System.Drawing.Point(337, 32);
+      this.MultipleVarianceButton.Location = new System.Drawing.Point(301, 32);
       this.MultipleVarianceButton.Name = "MultipleVarianceButton";
-      this.MultipleVarianceButton.Size = new System.Drawing.Size(173, 23);
+      this.MultipleVarianceButton.Size = new System.Drawing.Size(209, 23);
       this.MultipleVarianceButton.TabIndex = 45;
-      this.MultipleVarianceButton.Text = "Calculate Multiple Area Variance";
+      this.MultipleVarianceButton.Text = "Shifting Projection Point Area Variance";
       this.MultipleVarianceButton.UseVisualStyleBackColor = true;
       this.MultipleVarianceButton.Click += new System.EventHandler(this.MultipleVarianceButton_Click);
       // 
@@ -461,7 +461,7 @@
       this.DrawAreaVariance.Name = "DrawAreaVariance";
       this.DrawAreaVariance.Size = new System.Drawing.Size(173, 23);
       this.DrawAreaVariance.TabIndex = 46;
-      this.DrawAreaVariance.Text = "Draw New Area Variance";
+      this.DrawAreaVariance.Text = "Draw Compare Area Variance";
       this.DrawAreaVariance.UseVisualStyleBackColor = true;
       this.DrawAreaVariance.Click += new System.EventHandler(this.DrawAreaVarianceButton_Click);
       // 

@@ -11,6 +11,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Schema;
 
 namespace Geodesic
 {
@@ -104,7 +105,7 @@ namespace Geodesic
       }
     }
 
-    public double VarianceOf(Geodesic geodesic)
+    public Variance VarianceOf(Geodesic geodesic)
     {
       List<double> areas = new List<double>();
       double totalArea = 0;
@@ -122,7 +123,13 @@ namespace Geodesic
         if (area < minArea)
           minArea = area;
       }
-      double variance = maxArea / minArea;
+      Variance variance = new Variance();
+      variance.variance = maxArea / minArea;
+
+      variance.max = maxArea;
+      variance.min = minArea;
+      variance.average = totalArea / geodesic.MaxGridIndex; 
+
       return variance; 
 
     }
@@ -183,16 +190,18 @@ namespace Geodesic
           return;
 
         List<string> result = new List<string>();
-        result.Add("Generation,Bisect Variance,Geodesic Variance,");
+        result.Add("generation,bisect min,bisect max, bisect average, projection point min, projection point max, projection point average,");
+
+
 
         int maxGeneration = Convert.ToInt32(GenerationBox.Text);
 
-        for (int generation = 0; generation <= maxGeneration; generation++)
+        for (int generation = 1; generation <= maxGeneration; generation++)
         {
           BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
           double min = 10;
           double max = 0;
-
+          double total = 0; 
           foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
           {
             double area = triangle.Area;
@@ -200,14 +209,15 @@ namespace Geodesic
               min = area;
             if (area > max)
               max = area;
+            total += area;
           }
+          double average = total / bisectGeodesic.SphericalTriangles.Count; 
 
           double bisectVariance = max / min;
           Geodesic geodesic = new Geodesic(generation - 2);
-          double geodesicViariance = VarianceOf(geodesic);
-          if (generation == 0)
-            geodesicViariance = 1; 
-          result.Add(generation.ToString() + "," + bisectVariance.ToString() + "," + geodesicViariance.ToString() + ",");
+          Variance geodesicViariance = VarianceOf(geodesic);
+          result.Add(generation.ToString() + "," + min.ToString() + "," +max.ToString()+","+average.ToString()+
+            "," +geodesicViariance.min.ToString() + "," + geodesicViariance.max.ToString() + "," + geodesicViariance.average.ToString() + ",");
         }
         File.WriteAllLines(sfd.FileName, result); 
       }      
@@ -602,7 +612,7 @@ namespace Geodesic
         for (int i = 0; i < steps; i++, current += step)
         {
           Geodesic geodesic = new Geodesic(Convert.ToInt32(generation) - 2, Geodesic.DefaultProjectionPoint * current);
-          double variance = VarianceOf(geodesic);
+          double variance = VarianceOf(geodesic).variance;
           content.Add(current.ToString() + "," + variance.ToString() + ",");
         }
         File.WriteAllLines(sfd.FileName, content); 
@@ -776,23 +786,34 @@ namespace Geodesic
 
       double step = (maxArea - minArea) / 800;
 
-      List<Color> colorArray = new List<Color>(); 
+      List<Color> colorArray = new List<Color>();
+      List<double> values = new List<double>(); 
       for (int i = 0; i<800; i++)
       {
         double current = minArea + step * i;
         colorArray.Add(GenerateEnhancedColorFor(current, minArea, maxArea, averageArea));
+        values.Add(current / averageArea-1); 
       }
 
       IllustrationForm bisectForm = new IllustrationForm();
       //using (IllustrationForm illustrationForm = new IllustrationForm())
       {
         bisectForm.colorArray = colorArray;
+        bisectForm.values = values; 
         bisectForm.fill = true;
         bisectForm.lines = false;
         bisectForm.Text = "Scale";
         bisectForm.Show();
       }
     }
+  }
+
+  public class Variance
+  {
+    public double min;
+    public double max;
+    public double average;
+    public double variance; 
   }
 }
  
