@@ -221,7 +221,7 @@ namespace Geodesic
 
         for (int generation = 1; generation <= maxGeneration; generation++)
         {
-          BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
+          BisectGeodesicLowMemory bisectGeodesic = new BisectGeodesicLowMemory(generation);
           double min = 10;
           double max = 0;
           double total = 0;
@@ -229,8 +229,10 @@ namespace Geodesic
           double lengthMin = 10;
           double lengthMax = 0;
           double lengthTotal = 0; 
-          foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+          //foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+          for (int i =0; i<bisectGeodesic.TriangleCount;i++)
           {
+            SphericalTriangle triangle = bisectGeodesic.GetTriangle(i); 
             double area = triangle.Area;
             if (area < min)
               min = area;
@@ -248,8 +250,8 @@ namespace Geodesic
               lengthMin = minLength;
             lengthTotal += ab + bc + ca; 
           }
-          double average = total / bisectGeodesic.SphericalTriangles.Count;
-          double averageLength = lengthTotal / bisectGeodesic.SphericalTriangles.Count / 3; 
+          double average = total / bisectGeodesic.TriangleCount;
+          double averageLength = lengthTotal / bisectGeodesic.TriangleCount / 3; 
           double bisectVariance = max / min;
           Geodesic geodesic = new Geodesic(generation - 2);
           Variance geodesicViariance = VarianceOf(geodesic);

@@ -26,4 +26,31 @@ namespace Geodesic
     }
 
   }
+  public class BisectGeodesicLowMemory
+  {
+    public int generation; 
+    private static SphericalTriangle baseTriangle = new SphericalTriangle(Geodesic.ArcLeft, Geodesic.ArcLeft.RotateTop120, Geodesic.ArcLeft.RotateTop240);
+    private int triangleCount;
+    public int TriangleCount => triangleCount; 
+    public SphericalTriangle GetTriangle(int index)
+    {
+      SphericalTriangle triangle = baseTriangle;
+      for (int i = 0; i < generation; i++)
+      {
+        int subIndex = index & 3;
+        triangle = triangle.Bisect()[subIndex];
+        index >>= 2; 
+      }
+      return triangle; 
+    }
+
+    public BisectGeodesicLowMemory(int generation)
+    {
+      this.generation = generation;
+      triangleCount = 1;
+      for (int i = 0; i < generation; i++)
+        triangleCount *= 4; 
+    }
+
+  }
 }
