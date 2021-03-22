@@ -111,6 +111,11 @@ namespace Geodesic
       double totalArea = 0;
       double maxArea = -10;
       double minArea = 10;
+
+      double lengthMin = 10;
+      double lengthMax = 0;
+      double lengthTotal = 0;
+
       for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
         GridIndex index = geodesic.GetGridIndex(i);
@@ -122,13 +127,30 @@ namespace Geodesic
           maxArea = area;
         if (area < minArea)
           minArea = area;
+
+        double a = (triangle.PointCA - triangle.PointAB).Magnitude;
+        double b = (triangle.PointAB - triangle.PointBC).Magnitude;
+        double c = (triangle.PointBC - triangle.PointCA).Magnitude;
+
+        double maxLength = a > b ? a > c ? a : c : b > c ? b : c;
+        double minLength = a < b ? a < c ? a : c : b < c ? b : c;
+        if (maxLength > lengthMax)
+          lengthMax = maxLength;
+        if (minLength < lengthMin)
+          lengthMin = minLength;
+
+        lengthTotal += a + b + c; 
       }
       Variance variance = new Variance();
       variance.variance = maxArea / minArea;
 
       variance.max = maxArea;
       variance.min = minArea;
-      variance.average = totalArea / geodesic.MaxGridIndex; 
+      variance.average = totalArea / geodesic.MaxGridIndex;
+
+      variance.lengthMin = lengthMin;
+      variance.lengthMax = lengthMax;
+      variance.lengthAverage = lengthTotal / geodesic.MaxGridIndex / 3;
 
       return variance; 
 
@@ -190,7 +212,8 @@ namespace Geodesic
           return;
 
         List<string> result = new List<string>();
-        result.Add("generation,bisect min,bisect max, bisect average, projection point min, projection point max, projection point average,");
+        result.Add("generation,bisect min,bisect max, bisect average, projection point min, projection point max, projection point average," +
+          "bisect length min, bisect length max, bisect length average, projection length min, projection length max, projection length average");
 
 
 
@@ -201,7 +224,11 @@ namespace Geodesic
           BisectGeodesic bisectGeodesic = new BisectGeodesic(generation);
           double min = 10;
           double max = 0;
-          double total = 0; 
+          double total = 0;
+
+          double lengthMin = 10;
+          double lengthMax = 0;
+          double lengthTotal = 0; 
           foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
           {
             double area = triangle.Area;
@@ -210,14 +237,27 @@ namespace Geodesic
             if (area > max)
               max = area;
             total += area;
+            double ab = (triangle.A - triangle.B).Magnitude;
+            double bc = (triangle.B - triangle.C).Magnitude;
+            double ca = (triangle.C - triangle.A).Magnitude;
+            double maxLength = ab > bc ? ab > ca ? ab : ca : bc > ca ? bc : ca;
+            double minLength = ab < bc ? ab < ca ? ab : ca : bc < ca ? bc : ca;
+            if (maxLength > lengthMax)
+              lengthMax = maxLength;
+            if (minLength < lengthMin)
+              lengthMin = minLength;
+            lengthTotal += ab + bc + ca; 
           }
-          double average = total / bisectGeodesic.SphericalTriangles.Count; 
-
+          double average = total / bisectGeodesic.SphericalTriangles.Count;
+          double averageLength = lengthTotal / bisectGeodesic.SphericalTriangles.Count / 3; 
           double bisectVariance = max / min;
           Geodesic geodesic = new Geodesic(generation - 2);
           Variance geodesicViariance = VarianceOf(geodesic);
-          result.Add(generation.ToString() + "," + min.ToString() + "," +max.ToString()+","+average.ToString()+
-            "," +geodesicViariance.min.ToString() + "," + geodesicViariance.max.ToString() + "," + geodesicViariance.average.ToString() + ",");
+          result.Add(generation.ToString() + "," + min.ToString() + "," + max.ToString() + "," + average.ToString() +
+            "," + geodesicViariance.min.ToString() + "," + geodesicViariance.max.ToString() + "," + geodesicViariance.average.ToString() + "," +
+           lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + "," +
+           geodesicViariance.lengthMin.ToString() + "," + geodesicViariance.lengthMax.ToString() + "," + geodesicViariance.lengthAverage.ToString()
+            ) ;  
         }
         File.WriteAllLines(sfd.FileName, result); 
       }      
@@ -813,7 +853,10 @@ namespace Geodesic
     public double min;
     public double max;
     public double average;
-    public double variance; 
+    public double variance;
+    public double lengthMin;
+    public double lengthMax;
+    public double lengthAverage;
   }
 }
  
