@@ -56,6 +56,18 @@ namespace Geodesic
       return result;
     }
 
+    public SphericalTriangle GetSubTriangle(int index, int generations)
+    {
+      SphericalTriangle triangle = this; 
+      for (int i = 0; i < generations; i++)
+      {
+        int subIndex = index & 3;
+        triangle = triangle.Bisect()[subIndex];
+        index >>= 2;
+      }
+      return triangle;
+    }
+
   }
 
 }

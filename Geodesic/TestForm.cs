@@ -848,9 +848,65 @@ namespace Geodesic
         bisectForm.Show();
       }
     }
-  }
 
-  public class Variance
+		private void CompareHybridButton_Click(object sender, EventArgs e)
+		{
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+
+        List<string> result = new List<string>();
+        result.Add("projection point generation, bisect generation, area min, area max, area average, length min, length max, length average,");
+
+        int maxGeneration = Convert.ToInt32(GenerationBox.Text);
+
+        for (int bisectGeneration = 1; bisectGeneration <= maxGeneration; bisectGeneration++) 
+        for (int generation = 1; generation <= bisectGeneration; generation++)
+        {
+          HybridGrid hybridGrid = new HybridGrid(generation, bisectGeneration);
+          double minArea = 10;
+          double maxArea = 0;
+          double totalArea = 0;
+
+          double lengthMin = 10;
+          double lengthMax = 0;
+          double lengthTotal = 0;
+          //foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+          for (int i = 0; i < hybridGrid.TriangleCount; i++)
+          {
+            SphericalTriangle triangle = hybridGrid.GetTriangle(i);
+            double area = triangle.Area;
+            if (area < minArea)
+              minArea = area;
+            if (area > maxArea)
+              maxArea = area;
+            totalArea += area;
+            double ab = (triangle.A - triangle.B).Magnitude;
+            double bc = (triangle.B - triangle.C).Magnitude;
+            double ca = (triangle.C - triangle.A).Magnitude;
+            double maxLength = ab > bc ? ab > ca ? ab : ca : bc > ca ? bc : ca;
+            double minLength = ab < bc ? ab < ca ? ab : ca : bc < ca ? bc : ca;
+            if (maxLength > lengthMax)
+              lengthMax = maxLength;
+            if (minLength < lengthMin)
+              lengthMin = minLength;
+            lengthTotal += ab + bc + ca;
+          }
+          double averageArea = totalArea / hybridGrid.TriangleCount;
+          double averageLength = lengthTotal / hybridGrid.TriangleCount / 3;
+
+          result.Add(generation.ToString() + "," + bisectGeneration.ToString() + "," + 
+            minArea.ToString() + "," + maxArea.ToString() + "," + averageArea.ToString() + "," +
+           lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + ","
+            );
+        }
+        File.WriteAllLines(sfd.FileName, result);
+      }
+    }
+	}
+
+	public class Variance
   {
     public double min;
     public double max;

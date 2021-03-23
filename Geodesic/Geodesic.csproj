@@ -100,6 +100,7 @@
     <Compile Include="Drawing\IllustrationForm.Designer.cs">
       <DependentUpon>IllustrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HybridGrid.cs" />
     <Compile Include="Paper\Geodesic.cs" />
     <Compile Include="Paper\Vector3D.cs" />
     <Compile Include="TestForm.cs">
