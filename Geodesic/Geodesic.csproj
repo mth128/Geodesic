@@ -68,6 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyze.cs" />
+    <Compile Include="Average.cs" />
     <Compile Include="Computable\ComplexNumber.cs" />
     <Compile Include="Computable\CustomSimplify\CustomSimplifyStorage.cs" />
     <Compile Include="Computable\CustomSimplify\SimplifyForm.cs">
@@ -93,6 +95,7 @@
     <Compile Include="Computable\Radical.cs" />
     <Compile Include="Computable\Sum.cs" />
     <Compile Include="Drawing\DrawTriangle.cs" />
+    <Compile Include="FlatTriangle.cs" />
     <Compile Include="Geodesic3D.cs" />
     <Compile Include="Drawing\IllustrationForm.cs">
       <SubType>Form</SubType>
@@ -101,6 +104,8 @@
       <DependentUpon>IllustrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HybridGrid.cs" />
+    <Compile Include="Maximum.cs" />
+    <Compile Include="Minimum.cs" />
     <Compile Include="Paper\Geodesic.cs" />
     <Compile Include="Paper\Vector3D.cs" />
     <Compile Include="TestForm.cs">

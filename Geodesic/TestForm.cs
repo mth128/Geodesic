@@ -900,9 +900,109 @@ namespace Geodesic
             minArea.ToString() + "," + maxArea.ToString() + "," + averageArea.ToString() + "," +
            lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + ","
             );
+            try
+            {
+              File.WriteAllLines(sfd.FileName + ".temp.csv", result);
+            }
+            catch
+            {
+
+            }
         }
         File.WriteAllLines(sfd.FileName, result);
       }
+    }
+
+		private void ComparePropertiesButton_Click(object sender, EventArgs e)
+		{
+      int generation = Convert.ToInt32(GenerationBox.Text);
+      int hybridGeneration = Convert.ToInt32(HybridGenerationBox.Text);
+      BisectGeodesicLowMemory bisectGeodesic = new BisectGeodesicLowMemory(generation);
+      Geodesic geodesic = new Geodesic(generation - 2);
+      HybridGrid hybridGrid = new HybridGrid(hybridGeneration, generation); 
+
+
+      Analyze bisectAngle = new Analyze();
+      Analyze bisectLength = new Analyze();
+      Analyze bisectArea = new Analyze(); 
+
+      Analyze geodesicAngle = new Analyze();
+      Analyze geodesicLength = new Analyze();
+      Analyze geodesicArea = new Analyze();
+
+      Analyze hybridAngle = new Analyze();
+      Analyze hybridLength = new Analyze();
+      Analyze hybridArea = new Analyze(); 
+
+
+      for (int i = 0; i < bisectGeodesic.TriangleCount; i++)
+      {
+        SphericalTriangle sphericalTriangle = bisectGeodesic.GetTriangle(i);
+        //do stuff with bisect triangle. 
+
+        FlatTriangle triangle = new FlatTriangle(sphericalTriangle.A, sphericalTriangle.B, sphericalTriangle.C);
+
+        double angleA = triangle.AB.AngleBetweenDegree(triangle.CA);
+        double angleB = triangle.BC.AngleBetweenDegree(triangle.AB);
+        double angleC = triangle.CA.AngleBetweenDegree(triangle.BC);
+
+        double lengthAB = (triangle.A - triangle.B).Magnitude;
+        double lengthBC = (triangle.B - triangle.C).Magnitude;
+        double lengthCA = (triangle.C - triangle.A).Magnitude;
+
+        bisectAngle.Add(angleA, angleB, angleC);
+        bisectLength.Add(lengthAB, lengthBC, lengthCA);
+        bisectArea.Add(triangle.Area); 
+      }
+
+
+      for (int i = 0; i < geodesic.MaxGridIndex; i++)
+      {
+        GridIndex index = geodesic.GetGridIndex(i);
+        GeodesicGridTriangle geoTriangle = index.GeodesicGridTriangle;
+        //do stuff with projection point triangle. 
+
+        FlatTriangle triangle = new FlatTriangle(geoTriangle.PointAB, geoTriangle.PointBC, geoTriangle.PointCA);
+        double angleA = triangle.AB.AngleBetweenDegree(triangle.CA);
+        double angleB = triangle.BC.AngleBetweenDegree(triangle.AB);
+        double angleC = triangle.CA.AngleBetweenDegree(triangle.BC);
+
+        double lengthAB = (triangle.A - triangle.B).Magnitude;
+        double lengthBC = (triangle.B - triangle.C).Magnitude;
+        double lengthCA = (triangle.C - triangle.A).Magnitude;
+
+        geodesicAngle.Add(angleA, angleB, angleC);
+        geodesicLength.Add(lengthAB, lengthBC, lengthCA);
+        geodesicArea.Add(triangle.Area); 
+      }
+
+
+      for (int i = 0; i < hybridGrid.TriangleCount; i++)
+      {
+        SphericalTriangle hybridTriangle = hybridGrid.GetTriangle(i); 
+        //do stuff with hybrid triangle. 
+
+        FlatTriangle triangle = new FlatTriangle(hybridTriangle.A, hybridTriangle.B, hybridTriangle.C);
+        double angleA = triangle.AB.AngleBetweenDegree(triangle.CA);
+        double angleB = triangle.BC.AngleBetweenDegree(triangle.AB);
+        double angleC = triangle.CA.AngleBetweenDegree(triangle.BC);
+
+        double lengthAB = (triangle.A - triangle.B).Magnitude;
+        double lengthBC = (triangle.B - triangle.C).Magnitude;
+        double lengthCA = (triangle.C - triangle.A).Magnitude;
+
+        hybridAngle.Add(angleA, angleB, angleC);
+        hybridLength.Add(lengthAB, lengthBC, lengthCA);
+        hybridArea.Add(triangle.Area);
+      }
+
+
+      MessageBox.Show("Bisect:\nLength:" + bisectLength.ToString() + "\n\nAngle:" + bisectAngle.ToString() + "\n\nArea" + bisectArea.ToString()+
+        "\n\n\nGeodesic:\nLength:" + geodesicLength.ToString() + "\n\nAngle:" + geodesicAngle.ToString() + "\n\nArea" + geodesicArea.ToString() +
+        "\n\n\nHybrid:\nLength:" + hybridLength.ToString() + "\n\nAngle:" + hybridAngle.ToString() + "\n\nArea" + hybridArea.ToString());
+
+
+
     }
 	}
 

@@ -92,6 +92,15 @@ namespace Geodesic
       return dif.Magnitude * MathE.Sqrt(1 - MathE.Squared(dot)); 
     }*/
 
+    public double AngleBetween(Line other)
+    {
+      return 2 * Math.Asin((UnitVector + other.UnitVector).Magnitude / 2); 
+    }
+
+    public double AngleBetweenDegree(Line other)
+    {
+      return AngleBetween(other) / Math.PI * 180; 
+    }
 
     /// <summary>
     /// Calculates the intersection between 2 lines. 

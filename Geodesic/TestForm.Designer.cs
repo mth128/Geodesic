@@ -71,6 +71,9 @@
 			this.MultipleVarianceButton = new System.Windows.Forms.Button();
 			this.DrawAreaVariance = new System.Windows.Forms.Button();
 			this.CompareHybridButton = new System.Windows.Forms.Button();
+			this.ComparePropertiesButton = new System.Windows.Forms.Button();
+			this.HybridGenerationBox = new System.Windows.Forms.TextBox();
+			this.label15 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -79,25 +82,28 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 9);
+			this.label2.Location = new System.Drawing.Point(13, 11);
+			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(59, 13);
+			this.label2.Size = new System.Drawing.Size(79, 17);
 			this.label2.TabIndex = 14;
 			this.label2.Text = "Generation";
 			// 
 			// GenerationBox
 			// 
-			this.GenerationBox.Location = new System.Drawing.Point(75, 6);
+			this.GenerationBox.Location = new System.Drawing.Point(100, 7);
+			this.GenerationBox.Margin = new System.Windows.Forms.Padding(4);
 			this.GenerationBox.Name = "GenerationBox";
-			this.GenerationBox.Size = new System.Drawing.Size(100, 20);
+			this.GenerationBox.Size = new System.Drawing.Size(132, 22);
 			this.GenerationBox.TabIndex = 15;
 			this.GenerationBox.Text = "5";
 			// 
 			// GeodesicAnalysisButton
 			// 
-			this.GeodesicAnalysisButton.Location = new System.Drawing.Point(12, 32);
+			this.GeodesicAnalysisButton.Location = new System.Drawing.Point(16, 39);
+			this.GeodesicAnalysisButton.Margin = new System.Windows.Forms.Padding(4);
 			this.GeodesicAnalysisButton.Name = "GeodesicAnalysisButton";
-			this.GeodesicAnalysisButton.Size = new System.Drawing.Size(283, 23);
+			this.GeodesicAnalysisButton.Size = new System.Drawing.Size(377, 28);
 			this.GeodesicAnalysisButton.TabIndex = 34;
 			this.GeodesicAnalysisButton.Text = "Simple Geodesic Analyse Distance To Scaled Centerline";
 			this.GeodesicAnalysisButton.UseVisualStyleBackColor = true;
@@ -105,9 +111,10 @@
 			// 
 			// GetByIndexButton
 			// 
-			this.GetByIndexButton.Location = new System.Drawing.Point(94, 45);
+			this.GetByIndexButton.Location = new System.Drawing.Point(125, 55);
+			this.GetByIndexButton.Margin = new System.Windows.Forms.Padding(4);
 			this.GetByIndexButton.Name = "GetByIndexButton";
-			this.GetByIndexButton.Size = new System.Drawing.Size(100, 23);
+			this.GetByIndexButton.Size = new System.Drawing.Size(133, 28);
 			this.GetByIndexButton.TabIndex = 35;
 			this.GetByIndexButton.Text = "Get By Index";
 			this.GetByIndexButton.UseVisualStyleBackColor = true;
@@ -116,17 +123,19 @@
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(8, 22);
+			this.label7.Location = new System.Drawing.Point(11, 27);
+			this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(36, 13);
+			this.label7.Size = new System.Drawing.Size(45, 17);
 			this.label7.TabIndex = 36;
 			this.label7.Text = "Index:";
 			// 
 			// IndexBox
 			// 
-			this.IndexBox.Location = new System.Drawing.Point(94, 19);
+			this.IndexBox.Location = new System.Drawing.Point(125, 23);
+			this.IndexBox.Margin = new System.Windows.Forms.Padding(4);
 			this.IndexBox.Name = "IndexBox";
-			this.IndexBox.Size = new System.Drawing.Size(100, 20);
+			this.IndexBox.Size = new System.Drawing.Size(132, 22);
 			this.IndexBox.TabIndex = 37;
 			// 
 			// groupBox1
@@ -138,42 +147,48 @@
 			this.groupBox1.Controls.Add(this.IndexBox);
 			this.groupBox1.Controls.Add(this.GetByIndexButton);
 			this.groupBox1.Controls.Add(this.label7);
-			this.groupBox1.Location = new System.Drawing.Point(12, 61);
+			this.groupBox1.Location = new System.Drawing.Point(16, 75);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(200, 126);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+			this.groupBox1.Size = new System.Drawing.Size(267, 155);
 			this.groupBox1.TabIndex = 38;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Strike Point By Index";
 			// 
 			// YBox
 			// 
-			this.YBox.Location = new System.Drawing.Point(94, 99);
+			this.YBox.Location = new System.Drawing.Point(125, 122);
+			this.YBox.Margin = new System.Windows.Forms.Padding(4);
 			this.YBox.Name = "YBox";
-			this.YBox.Size = new System.Drawing.Size(100, 20);
+			this.YBox.Size = new System.Drawing.Size(132, 22);
 			this.YBox.TabIndex = 41;
 			// 
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(8, 102);
+			this.label9.Location = new System.Drawing.Point(11, 126);
+			this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(17, 13);
+			this.label9.Size = new System.Drawing.Size(21, 17);
 			this.label9.TabIndex = 40;
 			this.label9.Text = "Y:";
 			// 
 			// XBox
 			// 
-			this.XBox.Location = new System.Drawing.Point(94, 73);
+			this.XBox.Location = new System.Drawing.Point(125, 90);
+			this.XBox.Margin = new System.Windows.Forms.Padding(4);
 			this.XBox.Name = "XBox";
-			this.XBox.Size = new System.Drawing.Size(100, 20);
+			this.XBox.Size = new System.Drawing.Size(132, 22);
 			this.XBox.TabIndex = 39;
 			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(8, 76);
+			this.label8.Location = new System.Drawing.Point(11, 94);
+			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(17, 13);
+			this.label8.Size = new System.Drawing.Size(21, 17);
 			this.label8.TabIndex = 38;
 			this.label8.Text = "X:";
 			// 
@@ -201,107 +216,121 @@
 			this.groupBox2.Controls.Add(this.PositionBox);
 			this.groupBox2.Controls.Add(this.GetByPositionButton);
 			this.groupBox2.Controls.Add(this.label4);
-			this.groupBox2.Location = new System.Drawing.Point(12, 193);
+			this.groupBox2.Location = new System.Drawing.Point(16, 238);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(498, 156);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+			this.groupBox2.Size = new System.Drawing.Size(664, 192);
 			this.groupBox2.TabIndex = 42;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Strike Point By Position";
 			// 
 			// NextGenerationCallsBox
 			// 
-			this.NextGenerationCallsBox.Location = new System.Drawing.Point(303, 125);
+			this.NextGenerationCallsBox.Location = new System.Drawing.Point(404, 154);
+			this.NextGenerationCallsBox.Margin = new System.Windows.Forms.Padding(4);
 			this.NextGenerationCallsBox.Name = "NextGenerationCallsBox";
-			this.NextGenerationCallsBox.Size = new System.Drawing.Size(100, 20);
+			this.NextGenerationCallsBox.Size = new System.Drawing.Size(132, 22);
 			this.NextGenerationCallsBox.TabIndex = 56;
 			// 
 			// label14
 			// 
 			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(185, 128);
+			this.label14.Location = new System.Drawing.Point(247, 158);
+			this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(112, 13);
+			this.label14.Size = new System.Drawing.Size(149, 17);
 			this.label14.TabIndex = 55;
 			this.label14.Text = "Next Generation Calls:";
 			// 
 			// ItterationsBox
 			// 
-			this.ItterationsBox.Location = new System.Drawing.Point(79, 125);
+			this.ItterationsBox.Location = new System.Drawing.Point(105, 154);
+			this.ItterationsBox.Margin = new System.Windows.Forms.Padding(4);
 			this.ItterationsBox.Name = "ItterationsBox";
-			this.ItterationsBox.Size = new System.Drawing.Size(100, 20);
+			this.ItterationsBox.Size = new System.Drawing.Size(132, 22);
 			this.ItterationsBox.TabIndex = 54;
 			// 
 			// label13
 			// 
 			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(8, 128);
+			this.label13.Location = new System.Drawing.Point(11, 158);
+			this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(56, 13);
+			this.label13.Size = new System.Drawing.Size(74, 17);
 			this.label13.TabIndex = 53;
 			this.label13.Text = "Itterations:";
 			// 
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(343, 102);
+			this.label11.Location = new System.Drawing.Point(457, 126);
+			this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(18, 13);
+			this.label11.Size = new System.Drawing.Size(22, 17);
 			this.label11.TabIndex = 52;
 			this.label11.Text = "R:";
 			// 
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(343, 76);
+			this.label12.Location = new System.Drawing.Point(457, 94);
+			this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(18, 13);
+			this.label12.Size = new System.Drawing.Size(22, 17);
 			this.label12.TabIndex = 51;
 			this.label12.Text = "R:";
 			// 
 			// LowerRangeBox
 			// 
-			this.LowerRangeBox.Location = new System.Drawing.Point(364, 99);
+			this.LowerRangeBox.Location = new System.Drawing.Point(485, 122);
+			this.LowerRangeBox.Margin = new System.Windows.Forms.Padding(4);
 			this.LowerRangeBox.Name = "LowerRangeBox";
-			this.LowerRangeBox.Size = new System.Drawing.Size(128, 20);
+			this.LowerRangeBox.Size = new System.Drawing.Size(169, 22);
 			this.LowerRangeBox.TabIndex = 50;
 			// 
 			// UpperRangeBox
 			// 
-			this.UpperRangeBox.Location = new System.Drawing.Point(364, 73);
+			this.UpperRangeBox.Location = new System.Drawing.Point(485, 90);
+			this.UpperRangeBox.Margin = new System.Windows.Forms.Padding(4);
 			this.UpperRangeBox.Name = "UpperRangeBox";
-			this.UpperRangeBox.Size = new System.Drawing.Size(128, 20);
+			this.UpperRangeBox.Size = new System.Drawing.Size(169, 22);
 			this.UpperRangeBox.TabIndex = 49;
 			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(179, 102);
+			this.label10.Location = new System.Drawing.Point(239, 126);
+			this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(17, 13);
+			this.label10.Size = new System.Drawing.Size(21, 17);
 			this.label10.TabIndex = 48;
 			this.label10.Text = "X:";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(179, 76);
+			this.label6.Location = new System.Drawing.Point(239, 94);
+			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(17, 13);
+			this.label6.Size = new System.Drawing.Size(21, 17);
 			this.label6.TabIndex = 47;
 			this.label6.Text = "X:";
 			// 
 			// RangeBox
 			// 
-			this.RangeBox.Location = new System.Drawing.Point(79, 46);
+			this.RangeBox.Location = new System.Drawing.Point(105, 57);
+			this.RangeBox.Margin = new System.Windows.Forms.Padding(4);
 			this.RangeBox.Name = "RangeBox";
-			this.RangeBox.Size = new System.Drawing.Size(100, 20);
+			this.RangeBox.Size = new System.Drawing.Size(132, 22);
 			this.RangeBox.TabIndex = 46;
 			// 
 			// RangePositionButton
 			// 
-			this.RangePositionButton.Location = new System.Drawing.Point(200, 44);
+			this.RangePositionButton.Location = new System.Drawing.Point(267, 54);
+			this.RangePositionButton.Margin = new System.Windows.Forms.Padding(4);
 			this.RangePositionButton.Name = "RangePositionButton";
-			this.RangePositionButton.Size = new System.Drawing.Size(137, 23);
+			this.RangePositionButton.Size = new System.Drawing.Size(183, 28);
 			this.RangePositionButton.TabIndex = 44;
 			this.RangePositionButton.Text = "Get By Range Position";
 			this.RangePositionButton.UseVisualStyleBackColor = true;
@@ -310,70 +339,79 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(8, 49);
+			this.label5.Location = new System.Drawing.Point(11, 60);
+			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(72, 13);
+			this.label5.Size = new System.Drawing.Size(97, 17);
 			this.label5.TabIndex = 45;
 			this.label5.Text = "Range (0 - 1):";
 			// 
 			// LowerXBox
 			// 
-			this.LowerXBox.Location = new System.Drawing.Point(200, 99);
+			this.LowerXBox.Location = new System.Drawing.Point(267, 122);
+			this.LowerXBox.Margin = new System.Windows.Forms.Padding(4);
 			this.LowerXBox.Name = "LowerXBox";
-			this.LowerXBox.Size = new System.Drawing.Size(137, 20);
+			this.LowerXBox.Size = new System.Drawing.Size(181, 22);
 			this.LowerXBox.TabIndex = 43;
 			// 
 			// UpperXBox
 			// 
-			this.UpperXBox.Location = new System.Drawing.Point(200, 73);
+			this.UpperXBox.Location = new System.Drawing.Point(267, 90);
+			this.UpperXBox.Margin = new System.Windows.Forms.Padding(4);
 			this.UpperXBox.Name = "UpperXBox";
-			this.UpperXBox.Size = new System.Drawing.Size(137, 20);
+			this.UpperXBox.Size = new System.Drawing.Size(181, 22);
 			this.UpperXBox.TabIndex = 42;
 			// 
 			// LowerPositionBox
 			// 
-			this.LowerPositionBox.Location = new System.Drawing.Point(79, 99);
+			this.LowerPositionBox.Location = new System.Drawing.Point(105, 122);
+			this.LowerPositionBox.Margin = new System.Windows.Forms.Padding(4);
 			this.LowerPositionBox.Name = "LowerPositionBox";
-			this.LowerPositionBox.Size = new System.Drawing.Size(100, 20);
+			this.LowerPositionBox.Size = new System.Drawing.Size(132, 22);
 			this.LowerPositionBox.TabIndex = 41;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(8, 102);
+			this.label1.Location = new System.Drawing.Point(11, 126);
+			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(39, 13);
+			this.label1.Size = new System.Drawing.Size(50, 17);
 			this.label1.TabIndex = 40;
 			this.label1.Text = "Lower:";
 			// 
 			// UpperPositionBox
 			// 
-			this.UpperPositionBox.Location = new System.Drawing.Point(79, 73);
+			this.UpperPositionBox.Location = new System.Drawing.Point(105, 90);
+			this.UpperPositionBox.Margin = new System.Windows.Forms.Padding(4);
 			this.UpperPositionBox.Name = "UpperPositionBox";
-			this.UpperPositionBox.Size = new System.Drawing.Size(100, 20);
+			this.UpperPositionBox.Size = new System.Drawing.Size(132, 22);
 			this.UpperPositionBox.TabIndex = 39;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(8, 76);
+			this.label3.Location = new System.Drawing.Point(11, 94);
+			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(39, 13);
+			this.label3.Size = new System.Drawing.Size(51, 17);
 			this.label3.TabIndex = 38;
 			this.label3.Text = "Upper:";
 			// 
 			// PositionBox
 			// 
-			this.PositionBox.Location = new System.Drawing.Point(79, 19);
+			this.PositionBox.Location = new System.Drawing.Point(105, 23);
+			this.PositionBox.Margin = new System.Windows.Forms.Padding(4);
 			this.PositionBox.Name = "PositionBox";
-			this.PositionBox.Size = new System.Drawing.Size(100, 20);
+			this.PositionBox.Size = new System.Drawing.Size(132, 22);
 			this.PositionBox.TabIndex = 37;
 			// 
 			// GetByPositionButton
 			// 
-			this.GetByPositionButton.Location = new System.Drawing.Point(200, 17);
+			this.GetByPositionButton.Location = new System.Drawing.Point(267, 21);
+			this.GetByPositionButton.Margin = new System.Windows.Forms.Padding(4);
 			this.GetByPositionButton.Name = "GetByPositionButton";
-			this.GetByPositionButton.Size = new System.Drawing.Size(137, 23);
+			this.GetByPositionButton.Size = new System.Drawing.Size(183, 28);
 			this.GetByPositionButton.TabIndex = 35;
 			this.GetByPositionButton.Text = "Get By X Position";
 			this.GetByPositionButton.UseVisualStyleBackColor = true;
@@ -382,17 +420,19 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(8, 22);
+			this.label4.Location = new System.Drawing.Point(11, 27);
+			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(56, 13);
+			this.label4.Size = new System.Drawing.Size(74, 17);
 			this.label4.TabIndex = 36;
 			this.label4.Text = "X position:";
 			// 
 			// VarianceButton
 			// 
-			this.VarianceButton.Location = new System.Drawing.Point(194, 4);
+			this.VarianceButton.Location = new System.Drawing.Point(259, 5);
+			this.VarianceButton.Margin = new System.Windows.Forms.Padding(4);
 			this.VarianceButton.Name = "VarianceButton";
-			this.VarianceButton.Size = new System.Drawing.Size(173, 23);
+			this.VarianceButton.Size = new System.Drawing.Size(231, 28);
 			this.VarianceButton.TabIndex = 43;
 			this.VarianceButton.Text = "Compare Area Variance";
 			this.VarianceButton.UseVisualStyleBackColor = true;
@@ -400,9 +440,10 @@
 			// 
 			// SavePointsButton
 			// 
-			this.SavePointsButton.Location = new System.Drawing.Point(376, 32);
+			this.SavePointsButton.Location = new System.Drawing.Point(501, 39);
+			this.SavePointsButton.Margin = new System.Windows.Forms.Padding(4);
 			this.SavePointsButton.Name = "SavePointsButton";
-			this.SavePointsButton.Size = new System.Drawing.Size(137, 23);
+			this.SavePointsButton.Size = new System.Drawing.Size(183, 28);
 			this.SavePointsButton.TabIndex = 44;
 			this.SavePointsButton.Text = "Save Points";
 			this.SavePointsButton.UseVisualStyleBackColor = true;
@@ -413,25 +454,29 @@
 			this.groupBox3.Controls.Add(this.LevelBox);
 			this.groupBox3.Controls.Add(this.GenerateButton);
 			this.groupBox3.Controls.Add(this.label17);
-			this.groupBox3.Location = new System.Drawing.Point(218, 111);
+			this.groupBox3.Location = new System.Drawing.Point(291, 137);
+			this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(200, 76);
+			this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
+			this.groupBox3.Size = new System.Drawing.Size(267, 94);
 			this.groupBox3.TabIndex = 42;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Volume Grid";
 			// 
 			// LevelBox
 			// 
-			this.LevelBox.Location = new System.Drawing.Point(94, 19);
+			this.LevelBox.Location = new System.Drawing.Point(125, 23);
+			this.LevelBox.Margin = new System.Windows.Forms.Padding(4);
 			this.LevelBox.Name = "LevelBox";
-			this.LevelBox.Size = new System.Drawing.Size(100, 20);
+			this.LevelBox.Size = new System.Drawing.Size(132, 22);
 			this.LevelBox.TabIndex = 37;
 			// 
 			// GenerateButton
 			// 
-			this.GenerateButton.Location = new System.Drawing.Point(94, 45);
+			this.GenerateButton.Location = new System.Drawing.Point(125, 55);
+			this.GenerateButton.Margin = new System.Windows.Forms.Padding(4);
 			this.GenerateButton.Name = "GenerateButton";
-			this.GenerateButton.Size = new System.Drawing.Size(100, 23);
+			this.GenerateButton.Size = new System.Drawing.Size(133, 28);
 			this.GenerateButton.TabIndex = 35;
 			this.GenerateButton.Text = "Generate";
 			this.GenerateButton.UseVisualStyleBackColor = true;
@@ -440,17 +485,19 @@
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(8, 22);
+			this.label17.Location = new System.Drawing.Point(11, 27);
+			this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(41, 13);
+			this.label17.Size = new System.Drawing.Size(53, 17);
 			this.label17.TabIndex = 36;
 			this.label17.Text = "Levels:";
 			// 
 			// MultipleVarianceButton
 			// 
-			this.MultipleVarianceButton.Location = new System.Drawing.Point(302, 61);
+			this.MultipleVarianceButton.Location = new System.Drawing.Point(403, 75);
+			this.MultipleVarianceButton.Margin = new System.Windows.Forms.Padding(4);
 			this.MultipleVarianceButton.Name = "MultipleVarianceButton";
-			this.MultipleVarianceButton.Size = new System.Drawing.Size(209, 23);
+			this.MultipleVarianceButton.Size = new System.Drawing.Size(279, 28);
 			this.MultipleVarianceButton.TabIndex = 45;
 			this.MultipleVarianceButton.Text = "Shifting Projection Point Area Variance";
 			this.MultipleVarianceButton.UseVisualStyleBackColor = true;
@@ -458,9 +505,10 @@
 			// 
 			// DrawAreaVariance
 			// 
-			this.DrawAreaVariance.Location = new System.Drawing.Point(338, 90);
+			this.DrawAreaVariance.Location = new System.Drawing.Point(451, 111);
+			this.DrawAreaVariance.Margin = new System.Windows.Forms.Padding(4);
 			this.DrawAreaVariance.Name = "DrawAreaVariance";
-			this.DrawAreaVariance.Size = new System.Drawing.Size(173, 23);
+			this.DrawAreaVariance.Size = new System.Drawing.Size(231, 28);
 			this.DrawAreaVariance.TabIndex = 46;
 			this.DrawAreaVariance.Text = "Draw Compare Area Variance";
 			this.DrawAreaVariance.UseVisualStyleBackColor = true;
@@ -468,19 +516,53 @@
 			// 
 			// CompareHybridButton
 			// 
-			this.CompareHybridButton.Location = new System.Drawing.Point(373, 3);
+			this.CompareHybridButton.Location = new System.Drawing.Point(497, 4);
+			this.CompareHybridButton.Margin = new System.Windows.Forms.Padding(4);
 			this.CompareHybridButton.Name = "CompareHybridButton";
-			this.CompareHybridButton.Size = new System.Drawing.Size(173, 23);
+			this.CompareHybridButton.Size = new System.Drawing.Size(231, 28);
 			this.CompareHybridButton.TabIndex = 47;
 			this.CompareHybridButton.Text = "Compare Hybrid Area Variance";
 			this.CompareHybridButton.UseVisualStyleBackColor = true;
 			this.CompareHybridButton.Click += new System.EventHandler(this.CompareHybridButton_Click);
 			// 
+			// ComparePropertiesButton
+			// 
+			this.ComparePropertiesButton.Location = new System.Drawing.Point(13, 438);
+			this.ComparePropertiesButton.Margin = new System.Windows.Forms.Padding(4);
+			this.ComparePropertiesButton.Name = "ComparePropertiesButton";
+			this.ComparePropertiesButton.Size = new System.Drawing.Size(231, 35);
+			this.ComparePropertiesButton.TabIndex = 48;
+			this.ComparePropertiesButton.Text = "Compare Various Properties";
+			this.ComparePropertiesButton.UseVisualStyleBackColor = true;
+			this.ComparePropertiesButton.Click += new System.EventHandler(this.ComparePropertiesButton_Click);
+			// 
+			// HybridGenerationBox
+			// 
+			this.HybridGenerationBox.Location = new System.Drawing.Point(395, 447);
+			this.HybridGenerationBox.Margin = new System.Windows.Forms.Padding(4);
+			this.HybridGenerationBox.Name = "HybridGenerationBox";
+			this.HybridGenerationBox.Size = new System.Drawing.Size(132, 22);
+			this.HybridGenerationBox.TabIndex = 50;
+			this.HybridGenerationBox.Text = "5";
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(263, 447);
+			this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(124, 17);
+			this.label15.TabIndex = 49;
+			this.label15.Text = "Hybrid Generation";
+			// 
 			// TestForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(574, 376);
+			this.ClientSize = new System.Drawing.Size(765, 497);
+			this.Controls.Add(this.HybridGenerationBox);
+			this.Controls.Add(this.label15);
+			this.Controls.Add(this.ComparePropertiesButton);
 			this.Controls.Add(this.CompareHybridButton);
 			this.Controls.Add(this.DrawAreaVariance);
 			this.Controls.Add(this.MultipleVarianceButton);
@@ -492,6 +574,7 @@
 			this.Controls.Add(this.GeodesicAnalysisButton);
 			this.Controls.Add(this.GenerationBox);
 			this.Controls.Add(this.label2);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "TestForm";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
@@ -550,6 +633,9 @@
         private System.Windows.Forms.Button MultipleVarianceButton;
     private System.Windows.Forms.Button DrawAreaVariance;
 		private System.Windows.Forms.Button CompareHybridButton;
+		private System.Windows.Forms.Button ComparePropertiesButton;
+		private System.Windows.Forms.TextBox HybridGenerationBox;
+		private System.Windows.Forms.Label label15;
 	}
 }
 
