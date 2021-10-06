@@ -16,7 +16,20 @@ namespace Geodesic
 		public Line BC;
 		public Line CA;
 
-		public double Area => (B - A).Magnitude * (AB.DistanceTo(C)) / 2; 
+		public double Area => (B - A).Magnitude * (AB.DistanceTo(C)) / 2;
+
+		public Vector3D Center => (A + B + C) / 2;
+
+		public Vector3D Normal
+		{
+			get
+			{
+				Vector3D v = AB.UnitVector.Cross(BC.UnitVector).UnitVector;
+				if (v.Dot(A) < 0)
+					v = -v;
+				return v; 
+			}
+		}
 
 		public FlatTriangle(Vector3D a, Vector3D b, Vector3D c)
 		{
