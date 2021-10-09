@@ -89,5 +89,10 @@ namespace Geodesic
         return true;
       return false;
     }
-  }
+
+		public Vector3D Mirror(Vector3D v)
+		{
+      return v - UnitVector * 2 * DistanceTo(v);
+		}
+	}
 }

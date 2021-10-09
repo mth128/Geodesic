@@ -66,7 +66,7 @@ namespace Geodesic
     {
       Geodesic geodesic = new Geodesic(4);
 
-      Plane plane = geodesic.StrikeThroughPoints[13].RightPlane; 
+      Plane plane = geodesic.StrikeThroughPoints[13].RightPlane;
 
     }
 
@@ -89,8 +89,8 @@ namespace Geodesic
     {
 
       Geodesic geodesic = new Geodesic(1);
-      List<string> areas = new List<string>(); 
-      for (int i =0; i<geodesic.MaxGridIndex;i++)
+      List<string> areas = new List<string>();
+      for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
         GridIndex index = geodesic.GetGridIndex(i);
         GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
@@ -139,7 +139,7 @@ namespace Geodesic
         if (minLength < lengthMin)
           lengthMin = minLength;
 
-        lengthTotal += a + b + c; 
+        lengthTotal += a + b + c;
       }
       Variance variance = new Variance();
       variance.variance = maxArea / minArea;
@@ -152,7 +152,7 @@ namespace Geodesic
       variance.lengthMax = lengthMax;
       variance.lengthAverage = lengthTotal / geodesic.MaxGridIndex / 3;
 
-      return variance; 
+      return variance;
 
     }
 
@@ -206,7 +206,7 @@ namespace Geodesic
     /// <param name="e"></param>
     private void VarianceButton_Click(object sender, EventArgs e)
     {
-      using (SaveFileDialog sfd = new SaveFileDialog() {Filter="*.csv|*.csv" })
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
       {
         if (sfd.ShowDialog() != DialogResult.OK)
           return;
@@ -228,11 +228,11 @@ namespace Geodesic
 
           double lengthMin = 10;
           double lengthMax = 0;
-          double lengthTotal = 0; 
+          double lengthTotal = 0;
           //foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
-          for (int i =0; i<bisectGeodesic.TriangleCount;i++)
+          for (int i = 0; i < bisectGeodesic.TriangleCount; i++)
           {
-            SphericalTriangle triangle = bisectGeodesic.GetTriangle(i); 
+            SphericalTriangle triangle = bisectGeodesic.GetTriangle(i);
             double area = triangle.Area;
             if (area < min)
               min = area;
@@ -248,10 +248,10 @@ namespace Geodesic
               lengthMax = maxLength;
             if (minLength < lengthMin)
               lengthMin = minLength;
-            lengthTotal += ab + bc + ca; 
+            lengthTotal += ab + bc + ca;
           }
           double average = total / bisectGeodesic.TriangleCount;
-          double averageLength = lengthTotal / bisectGeodesic.TriangleCount / 3; 
+          double averageLength = lengthTotal / bisectGeodesic.TriangleCount / 3;
           double bisectVariance = max / min;
           Geodesic geodesic = new Geodesic(generation - 2);
           Variance geodesicViariance = VarianceOf(geodesic);
@@ -259,10 +259,10 @@ namespace Geodesic
             "," + geodesicViariance.min.ToString() + "," + geodesicViariance.max.ToString() + "," + geodesicViariance.average.ToString() + "," +
            lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + "," +
            geodesicViariance.lengthMin.ToString() + "," + geodesicViariance.lengthMax.ToString() + "," + geodesicViariance.lengthAverage.ToString()
-            ) ;  
+            );
         }
-        File.WriteAllLines(sfd.FileName, result); 
-      }      
+        File.WriteAllLines(sfd.FileName, result);
+      }
     }
 
     /*
@@ -306,8 +306,8 @@ namespace Geodesic
         lines.Add(point.X.ToString());
         lines.Add(point.Y.ToString());
         lines.Add(point.Z.ToString());
-        lines.Add(sigma.ToString()); 
-        lines.Add("-----------------------------------"); 
+        lines.Add(sigma.ToString());
+        lines.Add("-----------------------------------");
       }
       using (SaveFileDialog sfd = new SaveFileDialog())
       {
@@ -363,12 +363,12 @@ namespace Geodesic
       Equation length = DefaultProjectionPoint.Magnitude; 
     }*/
 
-      /*
-    private void OpenEquationFormButton_Click(object sender, EventArgs e)
-    {
-      using (SimplifyForm form = new SimplifyForm())
-        form.ShowDialog(); 
-    }*/
+    /*
+  private void OpenEquationFormButton_Click(object sender, EventArgs e)
+  {
+    using (SimplifyForm form = new SimplifyForm())
+      form.ShowDialog(); 
+  }*/
 
     private void AnalyseButton_Click(object sender, EventArgs e)
     {
@@ -380,13 +380,13 @@ namespace Geodesic
         List<string> lines = new List<string>();
         string header = "Count;Index;IndexBin;Distance;DistanceEquation;X;Y;";
         lines.Add(header);
-        int i = 0; 
-        foreach(StrikeThroughPointPair pair in geodesic.StrikeThroughPoints)
+        int i = 0;
+        foreach (StrikeThroughPointPair pair in geodesic.StrikeThroughPoints)
         {
           string line = i.ToString() + ";";
           i++;
           line += pair.LeftIndex.ToString() + ";";
-          line += Convert.ToString(pair.LeftIndex, 2)+";";
+          line += Convert.ToString(pair.LeftIndex, 2) + ";";
           line += (-pair.DistanceToScaledCenterLine).ToString() + ";";
           //line += (-pair.DistanceToScaledCenterLine.Value).ToString()+";";
           //line += (-pair.DistanceToScaledCenterLine).Content.Equation + ";";
@@ -399,7 +399,7 @@ namespace Geodesic
           lines.Add(line);
           line = "";
 
-          line+=i.ToString() + ";";
+          line += i.ToString() + ";";
           i++;
           line += pair.RightIndex.ToString() + ";";
           line += Convert.ToString(pair.RightIndex, 2) + ";";
@@ -480,8 +480,8 @@ namespace Geodesic
               line += set.secondary.y.ToString() + ";";
               lines.Add(line);
             }
-            
-            if (g<generations-1)
+
+            if (g < generations - 1)
             {
               next.Add(MinimalEquation.NextBasic(set.primary, set.primaryIndex));
               if (set.secondary != null)
@@ -489,9 +489,9 @@ namespace Geodesic
             }
           }
           current = next;
-          next = new List<ScaledCenterlinePair>(); 
+          next = new List<ScaledCenterlinePair>();
         }
-        File.WriteAllLines(sfd.FileName, lines); 
+        File.WriteAllLines(sfd.FileName, lines);
       }
     }
 
@@ -506,7 +506,7 @@ namespace Geodesic
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message, "Error"); 
+        MessageBox.Show(ex.Message, "Error");
       }
     }
 
@@ -524,7 +524,7 @@ namespace Geodesic
         LowerXBox.Text = pair.lower.x.ToString();
         LowerRangeBox.Text = pair.lowerRange.ToString();
         ItterationsBox.Text = pair.itterations.ToString();
-        NextGenerationCallsBox.Text = pair.nextGenerationCalls.ToString(); 
+        NextGenerationCallsBox.Text = pair.nextGenerationCalls.ToString();
       }
       catch (Exception ex)
       {
@@ -540,7 +540,7 @@ namespace Geodesic
         BoundPair pair = MinimalEquation.GetByRange(position);
         UpperPositionBox.Text = pair.upperIndex.ToString();
         UpperXBox.Text = pair.upper.x.ToString();
-        UpperRangeBox.Text = pair.upperRange.ToString(); 
+        UpperRangeBox.Text = pair.upperRange.ToString();
         LowerPositionBox.Text = pair.lowerIndex.ToString();
         LowerXBox.Text = pair.lower.x.ToString();
         LowerRangeBox.Text = pair.lowerRange.ToString();
@@ -569,7 +569,7 @@ namespace Geodesic
           GeodesicGridTriangle triangle = index.GeodesicGridTriangle;
 
           foreach (Vector3D point in triangle.Points)
-            lines.Add(point.ToString()); 
+            lines.Add(point.ToString());
         }
 
         System.IO.File.WriteAllLines(sfd.FileName, lines);
@@ -600,7 +600,7 @@ namespace Geodesic
           for (int i = 0; i <= level; i++, range -= step)
           {
             if (range < 0)
-              range = 0; 
+              range = 0;
             Vector2D cutPoint = MinimalEquation.GetVector2DByRange(range);
             Plane plane = MinimalEquation.GetPlane(cutPoint);
             planes.Add(plane);
@@ -638,7 +638,7 @@ namespace Geodesic
       using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
       {
         if (sfd.ShowDialog() != DialogResult.OK)
-          return; 
+          return;
 
         double min = 0;
         double max = 2;
@@ -657,7 +657,7 @@ namespace Geodesic
           double variance = VarianceOf(geodesic).variance;
           content.Add(current.ToString() + "," + variance.ToString() + ",");
         }
-        File.WriteAllLines(sfd.FileName, content); 
+        File.WriteAllLines(sfd.FileName, content);
       }
 
     }
@@ -675,7 +675,7 @@ namespace Geodesic
       double minArea = 10;
       double maxArea = 0;
       double totalArea = 0;
-      double totalBisectArea = 0; 
+      double totalBisectArea = 0;
 
       for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
@@ -700,7 +700,7 @@ namespace Geodesic
       }
 
       double averageArea = totalArea / geodesic.MaxGridIndex;
-      double averageBisectArea = totalBisectArea / bisectGeodesic.SphericalTriangles.Count; 
+      double averageBisectArea = totalBisectArea / bisectGeodesic.SphericalTriangles.Count;
 
       for (int i = 0; i < geodesic.MaxGridIndex; i++)
       {
@@ -736,7 +736,7 @@ namespace Geodesic
         illustrationForm.fill = true;
         illustrationForm.lines = false;
         illustrationForm.Text = "Cut Geodesic Grid";
-        illustrationForm.Show(); 
+        illustrationForm.Show();
       }
 
       IllustrationForm bisectForm = new IllustrationForm();
@@ -765,13 +765,13 @@ namespace Geodesic
       double bigDeviation = maxDeviation > minDeviation ? maxDeviation : minDeviation;
 
       if (area == averageArea)
-        return Color.White; 
-      if (area<averageArea)
+        return Color.White;
+      if (area < averageArea)
       {
         double deviation = averageArea - area;
-        int yellowNess = Convert.ToInt32((1 - deviation/bigDeviation)*255);
+        int yellowNess = Convert.ToInt32((1 - deviation / bigDeviation) * 255);
 
-        return Color.FromArgb(yellowNess, yellowNess, 255); 
+        return Color.FromArgb(yellowNess, yellowNess, 255);
       }
       else
       {
@@ -796,7 +796,7 @@ namespace Geodesic
       {
         double deviation = averageArea - area;
         double scale = deviation / bigDeviation;
-        double enhanced = Enhance(scale); 
+        double enhanced = Enhance(scale);
         int greenNess = Convert.ToInt32((1 - scale) * 255);
         int redNess = Convert.ToInt32((1 - enhanced) * 255);
         return Color.FromArgb(redNess, greenNess, 255);
@@ -829,19 +829,19 @@ namespace Geodesic
       double step = (maxArea - minArea) / 800;
 
       List<Color> colorArray = new List<Color>();
-      List<double> values = new List<double>(); 
-      for (int i = 0; i<800; i++)
+      List<double> values = new List<double>();
+      for (int i = 0; i < 800; i++)
       {
         double current = minArea + step * i;
         colorArray.Add(GenerateEnhancedColorFor(current, minArea, maxArea, averageArea));
-        values.Add(current / averageArea-1); 
+        values.Add(current / averageArea - 1);
       }
 
       IllustrationForm bisectForm = new IllustrationForm();
       //using (IllustrationForm illustrationForm = new IllustrationForm())
       {
         bisectForm.colorArray = colorArray;
-        bisectForm.values = values; 
+        bisectForm.values = values;
         bisectForm.fill = true;
         bisectForm.lines = false;
         bisectForm.Text = "Scale";
@@ -849,8 +849,8 @@ namespace Geodesic
       }
     }
 
-		private void CompareHybridButton_Click(object sender, EventArgs e)
-		{
+    private void CompareHybridButton_Click(object sender, EventArgs e)
+    {
       using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
       {
         if (sfd.ShowDialog() != DialogResult.OK)
@@ -861,45 +861,45 @@ namespace Geodesic
 
         int maxGeneration = Convert.ToInt32(GenerationBox.Text);
 
-        for (int bisectGeneration = 1; bisectGeneration <= maxGeneration; bisectGeneration++) 
-        for (int generation = 1; generation <= bisectGeneration; generation++)
-        {
-          HybridGrid hybridGrid = new HybridGrid(generation, bisectGeneration);
-          double minArea = 10;
-          double maxArea = 0;
-          double totalArea = 0;
-
-          double lengthMin = 10;
-          double lengthMax = 0;
-          double lengthTotal = 0;
-          //foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
-          for (int i = 0; i < hybridGrid.TriangleCount; i++)
+        for (int bisectGeneration = 1; bisectGeneration <= maxGeneration; bisectGeneration++)
+          for (int generation = 1; generation <= bisectGeneration; generation++)
           {
-            SphericalTriangle triangle = hybridGrid.GetTriangle(i);
-            double area = triangle.Area;
-            if (area < minArea)
-              minArea = area;
-            if (area > maxArea)
-              maxArea = area;
-            totalArea += area;
-            double ab = (triangle.A - triangle.B).Magnitude;
-            double bc = (triangle.B - triangle.C).Magnitude;
-            double ca = (triangle.C - triangle.A).Magnitude;
-            double maxLength = ab > bc ? ab > ca ? ab : ca : bc > ca ? bc : ca;
-            double minLength = ab < bc ? ab < ca ? ab : ca : bc < ca ? bc : ca;
-            if (maxLength > lengthMax)
-              lengthMax = maxLength;
-            if (minLength < lengthMin)
-              lengthMin = minLength;
-            lengthTotal += ab + bc + ca;
-          }
-          double averageArea = totalArea / hybridGrid.TriangleCount;
-          double averageLength = lengthTotal / hybridGrid.TriangleCount / 3;
+            HybridGrid hybridGrid = new HybridGrid(generation, bisectGeneration);
+            double minArea = 10;
+            double maxArea = 0;
+            double totalArea = 0;
 
-          result.Add(generation.ToString() + "," + bisectGeneration.ToString() + "," + 
-            minArea.ToString() + "," + maxArea.ToString() + "," + averageArea.ToString() + "," +
-           lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + ","
-            );
+            double lengthMin = 10;
+            double lengthMax = 0;
+            double lengthTotal = 0;
+            //foreach (SphericalTriangle triangle in bisectGeodesic.SphericalTriangles)
+            for (int i = 0; i < hybridGrid.TriangleCount; i++)
+            {
+              SphericalTriangle triangle = hybridGrid.GetTriangle(i);
+              double area = triangle.Area;
+              if (area < minArea)
+                minArea = area;
+              if (area > maxArea)
+                maxArea = area;
+              totalArea += area;
+              double ab = (triangle.A - triangle.B).Magnitude;
+              double bc = (triangle.B - triangle.C).Magnitude;
+              double ca = (triangle.C - triangle.A).Magnitude;
+              double maxLength = ab > bc ? ab > ca ? ab : ca : bc > ca ? bc : ca;
+              double minLength = ab < bc ? ab < ca ? ab : ca : bc < ca ? bc : ca;
+              if (maxLength > lengthMax)
+                lengthMax = maxLength;
+              if (minLength < lengthMin)
+                lengthMin = minLength;
+              lengthTotal += ab + bc + ca;
+            }
+            double averageArea = totalArea / hybridGrid.TriangleCount;
+            double averageLength = lengthTotal / hybridGrid.TriangleCount / 3;
+
+            result.Add(generation.ToString() + "," + bisectGeneration.ToString() + "," +
+              minArea.ToString() + "," + maxArea.ToString() + "," + averageArea.ToString() + "," +
+             lengthMin.ToString() + "," + lengthMax.ToString() + "," + averageLength.ToString() + ","
+              );
             try
             {
               File.WriteAllLines(sfd.FileName + ".temp.csv", result);
@@ -908,39 +908,41 @@ namespace Geodesic
             {
 
             }
-        }
+          }
         File.WriteAllLines(sfd.FileName, result);
       }
     }
 
-		private void ComparePropertiesButton_Click(object sender, EventArgs e)
-		{
+    private void ComparePropertiesButton_Click(object sender, EventArgs e)
+    {
       int generation = Convert.ToInt32(GenerationBox.Text);
       int hybridGeneration = Convert.ToInt32(HybridGenerationBox.Text);
       BisectGeodesicLowMemory bisectGeodesic = new BisectGeodesicLowMemory(generation);
       Geodesic geodesic = new Geodesic(generation - 2);
-      HybridGrid hybridGrid = new HybridGrid(hybridGeneration, generation); 
+      HybridGrid hybridGrid = new HybridGrid(hybridGeneration, generation);
 
 
       Analyze bisectAngle = new Analyze();
       Analyze bisectLength = new Analyze();
-      Analyze bisectArea = new Analyze(); 
+      Analyze bisectArea = new Analyze();
+      Analyze bisectOrthogonality = new Analyze();
 
       Analyze geodesicAngle = new Analyze();
       Analyze geodesicLength = new Analyze();
       Analyze geodesicArea = new Analyze();
+      Analyze geodesicOrthogonality = new Analyze();
 
       Analyze hybridAngle = new Analyze();
       Analyze hybridLength = new Analyze();
-      Analyze hybridArea = new Analyze(); 
-
+      Analyze hybridArea = new Analyze();
 
       for (int i = 0; i < bisectGeodesic.TriangleCount; i++)
       {
-        SphericalTriangle sphericalTriangle = bisectGeodesic.GetTriangle(i);
+        SphericalTriangle[] triangleWithNeighbours = bisectGeodesic.GetTriangleAndNeighbourTriangles(i);
+        SphericalTriangle sphericalTriangle = triangleWithNeighbours[0];
         //do stuff with bisect triangle. 
 
-        FlatTriangle triangle = new FlatTriangle(sphericalTriangle.A, sphericalTriangle.B, sphericalTriangle.C);
+        FlatTriangle triangle = new FlatTriangle(sphericalTriangle);
 
         double angleA = triangle.AB.AngleBetweenDegree(triangle.CA);
         double angleB = triangle.BC.AngleBetweenDegree(triangle.AB);
@@ -952,7 +954,11 @@ namespace Geodesic
 
         bisectAngle.Add(angleA, angleB, angleC);
         bisectLength.Add(lengthAB, lengthBC, lengthCA);
-        bisectArea.Add(triangle.Area); 
+        bisectArea.Add(triangle.Area);
+
+        //do stuff with triangleneighbours. 
+        double orthogonality = CalculateOrthogonality(triangleWithNeighbours);
+        bisectOrthogonality.Add(orthogonality);
       }
 
 
@@ -962,7 +968,7 @@ namespace Geodesic
         GeodesicGridTriangle geoTriangle = index.GeodesicGridTriangle;
         //do stuff with projection point triangle. 
 
-        FlatTriangle triangle = new FlatTriangle(geoTriangle.PointAB, geoTriangle.PointBC, geoTriangle.PointCA);
+        FlatTriangle triangle = new FlatTriangle(index);
         double angleA = triangle.AB.AngleBetweenDegree(triangle.CA);
         double angleB = triangle.BC.AngleBetweenDegree(triangle.AB);
         double angleC = triangle.CA.AngleBetweenDegree(triangle.BC);
@@ -973,13 +979,18 @@ namespace Geodesic
 
         geodesicAngle.Add(angleA, angleB, angleC);
         geodesicLength.Add(lengthAB, lengthBC, lengthCA);
-        geodesicArea.Add(triangle.Area); 
+        geodesicArea.Add(triangle.Area);
+
+        GridIndex[] neighbours = index.GetNeighbours();
+        //do stuff with neighbours. 
+        double orthogonality = CalculateOrthogonality(index, neighbours);
+        geodesicOrthogonality.Add(orthogonality);
       }
 
 
       for (int i = 0; i < hybridGrid.TriangleCount; i++)
       {
-        SphericalTriangle hybridTriangle = hybridGrid.GetTriangle(i); 
+        SphericalTriangle hybridTriangle = hybridGrid.GetTriangle(i);
         //do stuff with hybrid triangle. 
 
         FlatTriangle triangle = new FlatTriangle(hybridTriangle.A, hybridTriangle.B, hybridTriangle.C);
@@ -997,13 +1008,73 @@ namespace Geodesic
       }
 
 
-      MessageBox.Show("Bisect:\nLength:" + bisectLength.ToString() + "\n\nAngle:" + bisectAngle.ToString() + "\n\nArea" + bisectArea.ToString()+
+      MessageBox.Show("Bisect:\nLength:" + bisectLength.ToString() + "\n\nAngle:" + bisectAngle.ToString() + "\n\nArea" + bisectArea.ToString() +
         "\n\n\nGeodesic:\nLength:" + geodesicLength.ToString() + "\n\nAngle:" + geodesicAngle.ToString() + "\n\nArea" + geodesicArea.ToString() +
         "\n\n\nHybrid:\nLength:" + hybridLength.ToString() + "\n\nAngle:" + hybridAngle.ToString() + "\n\nArea" + hybridArea.ToString());
 
-
-
+      MessageBox.Show("Bisect:\nOrthogonality:" + bisectOrthogonality.ToString() +
+        "\n\n\nGeodesic:\nOrthogonality:" + geodesicOrthogonality.ToString());
     }
+
+    private double CalculateOrthogonality(FlatTriangle triangle, FlatTriangle[] neighbours)
+    {
+      Minimum minimum = new Minimum();
+      //checking validity
+      if (neighbours.Length != 3)
+        throw new Exception("Triangle should have 3 neighbours");
+      int a = 0;
+      int b = 0;
+      int c = 0;
+      for (int i = 0; i < 3; i++)
+      {
+        FlatTriangle neighbour = neighbours[i];
+        if (triangle.A.Is(neighbour.A))
+          a++;
+        if (triangle.A.Is(neighbour.B))
+          a++;
+        if (triangle.A.Is(neighbour.C))
+          a++;
+
+        if (triangle.B.Is(neighbour.A))
+          b++;
+        if (triangle.B.Is(neighbour.B))
+          b++;
+        if (triangle.B.Is(neighbour.C))
+          b++;
+
+        if (triangle.C.Is(neighbour.A))
+          c++;
+        if (triangle.C.Is(neighbour.B))
+          c++;
+        if (triangle.C.Is(neighbour.C))
+          c++;
+      }
+      if (a != 2 || b != 2 || c != 2)
+        throw new Exception("Invalid triangle neighbours"); 
+
+
+      //calculating actual orthogonality. 
+      for (int i = 0; i < 3; i++)
+        minimum.Add(triangle.Orthogonality(neighbours[i]));
+      return minimum.min;
+    }
+
+		private double CalculateOrthogonality(SphericalTriangle[] triangleWithNeighbours)
+		{
+      FlatTriangle[] neighbours = new FlatTriangle[3];
+      for (int i = 0; i < 3; i++)
+        neighbours[i] = new FlatTriangle(triangleWithNeighbours[i + 1]);
+      return CalculateOrthogonality(new FlatTriangle(triangleWithNeighbours[0]), neighbours); 
+    }
+
+		private double CalculateOrthogonality(GridIndex index, GridIndex[] neighbourIndices)
+		{
+      FlatTriangle triangle = new FlatTriangle(index);
+      FlatTriangle[] neighbours = new FlatTriangle[3];
+      for (int i = 0; i < 3; i++)
+        neighbours[i] = new FlatTriangle(neighbourIndices[i]);
+      return CalculateOrthogonality(triangle, neighbours); 
+		}
 	}
 
 	public class Variance

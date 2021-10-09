@@ -189,11 +189,16 @@ namespace Geodesic
       return X.ToString("F99").TrimEnd('0') + ", " + Y.ToString("F99").TrimEnd('0') + ", " + Z.ToString("F99").TrimEnd('0');
     }
 
-    /*
+		public bool Is(Vector3D a)
+		{
+      return (this - a).MagnitudeSquared < 1e-20;
+		}
+
+		/*
     public override string ToString()
     {
       return X.Value.ToString() + ", " + Y.Value.ToString() + ", " + Z.Value.ToString() + " [" +X.ToString() + "], [" + Y.ToString() + "], [" + Z.ToString() + "]";
     }*/
-  }
+	}
 
 }

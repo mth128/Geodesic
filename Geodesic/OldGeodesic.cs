@@ -44,6 +44,66 @@ namespace Geodesic
       return triangle; 
     }
 
+    /// <summary>
+    /// Returns the triangle of interest as [0], and the three neighbouring triangles. 
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public SphericalTriangle[] GetTriangleAndNeighbourTriangles(int index)
+    {
+      SphericalTriangle triangle = baseTriangle;
+      List<SphericalTriangle> connectedTriangles = new List<SphericalTriangle>(); 
+      
+      for (int i = 0; i < generation; i++)
+      {
+        List<SphericalTriangle> newConnectedTriangles = new List<SphericalTriangle>(); 
+        int subIndex = index & 3;
+        SphericalTriangle[] subTriangles = triangle.Bisect();
+        triangle = subTriangles[subIndex];
+        index >>= 2;
+
+        for (int s = 0; s < 4; s++)
+          if (s != subIndex && triangle.SharesTwoPoints(subTriangles[s]))
+            newConnectedTriangles.Add(subTriangles[s]);
+
+        foreach (SphericalTriangle oldConnectedTriangle in connectedTriangles)
+          foreach (SphericalTriangle subConnected in oldConnectedTriangle.Bisect())
+            if (subConnected.SharesTwoPoints(triangle))
+              newConnectedTriangles.Add(subConnected);
+
+        connectedTriangles = newConnectedTriangles; 
+      }
+
+      if (connectedTriangles.Count < 3)
+      {
+        bool ab = false;
+        bool bc = false;
+        bool ca = false; 
+        foreach (SphericalTriangle connect in connectedTriangles)
+        {
+          bool a = connect.ContainsPoint(triangle.A);
+          bool b = connect.ContainsPoint(triangle.B);
+          bool c = connect.ContainsPoint(triangle.C);
+          if (a && b)
+            ab = true;
+          if (b && c)
+            bc = true;
+          if (c && a)
+            ca = true; 
+        }
+
+        if (!ab)
+          connectedTriangles.Add(triangle.MirrorAB());
+        if (!bc)
+          connectedTriangles.Add(triangle.MirrorBC());
+        if (!ca)
+          connectedTriangles.Add(triangle.MirrorCA()); 
+      }
+
+      connectedTriangles.Insert(0, triangle); 
+      return connectedTriangles.ToArray();
+    }
+
     public BisectGeodesicLowMemory(int generation)
     {
       this.generation = generation;

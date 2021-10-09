@@ -10,10 +10,21 @@ namespace Geodesic
   {
     private GeodesicGridTriangle geodesicGridTriangle; 
     public int Width { get; }
+    /// <summary>
+    /// The first cut plane index. 
+    /// </summary>
     public int A { get; }
+    /// <summary>
+    /// The second cut plane index.
+    /// </summary>
     public int B { get; }
+    /// <summary>
+    /// The third cut plane index 
+    /// </summary>
     public int C { get; }
     public bool Inverted { get; }
+
+    public bool Invalid { get; }
     public Geodesic Parent { get; }
     public GeodesicGridTriangle GeodesicGridTriangle =>
       geodesicGridTriangle == null ? geodesicGridTriangle =
@@ -36,5 +47,52 @@ namespace Geodesic
       }
     }
 
+    internal GridIndex(Geodesic geodesic, int a, int b, int c, bool inverted)
+    {
+      Parent = geodesic;
+      Width = geodesic.MaxRibIndex;
+      Inverted = inverted;
+      A = a;
+      B = b;
+      C = c;
+
+      if (inverted && (a == 0 || b == 0 || c == 0))
+      {
+        Invalid = true; 
+      }
+    }
+
+    /// <summary>
+    /// Gets the index of the neighbouring triangle. 
+    /// </summary>
+    /// <param name="n">0 flip around A, 1 flip around B or 2 flip around C</param>
+    /// <returns></returns>
+    public GridIndex GetNeighbour(int n)
+    {
+      if (Inverted)
+      {
+        if (n == 0)
+          return new GridIndex(Parent, A, B - 1, C - 1, false);
+        if (n == 1)
+          return new GridIndex(Parent, A - 1, B, C - 1, false);
+        if (n == 2)
+          return new GridIndex(Parent, A - 1, B - 1, C, false); 
+      }
+      else
+      {
+        if (n == 0)
+          return new GridIndex(Parent, A, B + 1, C + 1, true);
+        if (n == 1)
+          return new GridIndex(Parent, A + 1, B, C + 1, true);
+        if (n == 2)
+          return new GridIndex(Parent, A + 1, B + 1, C, true); 
+      }
+      throw new Exception("Getneighbour: n should be 0, 1, or 2"); 
+    }
+
+    public GridIndex[] GetNeighbours()
+    {
+      return new GridIndex[] { GetNeighbour(0), GetNeighbour(1), GetNeighbour(2) }; 
+    }
   }
 }

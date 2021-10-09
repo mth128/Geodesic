@@ -68,6 +68,58 @@ namespace Geodesic
       return triangle;
     }
 
-  }
+    public bool SharesTwoPoints(SphericalTriangle other)
+    {
+      int countMatch = 0;
+      if (A == other.A)
+        countMatch++;
+      if (A == other.B)
+        countMatch++;
+      if (A == other.C)
+        countMatch++;
+
+      if (B == other.A)
+        countMatch++;
+      if (B == other.B)
+        countMatch++;
+      if (B == other.C)
+        countMatch++;
+
+      if (C == other.A)
+        countMatch++;
+      if (C == other.B)
+        countMatch++;
+      if (C == other.C)
+        countMatch++;
+
+      return countMatch == 2; 
+
+    }
+    public bool ContainsPoint(Vector3D p)
+    {
+      return A == p || B == p || C == p; 
+    }
+
+		internal SphericalTriangle MirrorAB()
+		{
+      Plane mirrorPlane = new Plane(A, B, new Vector3D(0, 0, 0));
+      Vector3D c = mirrorPlane.Mirror(C);
+      return new SphericalTriangle(B, A, c); 
+		}
+
+		internal SphericalTriangle MirrorBC()
+		{
+      Plane mirrorPlane = new Plane(B, C, new Vector3D(0, 0, 0));
+      Vector3D a = mirrorPlane.Mirror(A);
+      return new SphericalTriangle(C, B, a);
+    }
+
+		internal SphericalTriangle MirrorCA()
+		{
+      Plane mirrorPlane = new Plane(C, A, new Vector3D(0, 0, 0));
+      Vector3D b = mirrorPlane.Mirror(B);
+      return new SphericalTriangle(A, C, b);
+    }
+	}
 
 }
