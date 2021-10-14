@@ -227,24 +227,27 @@ namespace Geo
       if (bisectGeneration < generation)
         bisectGeneration = generation;
       GridParameters parameters = new GridParameters(bisectGeneration);
-      Analyze analyse = new Analyze();
-      object locker = new object(); 
+      Analyze areaAnalysis = new Analyze();
+      Analyze orthogonalityAnalysis = new Analyze(); 
+      object locker = new object();
+
       Parallel.For(0, parameters.TileSize, i =>
       {
-        TriangleIndex triangleIndex = new TriangleIndex(bisectGeneration, i);
-        PointIndex[] pointIndices = triangleIndex.PointIndices;
-        GridPoint[] gridPoints = new GridPoint[]
+        FlatTriangle triangle = FlatTriangle.GetTriangle(generation,bisectGeneration,i);
+        double area = triangle.Area;
+        Minimum orthogonality = new Minimum();
+        foreach (TriangleIndex neighbourIndex in new TriangleIndex(bisectGeneration, i).Neighbours)
         {
-          new GridPoint(generation,bisectGeneration,pointIndices[0].Index),
-          new GridPoint(generation, bisectGeneration, pointIndices[1].Index),
-          new GridPoint(generation, bisectGeneration, pointIndices[2].Index)
-        };
-
-        FlatTriangle triangle = new FlatTriangle(gridPoints[0].Point, gridPoints[1].Point, gridPoints[2].Point);
-        lock(locker)
-          analyse.Add(triangle.Area);
+          FlatTriangle neighbour = FlatTriangle.GetTriangle(generation, bisectGeneration, neighbourIndex.Index);
+          orthogonality.Add(triangle.Orthogonality(neighbour)); 
+        }
+        lock (locker)
+        {
+          areaAnalysis.Add(triangle.Area);
+          orthogonalityAnalysis.Add(orthogonality.min);
+        }
       });
-      MessageBox.Show(analyse.ToString()); 
+      MessageBox.Show("Area: "+ areaAnalysis.ToString() + "\n\nOrthogonality: "+ orthogonalityAnalysis.Minimum.ToString()); 
 
     }
   }

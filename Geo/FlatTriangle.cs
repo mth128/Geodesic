@@ -64,5 +64,28 @@ namespace Geo
 			return minimum.min;
 		}
 
+		public static FlatTriangle GetTriangle(int projectionPointGeneration, int bisectGeneration, long triangleIndex)
+    {
+			if (projectionPointGeneration < 0 || bisectGeneration < 0 || bisectGeneration < projectionPointGeneration)
+				throw new Exception("Invalid generation.");
+
+			TriangleIndex index = new TriangleIndex(bisectGeneration, triangleIndex);
+			PointIndex[] pointIndices = index.PointIndices;
+
+			GridPoint[] gridPoints = new GridPoint[]
+			{
+					new GridPoint(projectionPointGeneration, bisectGeneration, pointIndices[0].Index),
+					new GridPoint(projectionPointGeneration, bisectGeneration, pointIndices[1].Index),
+					new GridPoint(projectionPointGeneration, bisectGeneration, pointIndices[2].Index)
+			};
+
+			return new FlatTriangle(gridPoints[0].Point, gridPoints[1].Point, gridPoints[2].Point);
+		}
+
+		public static FlatTriangle GetTriangle(int projectionPointGeneration, int index)
+    {
+			return GetTriangle(projectionPointGeneration, projectionPointGeneration, index); 
+    }
+
 	}
 }
