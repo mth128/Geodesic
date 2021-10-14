@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Geo.Analysis;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -217,6 +218,34 @@ namespace Geo
       {
         MessageBox.Show(ex.Message);
       }
+    }
+
+    private void TestButton_Click(object sender, EventArgs e)
+    {
+      int generation = Convert.ToInt32(GenerationBox.Text);
+      int bisectGeneration = Convert.ToInt32(BisectGenerationBox.Text);
+      if (bisectGeneration < generation)
+        bisectGeneration = generation;
+      GridParameters parameters = new GridParameters(bisectGeneration);
+      Analyze analyse = new Analyze();
+      object locker = new object(); 
+      Parallel.For(0, parameters.TileSize, i =>
+      {
+        TriangleIndex triangleIndex = new TriangleIndex(bisectGeneration, i);
+        PointIndex[] pointIndices = triangleIndex.PointIndices;
+        GridPoint[] gridPoints = new GridPoint[]
+        {
+          new GridPoint(generation,bisectGeneration,pointIndices[0].Index),
+          new GridPoint(generation, bisectGeneration, pointIndices[1].Index),
+          new GridPoint(generation, bisectGeneration, pointIndices[2].Index)
+        };
+
+        FlatTriangle triangle = new FlatTriangle(gridPoints[0].Point, gridPoints[1].Point, gridPoints[2].Point);
+        lock(locker)
+          analyse.Add(triangle.Area);
+      });
+      MessageBox.Show(analyse.ToString()); 
+
     }
   }
 }

@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Analyse.cs" />
+    <Compile Include="Analysis\Average.cs" />
+    <Compile Include="Analysis\Maximum.cs" />
+    <Compile Include="Analysis\Minimum.cs" />
+    <Compile Include="FlatTriangle.cs" />
     <Compile Include="GridPoint.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="Paper.cs" />

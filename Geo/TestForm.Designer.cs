@@ -43,6 +43,7 @@ namespace Geo
       this.IterateButton = new System.Windows.Forms.Button();
       this.label6 = new System.Windows.Forms.Label();
       this.BisectGenerationBox = new System.Windows.Forms.TextBox();
+      this.TestButton = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // button1
@@ -171,11 +172,22 @@ namespace Geo
       this.BisectGenerationBox.TabIndex = 12;
       this.BisectGenerationBox.Text = "3";
       // 
+      // TestButton
+      // 
+      this.TestButton.Location = new System.Drawing.Point(14, 260);
+      this.TestButton.Name = "TestButton";
+      this.TestButton.Size = new System.Drawing.Size(75, 23);
+      this.TestButton.TabIndex = 14;
+      this.TestButton.Text = "Test";
+      this.TestButton.UseVisualStyleBackColor = true;
+      this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
+      // 
       // TestForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.TestButton);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.BisectGenerationBox);
       this.Controls.Add(this.IterateButton);
@@ -213,6 +225,7 @@ namespace Geo
     private System.Windows.Forms.Button IterateButton;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.TextBox BisectGenerationBox;
+    private System.Windows.Forms.Button TestButton;
   }
 }
 
