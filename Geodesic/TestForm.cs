@@ -1075,9 +1075,16 @@ namespace Geodesic
         neighbours[i] = new FlatTriangle(neighbourIndices[i]);
       return CalculateOrthogonality(triangle, neighbours); 
 		}
-	}
 
-	public class Variance
+    private void NewSystemButton_Click(object sender, EventArgs e)
+    {
+      using (Geo.TestForm form = new Geo.TestForm())
+        form.ShowDialog(); 
+
+    }
+  }
+
+  public class Variance
   {
     public double min;
     public double max;
