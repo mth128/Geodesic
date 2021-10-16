@@ -22,6 +22,9 @@ namespace Geodesic
     /// The third cut plane index 
     /// </summary>
     public int C { get; }
+
+    public int TileIndex { get; } = 0; 
+
     public bool Inverted { get; }
 
     public bool Invalid { get; }

@@ -60,24 +60,24 @@ namespace Geodesic
 				//uninvalidating
 				if (index.A == 0)
 				{
-					GridIndex mirroredIndex = new GridIndex(index.Parent, index.A, index.B - 1, index.C - 1, false);
-					GeodesicGridTriangle mirrored = mirroredIndex.GeodesicGridTriangle;
+					GridIndex originalIndex = new GridIndex(index.Parent, index.A, index.B - 1, index.C - 1, false);
+					GeodesicGridTriangle mirrored = originalIndex.GeodesicGridTriangle;
 					a = mirrored.PointAB;
 					b = mirrored.PointCA;
 					c = mirrored.PointBC;
 				}
 				else if (index.B == 0)
 				{
-					GridIndex mirroredIndex = new GridIndex(index.Parent, index.A - 1, index.B, index.C - 1, false);
-					GeodesicGridTriangle mirrored = mirroredIndex.GeodesicGridTriangle;
+					GridIndex originalIndex = new GridIndex(index.Parent, index.A - 1, index.B, index.C - 1, false);
+					GeodesicGridTriangle mirrored = originalIndex.GeodesicGridTriangle;
 					a = mirrored.PointBC;
 					b = mirrored.PointAB;
 					c = mirrored.PointCA;
 				}
 				else if (index.C == 0)
 				{
-					GridIndex mirroredIndex = new GridIndex(index.Parent, index.A - 1, index.B - 1, index.C, false);
-					GeodesicGridTriangle mirrored = mirroredIndex.GeodesicGridTriangle;
+					GridIndex originalIndex = new GridIndex(index.Parent, index.A - 1, index.B - 1, index.C, false);
+					GeodesicGridTriangle mirrored = originalIndex.GeodesicGridTriangle;
 					a = mirrored.PointCA;
 					b = mirrored.PointBC;
 					c = mirrored.PointAB;

@@ -191,7 +191,7 @@ namespace Geodesic
 
 		public bool Is(Vector3D a)
 		{
-      return (this - a).MagnitudeSquared < 1e-20;
+      return Math.Abs(X-a.X)<1e-5 && Math.Abs(Y-a.Y)<1e-5 && Math.Abs(Z-a.Z)<1e-5; 
 		}
 
 		/*
