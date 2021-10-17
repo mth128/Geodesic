@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Geo.UI
+{
+  public partial class ProgressBarForm : Form
+  {
+    private string message; 
+    private long value;
+    private long maximum; 
+    public ProgressBarForm()
+    {
+      InitializeComponent();
+    }
+    public void SetProgress(long value, long maximum)
+    {
+      this.value = value;
+      this.maximum = maximum; 
+    }
+    public void SetMessage(string message)
+    {
+      this.message = message; 
+    }
+
+    private void UpdateTimer_Tick(object sender, EventArgs e)
+    {
+      int limit = 16777216;
+      double vDouble = value * limit;
+      int val = Convert.ToInt32(vDouble / maximum); 
+
+      Label.Text = message;
+      ProgressBar.Value = 0;
+      ProgressBar.Maximum = limit;
+      ProgressBar.Value = val;
+    }
+  }
+}

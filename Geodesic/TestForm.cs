@@ -1078,7 +1078,7 @@ namespace Geodesic
 
     private void NewSystemButton_Click(object sender, EventArgs e)
     {
-      using (Geo.TestForm form = new Geo.TestForm())
+      using (Geo.UI.TestForm form = new Geo.UI.TestForm())
         form.ShowDialog(); 
 
     }

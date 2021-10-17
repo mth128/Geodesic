@@ -234,7 +234,6 @@ namespace Computable
     private void DebugButton_Click(object sender, EventArgs e)
     {
       int i = 1;
-
     }
 
     private void ShowCurruntButton_Click(object sender, EventArgs e)

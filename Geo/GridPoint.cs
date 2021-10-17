@@ -95,7 +95,7 @@ namespace Geo
           while (index.Generation > ProjectionPointGeneration)
             index = index.Parent;
 
-          long remainingWidth = 1l << (Index.Generation - index.Generation);
+          long remainingWidth = 1L << (Index.Generation - index.Generation);
           long remainingColumns = Index.Column % remainingWidth;
           long remainingRows = Index.Row % remainingWidth;
 

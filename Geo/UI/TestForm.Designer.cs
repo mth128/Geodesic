@@ -1,5 +1,5 @@
 ﻿
-namespace Geo
+namespace Geo.UI
 {
   partial class TestForm
   {
@@ -40,15 +40,22 @@ namespace Geo
       this.PointIndexBox = new System.Windows.Forms.TextBox();
       this.label5 = new System.Windows.Forms.Label();
       this.CoordinateBox = new System.Windows.Forms.TextBox();
-      this.IterateButton = new System.Windows.Forms.Button();
       this.label6 = new System.Windows.Forms.Label();
       this.BisectGenerationBox = new System.Windows.Forms.TextBox();
-      this.TestButton = new System.Windows.Forms.Button();
+      this.FullAnalysisButton = new System.Windows.Forms.Button();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.label7 = new System.Windows.Forms.Label();
+      this.FullAnalysisMaxGenerationBox = new System.Windows.Forms.TextBox();
+      this.groupBox1.SuspendLayout();
+      this.groupBox2.SuspendLayout();
+      this.groupBox3.SuspendLayout();
       this.SuspendLayout();
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(14, 202);
+      this.button1.Location = new System.Drawing.Point(369, 79);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(75, 23);
       this.button1.TabIndex = 0;
@@ -58,7 +65,7 @@ namespace Geo
       // 
       // ValueBox
       // 
-      this.ValueBox.Location = new System.Drawing.Point(62, 9);
+      this.ValueBox.Location = new System.Drawing.Point(61, 16);
       this.ValueBox.Margin = new System.Windows.Forms.Padding(2);
       this.ValueBox.Name = "ValueBox";
       this.ValueBox.Size = new System.Drawing.Size(338, 20);
@@ -67,7 +74,7 @@ namespace Geo
       // 
       // AnswerBox
       // 
-      this.AnswerBox.Location = new System.Drawing.Point(62, 32);
+      this.AnswerBox.Location = new System.Drawing.Point(61, 39);
       this.AnswerBox.Margin = new System.Windows.Forms.Padding(2);
       this.AnswerBox.Name = "AnswerBox";
       this.AnswerBox.ReadOnly = true;
@@ -77,26 +84,26 @@ namespace Geo
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(11, 9);
+      this.label1.Location = new System.Drawing.Point(4, 19);
       this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(34, 13);
+      this.label1.Size = new System.Drawing.Size(37, 13);
       this.label1.TabIndex = 3;
-      this.label1.Text = "Input:";
+      this.label1.Text = "Value:";
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(10, 35);
+      this.label2.Location = new System.Drawing.Point(4, 42);
       this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(42, 13);
+      this.label2.Size = new System.Drawing.Size(53, 13);
       this.label2.TabIndex = 4;
-      this.label2.Text = "Output:";
+      this.label2.Text = "Cut Point:";
       // 
       // GenerationBox
       // 
-      this.GenerationBox.Location = new System.Drawing.Point(110, 69);
+      this.GenerationBox.Location = new System.Drawing.Point(106, 27);
       this.GenerationBox.Name = "GenerationBox";
       this.GenerationBox.Size = new System.Drawing.Size(338, 20);
       this.GenerationBox.TabIndex = 5;
@@ -105,16 +112,16 @@ namespace Geo
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(10, 72);
+      this.label3.Location = new System.Drawing.Point(6, 30);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(62, 13);
+      this.label3.Size = new System.Drawing.Size(85, 13);
       this.label3.TabIndex = 6;
-      this.label3.Text = "Generation:";
+      this.label3.Text = "Max Generation:";
       // 
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(10, 135);
+      this.label4.Location = new System.Drawing.Point(408, 16);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(63, 13);
       this.label4.TabIndex = 8;
@@ -122,7 +129,7 @@ namespace Geo
       // 
       // PointIndexBox
       // 
-      this.PointIndexBox.Location = new System.Drawing.Point(110, 132);
+      this.PointIndexBox.Location = new System.Drawing.Point(477, 13);
       this.PointIndexBox.Name = "PointIndexBox";
       this.PointIndexBox.Size = new System.Drawing.Size(338, 20);
       this.PointIndexBox.TabIndex = 7;
@@ -131,7 +138,7 @@ namespace Geo
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(10, 161);
+      this.label5.Location = new System.Drawing.Point(408, 42);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(61, 13);
       this.label5.TabIndex = 10;
@@ -139,26 +146,16 @@ namespace Geo
       // 
       // CoordinateBox
       // 
-      this.CoordinateBox.Location = new System.Drawing.Point(110, 158);
+      this.CoordinateBox.Location = new System.Drawing.Point(477, 39);
       this.CoordinateBox.Name = "CoordinateBox";
       this.CoordinateBox.ReadOnly = true;
       this.CoordinateBox.Size = new System.Drawing.Size(338, 20);
       this.CoordinateBox.TabIndex = 9;
       // 
-      // IterateButton
-      // 
-      this.IterateButton.Location = new System.Drawing.Point(14, 231);
-      this.IterateButton.Name = "IterateButton";
-      this.IterateButton.Size = new System.Drawing.Size(75, 23);
-      this.IterateButton.TabIndex = 11;
-      this.IterateButton.Text = "Iterate";
-      this.IterateButton.UseVisualStyleBackColor = true;
-      this.IterateButton.Click += new System.EventHandler(this.IterateButton_Click);
-      // 
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(10, 98);
+      this.label6.Location = new System.Drawing.Point(6, 56);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(94, 13);
       this.label6.TabIndex = 13;
@@ -166,46 +163,99 @@ namespace Geo
       // 
       // BisectGenerationBox
       // 
-      this.BisectGenerationBox.Location = new System.Drawing.Point(110, 95);
+      this.BisectGenerationBox.Location = new System.Drawing.Point(106, 53);
       this.BisectGenerationBox.Name = "BisectGenerationBox";
       this.BisectGenerationBox.Size = new System.Drawing.Size(338, 20);
       this.BisectGenerationBox.TabIndex = 12;
       this.BisectGenerationBox.Text = "3";
       // 
-      // TestButton
+      // FullAnalysisButton
       // 
-      this.TestButton.Location = new System.Drawing.Point(14, 260);
-      this.TestButton.Name = "TestButton";
-      this.TestButton.Size = new System.Drawing.Size(75, 23);
-      this.TestButton.TabIndex = 14;
-      this.TestButton.Text = "Test";
-      this.TestButton.UseVisualStyleBackColor = true;
-      this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
+      this.FullAnalysisButton.Location = new System.Drawing.Point(370, 53);
+      this.FullAnalysisButton.Name = "FullAnalysisButton";
+      this.FullAnalysisButton.Size = new System.Drawing.Size(75, 23);
+      this.FullAnalysisButton.TabIndex = 14;
+      this.FullAnalysisButton.Text = "Full Analysis";
+      this.FullAnalysisButton.UseVisualStyleBackColor = true;
+      this.FullAnalysisButton.Click += new System.EventHandler(this.FullAnalysisButton_Click);
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.label1);
+      this.groupBox1.Controls.Add(this.ValueBox);
+      this.groupBox1.Controls.Add(this.AnswerBox);
+      this.groupBox1.Controls.Add(this.label2);
+      this.groupBox1.Controls.Add(this.label5);
+      this.groupBox1.Controls.Add(this.PointIndexBox);
+      this.groupBox1.Controls.Add(this.CoordinateBox);
+      this.groupBox1.Controls.Add(this.label4);
+      this.groupBox1.Location = new System.Drawing.Point(12, 12);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(819, 69);
+      this.groupBox1.TabIndex = 15;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Various";
+      // 
+      // groupBox2
+      // 
+      this.groupBox2.Controls.Add(this.label3);
+      this.groupBox2.Controls.Add(this.GenerationBox);
+      this.groupBox2.Controls.Add(this.BisectGenerationBox);
+      this.groupBox2.Controls.Add(this.button1);
+      this.groupBox2.Controls.Add(this.label6);
+      this.groupBox2.Location = new System.Drawing.Point(12, 87);
+      this.groupBox2.Name = "groupBox2";
+      this.groupBox2.Size = new System.Drawing.Size(451, 110);
+      this.groupBox2.TabIndex = 16;
+      this.groupBox2.TabStop = false;
+      this.groupBox2.Text = "Generate OBJ file";
+      // 
+      // groupBox3
+      // 
+      this.groupBox3.Controls.Add(this.label7);
+      this.groupBox3.Controls.Add(this.FullAnalysisMaxGenerationBox);
+      this.groupBox3.Controls.Add(this.FullAnalysisButton);
+      this.groupBox3.Location = new System.Drawing.Point(12, 203);
+      this.groupBox3.Name = "groupBox3";
+      this.groupBox3.Size = new System.Drawing.Size(451, 83);
+      this.groupBox3.TabIndex = 17;
+      this.groupBox3.TabStop = false;
+      this.groupBox3.Text = "Full Analysis";
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.Location = new System.Drawing.Point(6, 30);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(85, 13);
+      this.label7.TabIndex = 6;
+      this.label7.Text = "Max Generation:";
+      // 
+      // FullAnalysisMaxGenerationBox
+      // 
+      this.FullAnalysisMaxGenerationBox.Location = new System.Drawing.Point(106, 27);
+      this.FullAnalysisMaxGenerationBox.Name = "FullAnalysisMaxGenerationBox";
+      this.FullAnalysisMaxGenerationBox.Size = new System.Drawing.Size(338, 20);
+      this.FullAnalysisMaxGenerationBox.TabIndex = 5;
+      this.FullAnalysisMaxGenerationBox.Text = "3";
       // 
       // TestForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Controls.Add(this.TestButton);
-      this.Controls.Add(this.label6);
-      this.Controls.Add(this.BisectGenerationBox);
-      this.Controls.Add(this.IterateButton);
-      this.Controls.Add(this.label5);
-      this.Controls.Add(this.CoordinateBox);
-      this.Controls.Add(this.label4);
-      this.Controls.Add(this.PointIndexBox);
-      this.Controls.Add(this.label3);
-      this.Controls.Add(this.GenerationBox);
-      this.Controls.Add(this.label2);
-      this.Controls.Add(this.label1);
-      this.Controls.Add(this.AnswerBox);
-      this.Controls.Add(this.ValueBox);
-      this.Controls.Add(this.button1);
+      this.ClientSize = new System.Drawing.Size(845, 296);
+      this.Controls.Add(this.groupBox3);
+      this.Controls.Add(this.groupBox2);
+      this.Controls.Add(this.groupBox1);
       this.Name = "TestForm";
       this.Text = "Form1";
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox1.PerformLayout();
+      this.groupBox2.ResumeLayout(false);
+      this.groupBox2.PerformLayout();
+      this.groupBox3.ResumeLayout(false);
+      this.groupBox3.PerformLayout();
       this.ResumeLayout(false);
-      this.PerformLayout();
 
     }
 
@@ -222,10 +272,14 @@ namespace Geo
     private System.Windows.Forms.TextBox PointIndexBox;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.TextBox CoordinateBox;
-    private System.Windows.Forms.Button IterateButton;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.TextBox BisectGenerationBox;
-    private System.Windows.Forms.Button TestButton;
+    private System.Windows.Forms.Button FullAnalysisButton;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.GroupBox groupBox3;
+    private System.Windows.Forms.Label label7;
+    private System.Windows.Forms.TextBox FullAnalysisMaxGenerationBox;
   }
 }
 

@@ -32,6 +32,20 @@ namespace Geo
 			}
 		}
 
+		public double[] Angles => new double[]
+		{
+			AB.AngleBetweenDegree(CA),
+			BC.AngleBetweenDegree(AB),
+			CA.AngleBetweenDegree(BC),
+		};
+
+		public double[] Lengths => new double[]
+		{
+			(A-B).Magnitude,
+			(B-C).Magnitude,
+			(C-A).Magnitude,
+		};
+
 		public FlatTriangle(Vector3D a, Vector3D b, Vector3D c)
 		{
 			A = a;
@@ -61,7 +75,11 @@ namespace Geo
 			Minimum minimum = new Minimum();
 			minimum.Add((lineA.UnitVector + lineB.UnitVector).MagnitudeSquared);
 			minimum.Add((lineA.UnitVector - lineB.UnitVector).MagnitudeSquared);
-			return minimum.min;
+
+			double angle = Math.Asin(Math.Sqrt(minimum.min) / 2) * 2 / Math.PI * 180;
+			angle = 90 - angle; 
+
+			return angle;
 		}
 
 		public static FlatTriangle GetTriangle(int projectionPointGeneration, int bisectGeneration, long triangleIndex)

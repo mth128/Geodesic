@@ -512,9 +512,9 @@
       // 
       this.NewSystemButton.Location = new System.Drawing.Point(13, 25);
       this.NewSystemButton.Name = "NewSystemButton";
-      this.NewSystemButton.Size = new System.Drawing.Size(75, 23);
+      this.NewSystemButton.Size = new System.Drawing.Size(127, 23);
       this.NewSystemButton.TabIndex = 51;
-      this.NewSystemButton.Text = "New system!";
+      this.NewSystemButton.Text = "Open new method";
       this.NewSystemButton.UseVisualStyleBackColor = true;
       this.NewSystemButton.Click += new System.EventHandler(this.NewSystemButton_Click);
       // 
@@ -531,7 +531,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(663, 551);
+      this.ClientSize = new System.Drawing.Size(209, 59);
       this.Controls.Add(this.label16);
       this.Controls.Add(this.NewSystemButton);
       this.Controls.Add(this.HybridGenerationBox);

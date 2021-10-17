@@ -17,11 +17,11 @@ namespace Geo
     /// <summary>
     /// The amount of cell rows or cell columns per tile. 
     /// </summary>
-    public long Width => 1l << Generation;
+    public long Width => 1L << Generation;
     /// <summary>
     /// The amount of cells per tile (and the amount of subtriangles per base triangle). 
     /// </summary>
-    public long TileSize => 1l << (2 * Generation);
+    public long TileSize => 1L << (2 * Generation);
 
     /// <summary>
     /// The amount of cells in the entire grid. 

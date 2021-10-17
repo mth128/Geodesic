@@ -49,6 +49,12 @@ namespace Geo.Analysis
 			foreach (double value in values)
 				Add(value);
 		}
+
+		public string ToCSVString()
+    {
+			return Maximum.ToString() + ";" + Minimum.ToString() + ";" + Average.ToString() + ";"; 
+    }
+
 		public override string ToString()
 		{
 			return "Max:" + Maximum.ToString() + ", Min:" + Minimum.ToString() + ", Average:" + Average.ToString() + ", Deviation:" + (Deviation * 100).ToString() + "%";

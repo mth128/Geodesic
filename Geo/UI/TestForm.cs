@@ -10,10 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Geo
+namespace Geo.UI
 {
   public partial class TestForm : Form
   {
+    private double maxGeneration; 
+    private string fileName; 
+    private ProgressBarForm progressBarForm;
+    private bool done; 
+
     public TestForm()
     {
       InitializeComponent();
@@ -235,7 +240,7 @@ namespace Geo
       {
         FlatTriangle triangle = FlatTriangle.GetTriangle(generation,bisectGeneration,i);
         double area = triangle.Area;
-        Minimum orthogonality = new Minimum();
+        Maximum orthogonality = new Maximum();
         foreach (TriangleIndex neighbourIndex in new TriangleIndex(bisectGeneration, i).Neighbours)
         {
           FlatTriangle neighbour = FlatTriangle.GetTriangle(generation, bisectGeneration, neighbourIndex.Index);
@@ -244,11 +249,108 @@ namespace Geo
         lock (locker)
         {
           areaAnalysis.Add(triangle.Area);
-          orthogonalityAnalysis.Add(orthogonality.min);
+          orthogonalityAnalysis.Add(orthogonality.max);
         }
       });
-      MessageBox.Show("Area: "+ areaAnalysis.ToString() + "\n\nOrthogonality: "+ orthogonalityAnalysis.Minimum.ToString()); 
+      MessageBox.Show("Area: "+ areaAnalysis.ToString() + "\n\nOrthogonality: "+ orthogonalityAnalysis.ToString()); 
 
+    }
+
+    private void FullAnalysisButton_Click(object sender, EventArgs e)
+    {
+      using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "*.csv|*.csv" })
+      {
+        if (sfd.ShowDialog() != DialogResult.OK)
+          return;
+        fileName = sfd.FileName;
+      }
+      progressBarForm = new ProgressBarForm();
+      try
+      {
+        maxGeneration = Convert.ToDouble(FullAnalysisMaxGenerationBox.Text);
+
+        progressBarForm.Show();
+        BackgroundWorker backgroundWorker = new BackgroundWorker();
+        done = false;
+        backgroundWorker.DoWork += FullAnalysis;
+        backgroundWorker.RunWorkerAsync();
+        while(!done)
+          System.Threading.Thread.Sleep(1);
+        backgroundWorker.Dispose();
+
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message); 
+      }
+      progressBarForm.Close();
+      progressBarForm.Dispose();
+      progressBarForm = null;
+    }
+
+    private void FullAnalysis(object sender, DoWorkEventArgs e)
+    {
+      try
+      {
+        using (FileStream fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+        {
+          using (StreamWriter writer = new StreamWriter(fileStream))
+          {
+            writer.WriteLine("bisect;projection point;area max;area min;area avg;length max;length min;length avg;angle max;angle min;angle avg;ortho max;ortho min;ortho avg;");
+
+            for (int bisectGeneration = 0; bisectGeneration <= maxGeneration; bisectGeneration++)
+            {
+              for (int projectionPointGeneration = 0; projectionPointGeneration <= bisectGeneration; projectionPointGeneration++)
+              {
+                progressBarForm?.SetMessage("Projection Point: " + projectionPointGeneration.ToString() +
+                  ", Bisect: " + bisectGeneration.ToString() + ", Target: " + maxGeneration.ToString());
+
+                Analyze areaAnalysis = new Analyze();
+                Analyze lengthAnalysis = new Analyze();
+                Analyze angleAnalysis = new Analyze();
+                Analyze orthogonalityAnalysis = new Analyze();
+                object locker = new object(); 
+                GridParameters parameters = new GridParameters(projectionPointGeneration);
+                int count = 0; 
+                Parallel.For(0, parameters.TileSize, i =>
+                {
+                  FlatTriangle triangle = FlatTriangle.GetTriangle(projectionPointGeneration, bisectGeneration, i);
+                  double area = triangle.Area;
+                  Maximum orthogonality = new Maximum();
+                  foreach (TriangleIndex neighbourIndex in new TriangleIndex(bisectGeneration, i).Neighbours)
+                  {
+                    FlatTriangle neighbour = FlatTriangle.GetTriangle(projectionPointGeneration, bisectGeneration, neighbourIndex.Index);
+                    orthogonality.Add(triangle.Orthogonality(neighbour));
+                  }
+
+                  double[] lengths = triangle.Lengths; 
+                  double[] angles = triangle.Angles;
+
+                  lock (locker)
+                  {
+                    areaAnalysis.Add(triangle.Area);
+                    orthogonalityAnalysis.Add(orthogonality.max);
+                    foreach (double angle in angles)
+                      angleAnalysis.Add(angle);
+                    foreach (double length in lengths)
+                      lengthAnalysis.Add(length);
+                    progressBarForm?.SetProgress(count++, parameters.TileSize);
+                  }
+                });
+
+                writer.WriteLine(bisectGeneration.ToString()+ ";"+projectionPointGeneration.ToString()+";"+areaAnalysis.ToCSVString() + lengthAnalysis.ToCSVString() + angleAnalysis.ToCSVString() + orthogonalityAnalysis.ToCSVString());
+              }
+            }
+          }
+        }
+
+      }
+      catch (Exception ex)
+      {
+        progressBarForm?.SetMessage(ex.Message);
+      }
+
+      done = true; 
     }
   }
 }
