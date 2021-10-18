@@ -17,7 +17,7 @@ namespace Geo.UI
     private double maxGeneration; 
     private string fileName; 
     private ProgressBarForm progressBarForm;
-    private bool done; 
+
 
     public TestForm()
     {
@@ -58,6 +58,7 @@ namespace Geo.UI
 
       System.IO.File.WriteAllLines("C:\\projecten\\debug1.obj", debug);
     }
+
 
     private int IndexOf(object v, IEnumerable<object> objects)
     {
@@ -271,21 +272,16 @@ namespace Geo.UI
 
         progressBarForm.Show();
         BackgroundWorker backgroundWorker = new BackgroundWorker();
-        done = false;
         backgroundWorker.DoWork += FullAnalysis;
         backgroundWorker.RunWorkerAsync();
-        while(!done)
-          System.Threading.Thread.Sleep(1);
-        backgroundWorker.Dispose();
-
       }
       catch (Exception ex)
       {
-        MessageBox.Show(ex.Message); 
+        MessageBox.Show(ex.Message);
+        progressBarForm.Close();
+        progressBarForm.Dispose();
+        progressBarForm = null;
       }
-      progressBarForm.Close();
-      progressBarForm.Dispose();
-      progressBarForm = null;
     }
 
     private void FullAnalysis(object sender, DoWorkEventArgs e)
@@ -310,7 +306,7 @@ namespace Geo.UI
                 Analyze angleAnalysis = new Analyze();
                 Analyze orthogonalityAnalysis = new Analyze();
                 object locker = new object(); 
-                GridParameters parameters = new GridParameters(projectionPointGeneration);
+                GridParameters parameters = new GridParameters(bisectGeneration);
                 int count = 0; 
                 Parallel.For(0, parameters.TileSize, i =>
                 {
@@ -344,13 +340,14 @@ namespace Geo.UI
           }
         }
 
+        progressBarForm?.Done();
       }
       catch (Exception ex)
       {
         progressBarForm?.SetMessage(ex.Message);
+        if (progressBarForm!=null)
+          progressBarForm.ControlBox = true; 
       }
-
-      done = true; 
     }
   }
 }

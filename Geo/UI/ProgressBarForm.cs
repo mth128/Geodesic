@@ -14,7 +14,8 @@ namespace Geo.UI
   {
     private string message; 
     private long value;
-    private long maximum; 
+    private long maximum;
+    private bool done = false; 
     public ProgressBarForm()
     {
       InitializeComponent();
@@ -28,17 +29,24 @@ namespace Geo.UI
     {
       this.message = message; 
     }
-
+    public void Done()
+    {
+      done = true; 
+    }
     private void UpdateTimer_Tick(object sender, EventArgs e)
     {
       int limit = 16777216;
       double vDouble = value * limit;
+      if (maximum < 1)
+        maximum = 1; 
       int val = Convert.ToInt32(vDouble / maximum); 
 
       Label.Text = message;
-      ProgressBar.Value = 0;
+      ProgressBar.Minimum = 0; 
       ProgressBar.Maximum = limit;
       ProgressBar.Value = val;
+      if (done)
+        Close(); 
     }
   }
 }
