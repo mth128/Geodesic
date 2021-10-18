@@ -35,7 +35,7 @@ namespace Geodesic
 		}
 		public override string ToString()
 		{
-			return max.ToString(); 
+			return max.ToString("E17"); 
 		}
 	}
 }

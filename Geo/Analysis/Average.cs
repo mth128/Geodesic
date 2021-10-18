@@ -37,7 +37,7 @@ namespace Geo.Analysis
 		}
 		public override string ToString()
 		{
-			return Avg.ToString();
+			return Avg.ToString("E17");
 		}
 
 	}

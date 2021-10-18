@@ -34,7 +34,7 @@ namespace Geodesic
 		}
 		public override string ToString()
 		{
-			return min.ToString();
+			return min.ToString("E17");
 		}
 	}
 }
