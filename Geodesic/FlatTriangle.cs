@@ -53,9 +53,9 @@ namespace Geodesic
 			{
 				if (!index.Inverted)
 					throw new Exception("Cannot uninvalidate this triangle");
-				Vector3D a = null;
-				Vector3D b = null;
-				Vector3D c = null; 
+				Vector3D a;
+				Vector3D b;
+				Vector3D c; 
 
 				//uninvalidating
 				if (index.A == 0)

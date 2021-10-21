@@ -46,8 +46,16 @@ namespace Geo.UI
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.ShortBox = new System.Windows.Forms.CheckBox();
       this.label7 = new System.Windows.Forms.Label();
       this.FullAnalysisMaxGenerationBox = new System.Windows.Forms.TextBox();
+      this.DrawButton = new System.Windows.Forms.Button();
+      this.label8 = new System.Windows.Forms.Label();
+      this.AreaButton = new System.Windows.Forms.RadioButton();
+      this.MaxAngleButton = new System.Windows.Forms.RadioButton();
+      this.MinAngleButton = new System.Windows.Forms.RadioButton();
+      this.LengthButton = new System.Windows.Forms.RadioButton();
+      this.OrthogonalityButton = new System.Windows.Forms.RadioButton();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.groupBox3.SuspendLayout();
@@ -212,15 +220,33 @@ namespace Geo.UI
       // 
       // groupBox3
       // 
+      this.groupBox3.Controls.Add(this.OrthogonalityButton);
+      this.groupBox3.Controls.Add(this.LengthButton);
+      this.groupBox3.Controls.Add(this.MinAngleButton);
+      this.groupBox3.Controls.Add(this.MaxAngleButton);
+      this.groupBox3.Controls.Add(this.AreaButton);
+      this.groupBox3.Controls.Add(this.label8);
+      this.groupBox3.Controls.Add(this.DrawButton);
+      this.groupBox3.Controls.Add(this.ShortBox);
       this.groupBox3.Controls.Add(this.label7);
       this.groupBox3.Controls.Add(this.FullAnalysisMaxGenerationBox);
       this.groupBox3.Controls.Add(this.FullAnalysisButton);
       this.groupBox3.Location = new System.Drawing.Point(12, 203);
       this.groupBox3.Name = "groupBox3";
-      this.groupBox3.Size = new System.Drawing.Size(451, 83);
+      this.groupBox3.Size = new System.Drawing.Size(451, 148);
       this.groupBox3.TabIndex = 17;
       this.groupBox3.TabStop = false;
-      this.groupBox3.Text = "Full Analysis";
+      this.groupBox3.Text = "Length";
+      // 
+      // ShortBox
+      // 
+      this.ShortBox.AutoSize = true;
+      this.ShortBox.Location = new System.Drawing.Point(284, 60);
+      this.ShortBox.Name = "ShortBox";
+      this.ShortBox.Size = new System.Drawing.Size(51, 17);
+      this.ShortBox.TabIndex = 15;
+      this.ShortBox.Text = "Short";
+      this.ShortBox.UseVisualStyleBackColor = true;
       // 
       // label7
       // 
@@ -239,11 +265,81 @@ namespace Geo.UI
       this.FullAnalysisMaxGenerationBox.TabIndex = 5;
       this.FullAnalysisMaxGenerationBox.Text = "3";
       // 
+      // DrawButton
+      // 
+      this.DrawButton.Location = new System.Drawing.Point(369, 119);
+      this.DrawButton.Name = "DrawButton";
+      this.DrawButton.Size = new System.Drawing.Size(75, 23);
+      this.DrawButton.TabIndex = 16;
+      this.DrawButton.Text = "Draw";
+      this.DrawButton.UseVisualStyleBackColor = true;
+      this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
+      // 
+      // label8
+      // 
+      this.label8.AutoSize = true;
+      this.label8.Location = new System.Drawing.Point(7, 96);
+      this.label8.Name = "label8";
+      this.label8.Size = new System.Drawing.Size(35, 13);
+      this.label8.TabIndex = 17;
+      this.label8.Text = "Draw:";
+      // 
+      // AreaButton
+      // 
+      this.AreaButton.AutoSize = true;
+      this.AreaButton.Checked = true;
+      this.AreaButton.Location = new System.Drawing.Point(48, 94);
+      this.AreaButton.Name = "AreaButton";
+      this.AreaButton.Size = new System.Drawing.Size(47, 17);
+      this.AreaButton.TabIndex = 18;
+      this.AreaButton.Text = "Area";
+      this.AreaButton.UseVisualStyleBackColor = true;
+      // 
+      // MaxAngleButton
+      // 
+      this.MaxAngleButton.AutoSize = true;
+      this.MaxAngleButton.Location = new System.Drawing.Point(101, 94);
+      this.MaxAngleButton.Name = "MaxAngleButton";
+      this.MaxAngleButton.Size = new System.Drawing.Size(75, 17);
+      this.MaxAngleButton.TabIndex = 19;
+      this.MaxAngleButton.Text = "Max Angle";
+      this.MaxAngleButton.UseVisualStyleBackColor = true;
+      // 
+      // MinAngleButton
+      // 
+      this.MinAngleButton.AutoSize = true;
+      this.MinAngleButton.Location = new System.Drawing.Point(182, 94);
+      this.MinAngleButton.Name = "MinAngleButton";
+      this.MinAngleButton.Size = new System.Drawing.Size(72, 17);
+      this.MinAngleButton.TabIndex = 20;
+      this.MinAngleButton.Text = "Min Angle";
+      this.MinAngleButton.UseVisualStyleBackColor = true;
+      // 
+      // LengthButton
+      // 
+      this.LengthButton.AutoSize = true;
+      this.LengthButton.Location = new System.Drawing.Point(260, 94);
+      this.LengthButton.Name = "LengthButton";
+      this.LengthButton.Size = new System.Drawing.Size(58, 17);
+      this.LengthButton.TabIndex = 21;
+      this.LengthButton.Text = "Length";
+      this.LengthButton.UseVisualStyleBackColor = true;
+      // 
+      // OrthogonalityButton
+      // 
+      this.OrthogonalityButton.AutoSize = true;
+      this.OrthogonalityButton.Location = new System.Drawing.Point(324, 94);
+      this.OrthogonalityButton.Name = "OrthogonalityButton";
+      this.OrthogonalityButton.Size = new System.Drawing.Size(87, 17);
+      this.OrthogonalityButton.TabIndex = 22;
+      this.OrthogonalityButton.Text = "Orthogonality";
+      this.OrthogonalityButton.UseVisualStyleBackColor = true;
+      // 
       // TestForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(845, 296);
+      this.ClientSize = new System.Drawing.Size(845, 377);
       this.Controls.Add(this.groupBox3);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
@@ -280,6 +376,14 @@ namespace Geo.UI
     private System.Windows.Forms.GroupBox groupBox3;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.TextBox FullAnalysisMaxGenerationBox;
+    private System.Windows.Forms.CheckBox ShortBox;
+    private System.Windows.Forms.Button DrawButton;
+    private System.Windows.Forms.RadioButton LengthButton;
+    private System.Windows.Forms.RadioButton MinAngleButton;
+    private System.Windows.Forms.RadioButton MaxAngleButton;
+    private System.Windows.Forms.RadioButton AreaButton;
+    private System.Windows.Forms.Label label8;
+    private System.Windows.Forms.RadioButton OrthogonalityButton;
   }
 }
 

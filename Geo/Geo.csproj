@@ -53,6 +53,14 @@
     <Compile Include="Analysis\Average.cs" />
     <Compile Include="Analysis\Maximum.cs" />
     <Compile Include="Analysis\Minimum.cs" />
+    <Compile Include="Drawing\ColorScale.cs" />
+    <Compile Include="Drawing\DrawTriangle.cs" />
+    <Compile Include="Drawing\IllustrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Drawing\IllustrationForm.Designer.cs">
+      <DependentUpon>IllustrationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FlatTriangle.cs" />
     <Compile Include="GridPoint.cs" />
     <Compile Include="Line.cs" />
@@ -79,6 +87,9 @@
     <Compile Include="TriangleIndex.cs" />
     <Compile Include="Vector2D.cs" />
     <Compile Include="Vector3D.cs" />
+    <EmbeddedResource Include="Drawing\IllustrationForm.resx">
+      <DependentUpon>IllustrationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ProgressBarForm.resx">
       <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="About.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,2 @@
+﻿Projection Point Geodesic Grid Algorithm
+Copyright (C) Maarten 't Hart 2021

@@ -9,6 +9,7 @@ namespace Geo
 {
 	public class FlatTriangle
 	{
+		private double area = 0; 
 		public Vector3D A { get; }
 		public Vector3D B { get; }
 		public Vector3D C { get; }
@@ -17,7 +18,7 @@ namespace Geo
 		public Line BC;
 		public Line CA;
 
-		public double Area => (B - A).Magnitude * (AB.DistanceTo(C)) / 2;
+		public double Area => area == 0? area =(B - A).Magnitude * (AB.DistanceTo(C)) / 2:area;
 
 		public Vector3D Center => (A + B + C) / 2;
 
@@ -100,7 +101,7 @@ namespace Geo
 			return new FlatTriangle(gridPoints[0].Point, gridPoints[1].Point, gridPoints[2].Point);
 		}
 
-		public static FlatTriangle GetTriangle(int projectionPointGeneration, int index)
+		public static FlatTriangle GetTriangle(int projectionPointGeneration, long index)
     {
 			return GetTriangle(projectionPointGeneration, projectionPointGeneration, index); 
     }

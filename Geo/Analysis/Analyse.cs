@@ -37,13 +37,14 @@ namespace Geo.Analysis
 			Add(a);
 			Add(b);
 		}
+
 		public void Add(double a, double b, double c)
 		{
 			Add(a);
 			Add(b);
 			Add(c);
-
 		}
+
 		public void Add(IEnumerable<double> values)
 		{
 			foreach (double value in values)

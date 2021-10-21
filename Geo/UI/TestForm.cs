@@ -1,4 +1,5 @@
 ﻿using Geo.Analysis;
+using Geo.Drawing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,6 @@ namespace Geo.UI
     private double maxGeneration; 
     private string fileName; 
     private ProgressBarForm progressBarForm;
-
 
     public TestForm()
     {
@@ -298,6 +298,8 @@ namespace Geo.UI
             {
               for (int projectionPointGeneration = 0; projectionPointGeneration <= bisectGeneration; projectionPointGeneration++)
               {
+                if (ShortBox.Checked && !(projectionPointGeneration == 0 || projectionPointGeneration == bisectGeneration))
+                  continue; 
                 progressBarForm?.SetMessage("Projection Point: " + projectionPointGeneration.ToString() +
                   ", Bisect: " + bisectGeneration.ToString() + ", Target: " + maxGeneration.ToString());
 
@@ -347,6 +349,172 @@ namespace Geo.UI
         progressBarForm?.SetMessage(ex.Message);
         if (progressBarForm!=null)
           progressBarForm.ControlBox = true; 
+      }
+    }
+
+    private void DrawButton_Click(object sender, EventArgs e)
+    {
+      int generation = Convert.ToInt32(FullAnalysisMaxGenerationBox.Text);
+      
+      Analyze analyze = new Analyze();
+      Analyze bisectAnalyze = new Analyze();
+      Analyze projectionPointAnalyze = new Analyze(); 
+
+      GridParameters parameters = new GridParameters(generation);
+
+      int triangleCount = (int)parameters.TileSize;
+
+      FlatTriangle[] projectionPointTriangles = new FlatTriangle[triangleCount];
+      FlatTriangle[] bisectTriangles = new FlatTriangle[triangleCount];
+
+      double[] projectionPointValues = new double[triangleCount];
+      double[] bisectValues = new double[triangleCount];
+
+      Parallel.For(0, triangleCount, i =>
+      {
+        FlatTriangle projectionPointTriangle = FlatTriangle.GetTriangle(generation, i);
+        FlatTriangle bisectTriangle = FlatTriangle.GetTriangle(0, generation, i);
+        projectionPointTriangles[i] = projectionPointTriangle;
+        bisectTriangles[i] = bisectTriangle;
+
+        if (OrthogonalityButton.Checked)
+        {
+          projectionPointValues[i] = Orthogonality(generation, i, false);
+          bisectValues[i] = Orthogonality(generation, i, true);
+        }
+        else
+        {
+          projectionPointValues[i] = ActiveAnalysis(projectionPointTriangle);
+          bisectValues[i] = ActiveAnalysis(bisectTriangle);
+        }
+
+        analyze.Add(projectionPointValues[i]);
+        analyze.Add(bisectValues[i]);
+        projectionPointAnalyze.Add(projectionPointValues[i]);
+        bisectAnalyze.Add(bisectValues[i]);
+      });
+
+      ColorScale colorScale = GetColorScale(analyze.Minimum.min, analyze.Maximum.max, analyze.Average.Avg);
+
+      DrawTriangle[] projectionPointDrawTriangles = new DrawTriangle[triangleCount];
+      DrawTriangle[] bisectDrawTriangles = new DrawTriangle[triangleCount];
+
+      double bisectAverage = bisectAnalyze.Average.Avg;
+      double projectionPointAverage = projectionPointAnalyze.Average.Avg;
+
+      Parallel.For(0, triangleCount, i =>
+       {
+         DrawTriangle pDraw = new DrawTriangle(Icosahedron.Triangles[0].ToStandard(projectionPointTriangles[i]));
+         DrawTriangle bDraw = new DrawTriangle(Icosahedron.Triangles[0].ToStandard(bisectTriangles[i]));
+         pDraw.fillColor = colorScale.GenerateEnhancedColorFor(projectionPointValues[i]);
+         bDraw.fillColor = colorScale.GenerateEnhancedColorFor(bisectValues[i]);
+         projectionPointDrawTriangles[i] = pDraw;
+         bisectDrawTriangles[i] = bDraw;
+       });
+
+      IllustrationForm illustrationForm = new IllustrationForm(colorScale);
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        illustrationForm.triangles = projectionPointDrawTriangles;
+        illustrationForm.fill = true;
+        illustrationForm.lines = false;
+        illustrationForm.Text = "Cut Geodesic Grid";
+        illustrationForm.Show();
+      }
+
+      IllustrationForm bisectForm = new IllustrationForm(colorScale);
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        bisectForm.triangles = bisectDrawTriangles;
+        bisectForm.fill = true;
+        bisectForm.lines = false;
+        bisectForm.Text = "Bisect Geodesic Grid";
+        bisectForm.Show();
+      }
+
+      DrawScale(analyze.Minimum.min, analyze.Maximum.max, analyze.Average.Avg, colorScale);
+    }
+
+    private ColorScale GetColorScale(double min, double max, double average)
+    {
+      if (MinAngleButton.Checked || MaxAngleButton.Checked)
+        return new ColorScale(min, max, 60);
+      else if (OrthogonalityButton.Checked)
+        return new ColorScale(min, max, 0) { Enhanced = false };
+      else if (LengthButton.Checked)
+        return new ColorScale(min, max, min) { Enhanced = false };
+
+
+      return new ColorScale(min, max, average);
+
+    }
+
+    private double Orthogonality(int generation, int i, bool bisect)
+    {
+      Maximum maximum = new Maximum(); 
+      TriangleIndex index = new TriangleIndex(generation, i);
+      FlatTriangle triangle = FlatTriangle.GetTriangle(bisect ? 0 : generation, generation, i);
+      foreach(TriangleIndex neighbourIndex in index.Neighbours)
+      {
+        FlatTriangle neighbour = FlatTriangle.GetTriangle(bisect ? 0 : generation, generation, neighbourIndex.Index);
+        double orthogonality = neighbour.Orthogonality(triangle);
+        maximum.Add(orthogonality);
+      }
+      return maximum.max; 
+    }
+
+    private double ActiveAnalysis(FlatTriangle projectionPointTriangle)
+    {
+      if (AreaButton.Checked)
+        return projectionPointTriangle.Area;
+      if (MinAngleButton.Checked)
+      {
+        double[] angles = projectionPointTriangle.Angles;
+        return angles[0] < angles[1] ? angles[0] < angles[2] ? angles[0] : angles[2] : angles[1] < angles[2] ? angles[1] : angles[2];
+      }
+      if (MaxAngleButton.Checked)
+      {
+        double[] angles = projectionPointTriangle.Angles;
+        return angles[0] > angles[1] ? angles[0] > angles[2] ? angles[0] : angles[2] : angles[1] > angles[2] ? angles[1] : angles[2];
+      }
+      if (LengthButton.Checked)
+      {
+        double[] lengths = projectionPointTriangle.Lengths;
+        return lengths[0] > lengths[1] ? lengths[0] > lengths[2] ? lengths[0] : lengths[2] : lengths[1] > lengths[2] ? lengths[1] : lengths[2];
+      }
+      throw new Exception("Cannot perform active analysis."); 
+    }
+
+    
+
+    private void DrawScale(double min, double max, double average, ColorScale colorScale)
+    {
+      double deviation1 = max - average;
+      double deviation2 = average - min;
+      double deviation = deviation1 > deviation2 ? deviation1 : deviation2;
+      min = average - deviation;
+      max = average + deviation;
+
+      double step = (max - min) / 800;
+
+      List<Color> colorArray = new List<Color>();
+      List<double> values = new List<double>();
+      for (int i = 0; i < 800; i++)
+      {
+        double current = min + step * i;
+        colorArray.Add(colorScale.GenerateEnhancedColorFor(current));
+        values.Add(current / average - 1);
+      }
+
+      IllustrationForm bisectForm = new IllustrationForm(colorScale);
+      //using (IllustrationForm illustrationForm = new IllustrationForm())
+      {
+        bisectForm.colorArray = colorArray;
+        bisectForm.values = values;
+        bisectForm.fill = true;
+        bisectForm.lines = false;
+        bisectForm.Text = "Scale";
+        bisectForm.Show();
       }
     }
   }

@@ -15,6 +15,5 @@ namespace Geodesic.Drawing
     public Vector3D point3;
     public Color lineColor = Color.Black;
     public Color fillColor = Color.Red; 
-
   }
 }

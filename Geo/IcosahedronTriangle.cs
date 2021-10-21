@@ -29,6 +29,7 @@ namespace Geo
     }
 
     public Vector3D ToStandard(Vector3D point) => new Vector3D(X.Dot(point), Y.Dot(point), Z.Dot(point));
+    public FlatTriangle ToStandard(FlatTriangle triangle) => new FlatTriangle(ToStandard(triangle.A), ToStandard(triangle.B), ToStandard(triangle.C));     
     public Vector3D ToWorld(Vector3D point) => X*point.X + Y*point.Y + Z*point.Z;
 
   }
