@@ -432,7 +432,11 @@ namespace Geo.UI
         bisectForm.Show();
       }
 
-      DrawScale(analyze.Minimum.min, analyze.Maximum.max, analyze.Average.Avg, colorScale);
+      bool percentageBased = true;
+      if (!(AreaButton.Checked||LengthButton.Checked))
+        percentageBased = false; 
+
+      DrawScale(analyze.Minimum.min, analyze.Maximum.max, analyze.Average.Avg, colorScale, percentageBased);
     }
 
     private ColorScale GetColorScale(double min, double max, double average)
@@ -487,7 +491,7 @@ namespace Geo.UI
 
     
 
-    private void DrawScale(double min, double max, double average, ColorScale colorScale)
+    private void DrawScale(double min, double max, double average, ColorScale colorScale, bool percentageBased)
     {
       double deviation1 = max - average;
       double deviation2 = average - min;
@@ -503,18 +507,22 @@ namespace Geo.UI
       {
         double current = min + step * i;
         colorArray.Add(colorScale.GenerateEnhancedColorFor(current));
-        values.Add(current / average - 1);
+        if (percentageBased)
+          values.Add(current / average - 1);
+        else
+          values.Add(current); 
       }
 
-      IllustrationForm bisectForm = new IllustrationForm(colorScale);
+      IllustrationForm illustrationForm = new IllustrationForm(colorScale);
       //using (IllustrationForm illustrationForm = new IllustrationForm())
       {
-        bisectForm.colorArray = colorArray;
-        bisectForm.values = values;
-        bisectForm.fill = true;
-        bisectForm.lines = false;
-        bisectForm.Text = "Scale";
-        bisectForm.Show();
+        illustrationForm.percentageBased = percentageBased; 
+        illustrationForm.colorArray = colorArray;
+        illustrationForm.values = values;
+        illustrationForm.fill = true;
+        illustrationForm.lines = false;
+        illustrationForm.Text = "Scale";
+        illustrationForm.Show();
       }
     }
   }

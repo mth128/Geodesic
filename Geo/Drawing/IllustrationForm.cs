@@ -23,6 +23,7 @@ namespace Geo.Drawing
     public bool lines = true;
     internal List<Color> colorArray;
     internal List<double> values;
+    public bool percentageBased = true; 
 
     public PointF PointTop(Vector3D vector)
     {
@@ -107,12 +108,29 @@ namespace Geo.Drawing
 
             double range = last - first;
             double step = 0.01;
-            double stepCount = range / step; 
+            double stepCount = range / step;
+            int multipliedCount = 0; 
+
             while (stepCount>50)
             {
-              step *= 2;
+              if (multipliedCount % 3 == 0 || multipliedCount % 3 == 2)
+                step *= 2;
+              else
+                step *= 2.5;
               stepCount = range / step;
+              multipliedCount++; 
             }
+
+            while (stepCount<10)
+            {
+              if (multipliedCount % 3 == 0 || multipliedCount % 3 == 2)
+                step /= 2;
+              else
+                step /= 2.5;
+              stepCount = range / step;
+              multipliedCount++; 
+            }
+
 
             double nextStep = Math.Round(first / step, 0) * step;
             nextStep += step;
@@ -130,10 +148,15 @@ namespace Geo.Drawing
                     {
                       graphics.DrawLine(pen, new Point(110, i), new Point(140, i));
                     }
-                
-                    double percentage = Math.Round((nextStep) * 100, 1);
-                    string text = percentage.ToString() + "%";
-                    graphics.DrawString(text, font, brush, new Point(150, i-fontSize/2));
+
+                    string text;
+                    if (percentageBased)
+                      text = Math.Round((nextStep) * 100, 1).ToString() + "%";
+                    else
+                      text = Math.Round(nextStep,8).ToString();
+                    
+                    graphics.DrawString(text, font, brush, new Point(150, i - fontSize / 2));                 
+
 
                     nextStep += step;
                   }
