@@ -1,4 +1,5 @@
 ﻿using Geo.Analysis;
+using Geo.Check;
 using Geo.Drawing;
 using System;
 using System.Collections.Generic;
@@ -525,5 +526,28 @@ namespace Geo.UI
         illustrationForm.Show();
       }
     }
-  }
+
+		private void ShiftPButton_Click(object sender, EventArgs e)
+		{
+      Analyze area = new Analyze();
+      double shiftValue = Convert.ToDouble(PShiftBox.Text);
+      int generation = Convert.ToInt32(ShiftPGenerationBox.Text);
+      ShiftP shift = new ShiftP(shiftValue);
+      GridParameters parameters = new GridParameters(generation);
+      for (long i = 0; i < parameters.TileSize; i++)
+      {
+        TriangleIndex triangleIndex = new TriangleIndex(generation, i);
+        PointIndex[] indices = triangleIndex.PointIndices;
+        GridPointShift[] points = new GridPointShift[]
+        {
+          new GridPointShift(new GridPoint(indices[0]), shift),
+          new GridPointShift(new GridPoint(indices[1]), shift),
+          new GridPointShift(new GridPoint(indices[2]), shift),
+        };
+        FlatTriangle triangle = new FlatTriangle(points[0].Point, points[1].Point, points[2].Point);
+        area.Add(triangle.Area); 
+      }
+      MessageBox.Show(area.ToString()); 
+		}
+	}
 }

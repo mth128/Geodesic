@@ -24,7 +24,6 @@ namespace Geo
       }
     }
 
-
     public GridPoint(int projectionPointGeneration, int bisectGeneration, long index)
     {
       ProjectionPointGeneration = projectionPointGeneration;
@@ -40,7 +39,6 @@ namespace Geo
     {
 
     }
-
    
     private void CalculatePoint()
     {
@@ -50,7 +48,6 @@ namespace Geo
         point = Icosahedron.Pole2;
       else
       {        
-
         PointIndex index = Index;
 
         if (Index.Generation == ProjectionPointGeneration)

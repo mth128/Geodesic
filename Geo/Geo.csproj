@@ -53,6 +53,8 @@
     <Compile Include="Analysis\Average.cs" />
     <Compile Include="Analysis\Maximum.cs" />
     <Compile Include="Analysis\Minimum.cs" />
+    <Compile Include="Check\GridPointShift.cs" />
+    <Compile Include="Check\ShiftP.cs" />
     <Compile Include="Drawing\ColorScale.cs" />
     <Compile Include="Drawing\DrawTriangle.cs" />
     <Compile Include="Drawing\IllustrationForm.cs">

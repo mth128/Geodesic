@@ -8,7 +8,7 @@ namespace Geo
 {
 	public static class Paper
 	{
-		private static readonly double sqr34 = Math.Sqrt(3.0 / 4); 
+		public static readonly double sqr34 = Math.Sqrt(3.0 / 4); 
 		public static readonly Vector3D a = new Vector3D(-2 * Math.Sqrt(2 / (15 + Math.Sqrt(45))), 0,
 			Math.Sqrt(1 / 3.0 + 2 / (3 * Math.Sqrt(5))));
 
