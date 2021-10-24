@@ -57,12 +57,16 @@ namespace Geo.UI
 			this.label7 = new System.Windows.Forms.Label();
 			this.FullAnalysisMaxGenerationBox = new System.Windows.Forms.TextBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.TestIndexedButton = new System.Windows.Forms.Button();
 			this.ShiftPButton = new System.Windows.Forms.Button();
 			this.label10 = new System.Windows.Forms.Label();
 			this.PShiftBox = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.ShiftPGenerationBox = new System.Windows.Forms.TextBox();
-			this.TestIndexedButton = new System.Windows.Forms.Button();
+			this.label11 = new System.Windows.Forms.Label();
+			this.SamplesBox = new System.Windows.Forms.TextBox();
+			this.ResultBox = new System.Windows.Forms.TextBox();
+			this.label12 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -370,6 +374,10 @@ namespace Geo.UI
 			// 
 			// groupBox4
 			// 
+			this.groupBox4.Controls.Add(this.label12);
+			this.groupBox4.Controls.Add(this.ResultBox);
+			this.groupBox4.Controls.Add(this.label11);
+			this.groupBox4.Controls.Add(this.SamplesBox);
 			this.groupBox4.Controls.Add(this.TestIndexedButton);
 			this.groupBox4.Controls.Add(this.ShiftPButton);
 			this.groupBox4.Controls.Add(this.label10);
@@ -378,10 +386,21 @@ namespace Geo.UI
 			this.groupBox4.Controls.Add(this.ShiftPGenerationBox);
 			this.groupBox4.Location = new System.Drawing.Point(624, 107);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(477, 125);
+			this.groupBox4.Size = new System.Drawing.Size(477, 217);
 			this.groupBox4.TabIndex = 18;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Shift P";
+			// 
+			// TestIndexedButton
+			// 
+			this.TestIndexedButton.Location = new System.Drawing.Point(370, 118);
+			this.TestIndexedButton.Margin = new System.Windows.Forms.Padding(4);
+			this.TestIndexedButton.Name = "TestIndexedButton";
+			this.TestIndexedButton.Size = new System.Drawing.Size(100, 28);
+			this.TestIndexedButton.TabIndex = 27;
+			this.TestIndexedButton.Text = "Test Indexed";
+			this.TestIndexedButton.UseVisualStyleBackColor = true;
+			this.TestIndexedButton.Click += new System.EventHandler(this.TestIndexedButton_Click);
 			// 
 			// ShiftPButton
 			// 
@@ -411,6 +430,7 @@ namespace Geo.UI
 			this.PShiftBox.Size = new System.Drawing.Size(373, 22);
 			this.PShiftBox.TabIndex = 25;
 			this.PShiftBox.Text = "1";
+			this.PShiftBox.TextChanged += new System.EventHandler(this.PShiftBox_TextChanged);
 			// 
 			// label9
 			// 
@@ -430,16 +450,41 @@ namespace Geo.UI
 			this.ShiftPGenerationBox.TabIndex = 23;
 			this.ShiftPGenerationBox.Text = "3";
 			// 
-			// button2
+			// label11
 			// 
-			this.TestIndexedButton.Location = new System.Drawing.Point(10, 82);
-			this.TestIndexedButton.Margin = new System.Windows.Forms.Padding(4);
-			this.TestIndexedButton.Name = "button2";
-			this.TestIndexedButton.Size = new System.Drawing.Size(100, 28);
-			this.TestIndexedButton.TabIndex = 27;
-			this.TestIndexedButton.Text = "Test Indexed";
-			this.TestIndexedButton.UseVisualStyleBackColor = true;
-			this.TestIndexedButton.Click += new System.EventHandler(this.TestIndexedButton_Click);
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(7, 124);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(66, 17);
+			this.label11.TabIndex = 29;
+			this.label11.Text = "Samples:";
+			// 
+			// SamplesBox
+			// 
+			this.SamplesBox.Location = new System.Drawing.Point(97, 124);
+			this.SamplesBox.Margin = new System.Windows.Forms.Padding(4);
+			this.SamplesBox.Name = "SamplesBox";
+			this.SamplesBox.Size = new System.Drawing.Size(265, 22);
+			this.SamplesBox.TabIndex = 28;
+			this.SamplesBox.Text = "256";
+			// 
+			// ResultBox
+			// 
+			this.ResultBox.Location = new System.Drawing.Point(97, 154);
+			this.ResultBox.Margin = new System.Windows.Forms.Padding(4);
+			this.ResultBox.Name = "ResultBox";
+			this.ResultBox.ReadOnly = true;
+			this.ResultBox.Size = new System.Drawing.Size(265, 22);
+			this.ResultBox.TabIndex = 30;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(7, 157);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(52, 17);
+			this.label12.TabIndex = 31;
+			this.label12.Text = "Result:";
 			// 
 			// TestForm
 			// 
@@ -501,6 +546,10 @@ namespace Geo.UI
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.TextBox ShiftPGenerationBox;
 		private System.Windows.Forms.Button TestIndexedButton;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.TextBox SamplesBox;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.TextBox ResultBox;
 	}
 }
 

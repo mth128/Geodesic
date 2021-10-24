@@ -547,7 +547,7 @@ namespace Geo.UI
       int generation = Convert.ToInt32(ShiftPGenerationBox.Text);
       ShiftP shift = new ShiftP(shiftValue);
       GridParameters parameters = new GridParameters(generation);
-
+      /*
       double minimum = double.MaxValue;
       long minimumIndex = long.MaxValue;
       double maximum = double.MinValue;
@@ -568,9 +568,10 @@ namespace Geo.UI
           maximum = area; 
         }
       }
-      MessageBox.Show("Max: " + maximumIndex.ToString() + " Min: " + minimumIndex.ToString());
+      */
+      //MessageBox.Show("Max: " + maximumIndex.ToString() + " Min: " + minimumIndex.ToString());
 
-      int amountCount = 256;
+      int amountCount = Convert.ToInt32(SamplesBox.Text);
       List<GridPointShiftTriangle> largest = new List<GridPointShiftTriangle>();
       List<GridPointShiftTriangle> smallest = new List<GridPointShiftTriangle>();
 
@@ -603,9 +604,18 @@ namespace Geo.UI
 
 
       }
-      MessageBox.Show("Max: " + largest[0].TriangleIndex.Index.ToString() + " Min: " + smallest[0].TriangleIndex.Index.ToString());
-    
-    
+      //MessageBox.Show("Max: " + largest[0].TriangleIndex.Index.ToString() + " Min: " + smallest[0].TriangleIndex.Index.ToString());
+      //double dif1 = (maximum - minimum) / minimum * 100;
+      double maximum2 = largest[0].Area;
+      double minimum2 = smallest[0].Area;
+      double dif2 = (maximum2 - minimum2) / minimum2 * 100;
+      //MessageBox.Show(dif1.ToString() + " " + dif2.ToString()); 
+      ResultBox.Text = dif2.ToString()+"%"; 
     }
-  }
+
+		private void PShiftBox_TextChanged(object sender, EventArgs e)
+		{
+      ResultBox.Text = "";
+		}
+	}
 }
