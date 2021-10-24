@@ -536,18 +536,76 @@ namespace Geo.UI
       GridParameters parameters = new GridParameters(generation);
       for (long i = 0; i < parameters.TileSize; i++)
       {
-        TriangleIndex triangleIndex = new TriangleIndex(generation, i);
-        PointIndex[] indices = triangleIndex.PointIndices;
-        GridPointShift[] points = new GridPointShift[]
-        {
-          new GridPointShift(new GridPoint(indices[0]), shift),
-          new GridPointShift(new GridPoint(indices[1]), shift),
-          new GridPointShift(new GridPoint(indices[2]), shift),
-        };
-        FlatTriangle triangle = new FlatTriangle(points[0].Point, points[1].Point, points[2].Point);
-        area.Add(triangle.Area); 
+        area.Add(new GridPointShiftTriangle(generation,i, shift).Area); 
       }
       MessageBox.Show(area.ToString()); 
 		}
-	}
+
+		private void TestIndexedButton_Click(object sender, EventArgs e)
+		{ 
+      double shiftValue = Convert.ToDouble(PShiftBox.Text);
+      int generation = Convert.ToInt32(ShiftPGenerationBox.Text);
+      ShiftP shift = new ShiftP(shiftValue);
+      GridParameters parameters = new GridParameters(generation);
+
+      double minimum = double.MaxValue;
+      long minimumIndex = long.MaxValue;
+      double maximum = double.MinValue;
+      long maximumIndex = long.MinValue;
+
+
+      for (long i = 0; i < parameters.TileSize; i++)
+      {
+        double area = new GridPointShiftTriangle(generation, i, shift).Area;
+        if (area < minimum)
+        {
+          minimumIndex = i;
+          minimum = area; 
+        }
+        if (area > maximum)
+        {
+          maximumIndex = i;
+          maximum = area; 
+        }
+      }
+      MessageBox.Show("Max: " + maximumIndex.ToString() + " Min: " + minimumIndex.ToString());
+
+      int amountCount = 256;
+      List<GridPointShiftTriangle> largest = new List<GridPointShiftTriangle>();
+      List<GridPointShiftTriangle> smallest = new List<GridPointShiftTriangle>();
+
+      largest.Add(new GridPointShiftTriangle(0, 0, shift));
+      smallest.Add(new GridPointShiftTriangle(0, 0, shift)); 
+
+      for (int subGeneration = 0; subGeneration < generation; subGeneration++)
+      {
+        List<GridPointShiftTriangle> newLargest = new List<GridPointShiftTriangle>();
+        List<GridPointShiftTriangle> newSmallest = new List<GridPointShiftTriangle>(); 
+        foreach (GridPointShiftTriangle triangle in largest)
+          newLargest.AddRange(triangle.Children);
+        foreach (GridPointShiftTriangle triangle in smallest)
+          newSmallest.AddRange(triangle.Children);
+
+        largest = newLargest.OrderByDescending(t => t.Area).ThenBy(t => t.TriangleIndex.Index).ToList();
+        smallest = newSmallest.OrderBy(t => t.Area).ThenBy(t => t.TriangleIndex.Index).ToList();
+
+
+        if (largest.Count > amountCount)
+          largest = largest.GetRange(0, amountCount);
+        if (smallest.Count > amountCount)
+          smallest = smallest.GetRange(0, amountCount);
+
+        List<GridPointShiftTriangle> temp = new List<GridPointShiftTriangle>();
+        temp.AddRange(largest);
+        temp.AddRange(smallest);
+        smallest.AddRange(largest);
+        largest = temp;
+
+
+      }
+      MessageBox.Show("Max: " + largest[0].TriangleIndex.Index.ToString() + " Min: " + smallest[0].TriangleIndex.Index.ToString());
+    
+    
+    }
+  }
 }

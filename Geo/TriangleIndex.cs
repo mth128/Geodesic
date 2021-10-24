@@ -67,6 +67,43 @@ namespace Geo
       }
     }
 
+    public TriangleIndex[] Children
+    {
+      get
+      {
+        PointIndex cell = CellIndex;
+        PointIndex[] cellChildren = cell.Children;
+        
+        //first is r, c
+        //second is r, c+1
+        //third is r+1, c
+        //fourth is r+1, c+1
+        
+        TriangleIndex[] children;
+        if (BottomLeft)
+        {
+          children = new TriangleIndex[]
+            {
+              cellChildren[0].BottomLeftTriangleIndex,
+              cellChildren[2].BottomLeftTriangleIndex,
+              cellChildren[3].BottomLeftTriangleIndex,
+              cellChildren[2].TopRightTriangleIndex
+            };
+        }
+        else
+          children = new TriangleIndex[]
+            {
+              cellChildren[0].TopRightTriangleIndex,
+              cellChildren[1].TopRightTriangleIndex,
+              cellChildren[3].TopRightTriangleIndex,
+              cellChildren[1].BottomLeftTriangleIndex
+            };
+
+        return children;
+      }
+    }
+
+
     /// <summary>
     /// Getting the points in clockwise orientation with the grid diagonal first. 
     /// </summary>

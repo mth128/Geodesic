@@ -54,6 +54,7 @@
     <Compile Include="Analysis\Maximum.cs" />
     <Compile Include="Analysis\Minimum.cs" />
     <Compile Include="Check\GridPointShift.cs" />
+    <Compile Include="Check\GridPointShiftTriangle.cs" />
     <Compile Include="Check\ShiftP.cs" />
     <Compile Include="Drawing\ColorScale.cs" />
     <Compile Include="Drawing\DrawTriangle.cs" />

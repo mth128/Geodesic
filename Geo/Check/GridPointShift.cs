@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Geo.Check
 {
-	class GridPointShift
+	public class GridPointShift
 	{
     private Vector3D point;
     public Vector3D Point
